@@ -1,0 +1,1 @@
+ADC1 is recommended for use.

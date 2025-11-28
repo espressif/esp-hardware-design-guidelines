@@ -1,0 +1,53 @@
+name: Issue report
+description: Report incorrect or confusing descriptions, typos, grammar errors, formatting issues, etc.
+labels: ['Type: Issue']
+body: 
+  - type: dropdown
+    id: document_name
+    attributes:
+      label: Document title
+      multiple: false
+      options:
+        - ESP32 Hardware Design Guidelines
+        - ESP32-S2 Hardware Design Guidelines
+        - ESP32-S3 Hardware Design Guidelines
+        - ESP32-C3 Hardware Design Guidelines
+        - ESP32-C6 Hardware Design Guidelines
+        - ESP32-H2 Hardware Design Guidelines
+        - ESP32-C2 (ESP8684) Hardware Design Guidelines
+        - ESP32-C5 Hardware Design Guidelines
+        - ESP32-P4 Hardware Design Guidelines
+    validations:
+      required: true
+  - type: dropdown
+    id: format
+    attributes:
+      label: Format
+      multiple: false
+      options:
+        - HTML
+        - PDF
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version number
+      description: Which document version has this issue? Fill in if you did not read the document online.
+      placeholder: latest
+    validations:
+      required: false
+  - type: input
+    id: section
+    attributes:
+      label: Section
+      description: Which section has this issue?
+      placeholder: Schematic Checklist
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue in details
+    validations:
+      required: true

@@ -1,0 +1,12 @@
+specified_files:
+  # Note 1: Can not use * to match all the rst files in en/zh_CN folders. 
+  # Note 2: Chinese and English files cannot be in TCF at the same time
+  # Note 3: Documents below are those to be translated (sources)
+  - docs/en/pcb-layout-design.rst
+
+target_language: EN-CN
+
+trans_dict:
+  pin: 管脚
+
+target_language_folder: ./

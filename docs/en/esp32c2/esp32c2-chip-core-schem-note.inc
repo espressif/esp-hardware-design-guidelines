@@ -1,0 +1,2 @@
+.. important::
+    Starting from chip revision v1.1, the {IDF_TARGET_NAME} firmware supports both 26 MHz and 40 MHz crystals. For {IDF_TARGET_NAME} revision v1.0 and previous chips, please use 26 MHz instead of 40 MHz crystal. For details, you can refer to `{IDF_TARGET_NAME} Series SoC Errata (PDF) <https://www.espressif.com/sites/default/files/documentation/esp8684_errata_en.pdf>`_. You can also contact the `sales team <https://www.espressif.com/en/contact-us/sales-questions>`_ to check the chip revision.

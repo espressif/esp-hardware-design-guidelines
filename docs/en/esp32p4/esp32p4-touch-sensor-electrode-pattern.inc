@@ -1,0 +1,1 @@
+.. include:: esp32/esp32-touch-sensor-electrode-pattern.inc

@@ -1,0 +1,116 @@
+.build_template:
+  stage: build
+  image: $ESP_DOCS_ENV_IMAGE
+  before_script:
+    # Pass GitLab credentials
+    - echo "https://gitlab-ci-token:${CI_JOB_TOKEN}@{CI_SERVER_HOST}:${CI_SERVER_PORT}/documentation" >> ~/.git-credentials
+    - TOOLS_URL="${CI_SERVER_PROTOCOL}://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/documentation/documentation-tools.git"
+    - echo $TOOLS_URL
+    - git clone -b feature/add_dmf_tool $TOOLS_URL
+    - ls -al # debugging
+    # Read labels from MR
+    - chmod +x ./documentation-tools/dmf-tool/parse_labels.sh
+    - ./documentation-tools/dmf-tool/parse_labels.sh
+    - ls -al # debugging
+    - cat parse_doctgt_output.txt
+    - source parse_doctgt_output.txt
+    - cd $CI_PROJECT_DIR/docs
+    - bash ./check_lang_folder_sync.sh
+    - pip install -r requirements.txt
+  parallel:
+    matrix:
+      - DOCLANG: ["en", "zh_CN"]
+
+.build_docs_template:
+  tags: [host_test]
+  extends: [.build_template, .rules:build:docs]
+  variables:
+    DOCS_DIR: $CI_PROJECT_DIR/docs
+  script:
+    - |
+      IFS=',' read -ra DEFAULT_TARGETS_ARR <<< "$DEFAULT_TARGETS"
+
+      if [ ${#DOCTGT_LIST[@]} -eq 0 ]; then
+        echo "No DOCTGT labels found. Using default series value"
+        DOCTGT_LIST=("${DEFAULT_TARGETS_ARR[@]}")
+      fi
+
+      SELECTED_TARGETS=()
+      for tgt in "${DOCTGT_LIST[@]}"; do
+        if [[ " ${DEFAULT_TARGETS_ARR[*]} " == *" $tgt "* ]]; then
+          SELECTED_TARGETS+=("$tgt")
+        fi
+      done
+
+      if [ ${#SELECTED_TARGETS[@]} -eq 0 ]; then
+        echo "No targets match for this series. Skipping build."
+        exit 0
+      fi
+
+      for tgt in "${SELECTED_TARGETS[@]}"; do
+        echo "Building ${BUILD_FORMAT^^} docs for $tgt ($DOCLANG)..."
+        if [[ "$BUILD_FORMAT" == "pdf" ]]; then
+          build-docs --skip-reqs-check -bs latex -l $DOCLANG -t $tgt
+          echo "Preview PDF at $CI_JOB_URL/artifacts/file/docs/_build/$DOCLANG/$tgt/latex/build/esp-hardware-design-guidelines-$DOCLANG-master-$tgt.pdf"
+        else
+          build-docs --skip-reqs-check -l $DOCLANG -t $tgt
+          echo "Preview HTML at $CI_JOB_URL/artifacts/file/docs/_build/$DOCLANG/$tgt/html/index.html"
+        fi
+      done
+
+      echo "Documentation ${BUILD_FORMAT^^} build complete."
+  artifacts:
+    when: always
+    paths:
+      - $DOCS_DIR/_build/*/*/html/*
+      - $DOCS_DIR/_build/*/*/latex/*
+      - $DOCS_DIR/_build/*/*/*.txt
+    expire_in: 4 days
+
+build_html_for_s_series:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32,esp32s2,esp32s3"
+    BUILD_FORMAT: html
+
+build_html_for_c_series_gen1:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32c2,esp32c3"
+    BUILD_FORMAT: html
+
+build_html_for_c_series_gen2:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32c5,esp32c6,esp32c61"
+    BUILD_FORMAT: html
+
+build_html_for_other_series:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32h2,esp32p4"
+    BUILD_FORMAT: html
+
+build_pdf_for_s_series:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32,esp32s2,esp32s3"
+    BUILD_FORMAT: pdf
+
+build_pdf_for_c_series_gen1:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32c2,esp32c3"
+    BUILD_FORMAT: pdf
+
+build_pdf_for_c_series_gen2:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32c5,esp32c6,esp32c61"
+    BUILD_FORMAT: pdf
+
+build_pdf_for_other_series:
+  extends: .build_docs_template
+  variables:
+    DEFAULT_TARGETS: "esp32h2,esp32p4"
+    BUILD_FORMAT: pdf

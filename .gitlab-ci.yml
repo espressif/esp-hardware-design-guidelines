@@ -1,0 +1,24 @@
+stages:
+  - secure
+  - check
+  - build
+  - deploy
+  - auto_trans
+
+variables:
+  # Versioned esp-idf-doc env image to use for all document building jobs
+  ESP_DOCS_ENV_IMAGE: "$CI_DOCKER_REGISTRY/esp-idf-doc-env-v5.0:2-3"
+  ESP_DOCS_PATH: "$CI_PROJECT_DIR"
+
+include:
+  - project: 'documentation/documentation-tools' # Project path of this repo
+    ref: master # Branch name, tag, or commit hash
+    file:
+      - check-sensitive-info-in-repo/secure.yml # Main CI/CD configuration file
+  - local: ci/rules.yml
+  - local: ci/check-docs.yml
+  - local: ci/pre_commit.yml
+  - local: ci/build-docs.yml
+  - local: ci/deploy-docs.yml
+  - local: ci/publish-docs-to-cdp.yml
+  - local: ci/auto-translate.yml

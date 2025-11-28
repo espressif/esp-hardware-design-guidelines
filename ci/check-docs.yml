@@ -1,0 +1,45 @@
+check_doc_links:
+  stage: check
+  image: $ESP_DOCS_ENV_IMAGE
+  tags: [check_doc_links]
+  variables:
+    DOCS_DIR: $CI_PROJECT_DIR/docs
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'  # Run for all changes to a merge request's source branch
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH       # Run for all changes to the default branch
+  before_script:
+    # Pass GitLab credentials
+    - echo "https://gitlab-ci-token:${CI_JOB_TOKEN}@{CI_SERVER_HOST}:${CI_SERVER_PORT}/documentation" >> ~/.git-credentials
+    - TOOLS_URL="${CI_SERVER_PROTOCOL}://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}:${CI_SERVER_PORT}/documentation/documentation-tools.git"
+    - echo $TOOLS_URL
+    - git clone "${TOOLS_URL}"
+    - ls -al # debugging
+    - cd documentation-tools
+    - git checkout feature/add_dmf_tool
+    - cd ..
+    # Read labels from MR
+    - chmod +x ./documentation-tools/dmf-tool/parse_labels.sh
+    - ./documentation-tools/dmf-tool/parse_labels.sh
+    - ls -al #debugging
+    - cat parse_doctgt_output.txt
+    # Read parsed PRODUCT_NAME
+    - source parse_doctgt_output.txt
+    - cd $CI_PROJECT_DIR/docs
+    - bash ./check_lang_folder_sync.sh
+    - pip install -r requirements.txt
+  script:
+  - |
+    if [ ${#DOCTGT_LIST[@]} -eq 0 ]; then
+      echo "No DOCTGT labels found. Using default matrix value"
+      DOCTGT_LIST=("esp32" "esp32s2" "esp32s3" "esp32c2" "esp32c3" "esp32c5" "esp32c6" "esp32h2" "esp32p4")
+    fi
+
+    for tgt in "${DOCTGT_LIST[@]}"; do
+      echo "Checking links for $tgt ($DOCLANG)..."
+      build-docs -t $tgt -l $DOCLANG linkcheck
+    done
+
+  parallel:
+    matrix:
+      - DOCLANG: ["en", "zh_CN"]

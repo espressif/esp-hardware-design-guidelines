@@ -1,0 +1,562 @@
+####################################
+# Shared Configuration
+####################################
+
+#syntax_version: version of this YMAL file. This configuration is shared by all documents in one project.
+syntax_version: v0.62
+
+
+######################################
+# Document-specific Configuration
+######################################
+
+documents:
+########################################
+# ESP32 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32 Hardware Design Guidelines
+      doc_id: 4089
+      translation_docid: 4090
+      chip_series: ESP32
+      product_name:
+        - ESP32 SoC Series Group
+        - ESP32 Module Series Group
+      product_name_old_website:
+        - ESP32
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.9 # or specific version number
+      revision_date: 2025-09-17
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32 in other products.
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32 硬件设计指南
+      doc_id: 4090
+      translation_docid: 4089
+      chip_series: ESP32
+      product_name:
+        - ESP32 SoC Series Group
+        - ESP32 Module Series Group
+      product_name_old_website:
+        - ESP32
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.9 # or specific version number
+      revision_date: 2025-09-17 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32/index.html
+      document_summary: 本文提供基于 ESP32 的硬件设计的指导规范。
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP32-S2 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-S2 Hardware Design Guidelines
+      doc_id: 4422
+      translation_docid: 4421
+      chip_series: ESP32-S2
+      product_name:
+        - ESP32-S2 SoC Series
+        - ESP32-S2 Module Series
+      product_name_old_website:
+        - ESP32-S2
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.4 # or specific version number
+      revision_date: 2024-11-15
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s2/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-S2 in other products.
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-S2 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-S2 硬件设计指南
+      doc_id: 4421
+      translation_docid: 4422
+      chip_series: ESP32-S2
+      product_name:
+        - ESP32-S2 SoC Series
+        - ESP32-S2 Module Series
+      product_name_old_website:
+        - ESP32-S2
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.4 # or specific version number
+      revision_date: 2024-11-15 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32s2/index.html
+      document_summary: 本文提供基于 ESP32-S2 的硬件设计的指导规范。
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP32-S3 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-S3 Hardware Design Guidelines
+      doc_id: 5419
+      translation_docid: 5420
+      chip_series: ESP32-S3
+      product_name:
+        - ESP32-S3 SoC Series Group
+        - ESP32-S3 Module Series Group
+      product_name_old_website:
+        - ESP32-S3
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.8 # or specific version number
+      revision_date: 2025-07-03
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s3/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-S3 in other products.
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-S3 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-S3 硬件设计指南
+      doc_id: 5420
+      translation_docid: 5419
+      chip_series: ESP32-S3
+      product_name:
+        - ESP32-S3 SoC Series Group
+        - ESP32-S3 Module Series Group
+      product_name_old_website:
+        - ESP32-S3
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.8 # or specific version number
+      revision_date: 2025-07-03 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32s3/index.html
+      document_summary: 本文提供基于 ESP32-S3 的硬件设计的指导规范。
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP8684 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP8684 Hardware Design Guidelines
+      doc_id: 5726
+      translation_docid: 5725
+      chip_series: ESP8684
+      product_name:
+        - ESP8684 SoC Series
+        - ESP8684 Module Series
+      product_name_old_website:
+        - ESP8684
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.6 # or specific version number
+      revision_date: 2025-01-07
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c2/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP8684 in other products.
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP8684 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP8684 硬件设计指南
+      doc_id: 5725
+      translation_docid: 5726
+      chip_series: ESP8684
+      product_name:
+        - ESP8684 SoC Series
+        - ESP8684 Module Series
+      product_name_old_website:
+        - ESP8684
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.6 # or specific version number
+      revision_date: 2025-01-07 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c2/index.html
+      document_summary: 本文提供基于 ESP8684 的硬件设计的指导规范。
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP32-C3 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C3 Hardware Design Guidelines
+      doc_id: 5084
+      translation_docid: 5085
+      chip_series: ESP32-C3
+      product_name:
+        - ESP32-C3 SoC Series
+        - ESP32-C3 Module Series
+      product_name_old_website:
+        - ESP32-C3
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.6 # or specific version number
+      revision_date: 2025-01-07
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c3/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-C3 in other products.
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-C3 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C3 硬件设计指南
+      doc_id: 5085
+      translation_docid: 5084
+      chip_series: ESP32-C3
+      product_name:
+        - ESP32-C3 SoC Series
+        - ESP32-C3 Module Series
+      product_name_old_website:
+        - ESP32-C3
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.6 # or specific version number
+      revision_date: 2025-01-07 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c3/index.html
+      document_summary: 本文提供基于 ESP32-C3 的硬件设计的指导规范。
+      notify_subscribers: false # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP32-C6 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C6 Hardware Design Guidelines
+      doc_id: 6511
+      translation_docid: 6513
+      chip_series: ESP32-C6
+      product_name:
+        - ESP32-C6 SoC Series
+        - ESP32-C6 Module Series
+      product_name_old_website:
+        - ESP32-C6
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.8 # or specific version number
+      revision_date: 2025-09-16
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c6/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-C6 in other products.
+      notify_subscribers: true # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-C6 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C6 硬件设计指南
+      doc_id: 6513
+      translation_docid: 6511
+      chip_series: ESP32-C6
+      product_name:
+        - ESP32-C6 SoC Series
+        - ESP32-C6 Module Series
+      product_name_old_website:
+        - ESP32-C6
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.8 # or specific version number
+      revision_date: 2025-09-16 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c6/index.html
+      document_summary: 本文提供基于 ESP32-C6 的硬件设计的指导规范。
+      notify_subscribers: true # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP32-H2 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-H2 Hardware Design Guidelines
+      doc_id: 6715
+      translation_docid: 6717
+      chip_series: ESP32-H2
+      product_name:
+        - ESP32-H2 SoC Series
+        - ESP32-H2 Module Series
+      product_name_old_website:
+        - ESP32-H2
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.4 # or specific version number
+      revision_date: 2025-01-07
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32h2/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-H2 in other products.
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-H2 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-H2 硬件设计指南
+      doc_id: 6717
+      translation_docid: 6715
+      chip_series: ESP32-H2
+      product_name:
+        - ESP32-H2 SoC Series
+        - ESP32-H2 Module Series
+      product_name_old_website:
+        - ESP32-H2
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.4 # or specific version number
+      revision_date: 2025-01-07 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32h2/index.html
+      document_summary: 本文提供基于 ESP32-H2 的硬件设计的指导规范。
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP32-C5 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C5 Hardware Design Guidelines
+      doc_id: 8823
+      translation_docid: 8821
+      chip_series: ESP32-C5
+      product_name:
+        - ESP32-C5 SoC Series
+        - ESP32-C5 Module Series
+      product_name_old_website:
+        - ESP32-C5
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.3 # or specific version number
+      revision_date: 2025-09-02
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c5/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-C5 in other products.
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-C5 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C5 硬件设计指南
+      doc_id: 8821
+      translation_docid: 8823
+      chip_series: ESP32-C5
+      product_name:
+        - ESP32-C5 SoC Series
+        - ESP32-C5 Module Series
+      product_name_old_website:
+        - ESP32-C5
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.3 # or specific version number
+      revision_date: 2025-09-02 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c5/index.html
+      document_summary: 本文提供基于 ESP32-C5 的硬件设计的指导规范。
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+########################################
+# ESP32-P4 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-P4 Hardware Design Guidelines
+      doc_id: 8877
+      translation_docid: 8879
+      chip_series: ESP32-P4
+      product_name:
+        - ESP32-P4 SoC Series
+      product_name_old_website:
+        - ESP32-P4
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.0 # or specific version number
+      revision_date: 2025-07-07
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32p4/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-P4 in other products.
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-P4 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-P4 硬件设计指南
+      doc_id: 8879
+      translation_docid: 8877
+      chip_series: ESP32-P4
+      product_name:
+        - ESP32-P4 SoC Series
+      product_name_old_website:
+        - ESP32-P4
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.0 # or specific version number
+      revision_date: 2025-07-07 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32p4/index.html
+      document_summary: 本文提供基于 ESP32-P4 的硬件设计的指导规范。
+      notify_subscribers: true # or false
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public
+
+########################################
+# ESP32-C61 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C61 Hardware Design Guidelines
+      doc_id: 9579
+      translation_docid: 9577
+      chip_series: ESP32-C61
+      product_name:
+        - ESP32-C61 SoC Series
+        - ESP32-C61 Module Series
+      product_name_old_website:
+        - ESP32-C61
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.0 # or specific version number
+      revision_date: 2025-08-19
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c61/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-C61 in other products.
+      notify_subscribers: true # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-C61 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-C61 硬件设计指南
+      doc_id: 9577
+      translation_docid: 9579
+      chip_series: ESP32-C61
+      product_name:
+        - ESP32-C61 SoC Series
+        - ESP32-C61 Module Series
+      product_name_old_website:
+        - ESP32-C61
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v1.0 # or specific version number
+      revision_date: 2025-08-19 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c61/index.html
+      document_summary: 本文提供基于 ESP32-C61 的硬件设计的指导规范。
+      notify_subscribers: true # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public

@@ -1,0 +1,72 @@
+.deploy_docs_template:
+  stage: deploy
+  image: $ESP_DOCS_ENV_IMAGE
+  tags:
+    - deploy_docs
+  needs:
+    - build_html_for_s_series
+    - build_html_for_c_series_gen1
+    - build_html_for_c_series_gen2
+    - build_html_for_other_series
+    - build_pdf_for_s_series
+    - build_pdf_for_c_series
+    - build_pdf_for_other_series
+
+deploy_docs_preview:
+  extends:
+    - .deploy_docs_template
+    - .rules:deploy:docs_preview
+  variables:
+    TYPE: "preview"
+    DOCS_BUILD_DIR: "${CI_PROJECT_DIR}/docs/_build/"
+    DOCS_DEPLOY_PRIVATEKEY: "$DOCS_PREVIEW_DEPLOY_KEY"
+    DOCS_DEPLOY_SERVER: "$DOCS_PREVIEW_SERVER"
+    DOCS_DEPLOY_SERVER_USER: "$DOCS_PREVIEW_SERVER_USER"
+    DOCS_DEPLOY_PATH: "$DOCS_PREVIEW_PATH"
+    DOCS_DEPLOY_URL_BASE: "https://$DOCS_PREVIEW_SERVER/$DOCS_PREVIEW_PATH"
+  script:
+      - source ${CI_PROJECT_DIR}/ci/utils.sh
+      - add_doc_server_ssh_keys $DOCS_DEPLOY_PRIVATEKEY $DOCS_DEPLOY_SERVER $DOCS_DEPLOY_SERVER_USER
+      - export GIT_VER=$(git describe --always)
+      - pip install -r ${CI_PROJECT_DIR}/docs/requirements.txt
+      # Put the output in a logfile that will be used latter to post a comment in the MR
+      - mkdir -p logs
+      - deploy-docs | tee logs/doc-url.txt
+  artifacts:
+    when: always
+    paths:
+      - logs/doc-url.txt
+    expire_in: 4 days
+
+post_links:
+  stage: deploy
+  tags: [deploy_docs]
+  image: $ESP_DOCS_ENV_IMAGE
+  needs:
+    - deploy_docs_preview
+  extends:
+    - .rules:deploy:docs_preview
+  script:
+    - pip install -r ${CI_PROJECT_DIR}/docs/requirements.txt
+    - ls -al logs
+    - python3 post-mr-note.py $GITLAB_MR_NOTE_TOKEN $CI_PROJECT_PATH $CI_MERGE_REQUEST_IID --url $GITLAB_URL
+
+deploy_docs_production:
+  extends:
+    - .deploy_docs_template
+  only:
+    - master
+  variables:
+    TYPE: "production"
+    DOCS_BUILD_DIR: "${CI_PROJECT_DIR}/docs/_build/"
+    DOCS_DEPLOY_PRIVATEKEY: "$DOCS_PROD_DEPLOY_KEY"
+    DOCS_DEPLOY_SERVER: "$DOCS_PROD_SERVER"
+    DOCS_DEPLOY_SERVER_USER: "$DOCS_PROD_SERVER_USER"
+    DOCS_DEPLOY_PATH: "$DOCS_PROD_PATH"
+    DOCS_DEPLOY_URL_BASE: "https://$DOCS_PROD_SERVER/$DOCS_PROD_PATH"
+  script:
+    - source ${CI_PROJECT_DIR}/ci/utils.sh
+    - add_doc_server_ssh_keys $DOCS_DEPLOY_PRIVATEKEY $DOCS_DEPLOY_SERVER $DOCS_DEPLOY_SERVER_USER
+    - export GIT_VER=$(git describe --always)
+    - pip install -r ${CI_PROJECT_DIR}/docs/requirements.txt
+    - deploy-docs

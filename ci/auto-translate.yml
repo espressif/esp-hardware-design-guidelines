@@ -1,0 +1,55 @@
+check_line_num:
+  image: python:3.8
+  stage: auto_trans
+  tags:
+    - build_docs
+  rules:
+    - if: '$BOT_LABEL_AUTO_TRANS || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*trans_updated(?:,[^,\n\r]+)*$/i'
+    - if: '$CI_JOB_NAME =~ $BOT_DYNAMIC_TEST_JOBS && $BOT_DYNAMIC_TEST_JOBS'
+  script:
+    - echo "Start to check"
+    - python3 --version
+    - /usr/local/bin/python -m pip install --upgrade pip
+    - git clone $AUTO_TRANSLATE_REPO
+    - pip3 install -r ./auto-translate/requirements.txt
+    - python3 ./auto-translate/check_line_num.py
+    - echo "Check completed"
+
+translate_new:
+  image: python:3.8
+  stage: auto_trans
+  tags:
+    - build_docs
+  rules:
+    - if: '$BOT_LABEL_AUTO_TRANS || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*trans_new(?:,[^,\n\r]+)*$/i'
+    - if: '$CI_JOB_NAME =~ $BOT_DYNAMIC_TEST_JOBS && $BOT_DYNAMIC_TEST_JOBS'
+  script:
+    - echo "Start to translate"
+    - python3 --version
+    - /usr/local/bin/python -m pip install --upgrade pip
+    - git clone -b feature/optimize_language_determination $AUTO_TRANSLATE_REPO
+    - pip3 install -r ./auto-translate/requirements.txt
+    - echo $CI_COMMIT_REF_NAME
+    - python3 ./auto-translate/translate_rst_files.py $OPENAI_API_KEY $GITLAB_URL $TRANS_BOT_TOKEN $CI_PROJECT_ID $CI_COMMIT_REF_NAME
+    - echo "Translation completed"
+
+translate_updated:
+  image: python:3.8
+  stage: auto_trans
+  tags:
+    - build_docs
+  rules:
+    - if: '$BOT_LABEL_AUTO_TRANS || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*trans_updated(?:,[^,\n\r]+)*$/i'
+    - if: '$CI_JOB_NAME =~ $BOT_DYNAMIC_TEST_JOBS && $BOT_DYNAMIC_TEST_JOBS'
+  needs:
+    - check_line_num
+  script:
+    - echo "Start to translate"
+    - python3 --version
+    - /usr/local/bin/python -m pip install --upgrade pip
+    - git clone -b feature/optimize_language_determination $AUTO_TRANSLATE_REPO
+    - pip3 install -r ./auto-translate/requirements.txt
+    - pip3 install tenacity==8.3.0
+    - echo $CI_COMMIT_REF_NAME
+    - python3 ./auto-translate/translate_rst_files.py $OPENAI_API_KEY $GITLAB_URL $TRANS_BOT_TOKEN $CI_PROJECT_ID $CI_COMMIT_REF_NAME
+    - echo "Translation completed"

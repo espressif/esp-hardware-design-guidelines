@@ -1,0 +1,50 @@
+# This document specifies owners for each Hardware Design Guidelines (HDG).
+# - For documents in chip specific folders, the code owner is the chip series owner (doc owner + hw owner) including backup owner(s).
+# - For documents in shared content folders, the code owner are all chip series owners including backup owner(s).
+# For more CODEOWNERS examples and use cases, see https://github.com/espressif/esp-idf/blob/master/.gitlab/CODEOWNERS.
+
+# Project folder            Owners
+
+# Chip specific content
+/docs/en/esp32/             @documentation/codeowners/hw @documentation/codeowners/esp32
+/docs/zh_CN/esp32/          @documentation/codeowners/hw @documentation/codeowners/esp32
+/docs/en/esp32s2/           @documentation/codeowners/hw @documentation/codeowners/esp32s2
+/docs/zh_CN/esp32s2/        @documentation/codeowners/hw @documentation/codeowners/esp32s2
+/docs/en/esp32s3/           @documentation/codeowners/hw @documentation/codeowners/esp32s3
+/docs/zh_CN/esp32s3/        @documentation/codeowners/hw @documentation/codeowners/esp32s3
+/docs/en/esp32c2/           @documentation/codeowners/hw @documentation/codeowners/esp32c2
+/docs/zh_CN/esp32c2/        @documentation/codeowners/hw @documentation/codeowners/esp32c2
+/docs/en/esp32c3/           @documentation/codeowners/hw @documentation/codeowners/esp32c3
+/docs/zh_CN/esp32c3/        @documentation/codeowners/hw @documentation/codeowners/esp32c3
+/docs/en/esp32c6/           @documentation/codeowners/hw @documentation/codeowners/esp32c6
+/docs/zh_CN/esp32c6/        @documentation/codeowners/hw @documentation/codeowners/esp32c6
+/docs/en/esp32h2/           @documentation/codeowners/hw @documentation/codeowners/esp32h2
+/docs/zh_CN/esp32h2/        @documentation/codeowners/hw @documentation/codeowners/esp32h2
+
+#_static
+/docs/_static/esp32/        @documentation/codeowners/hw @documentation/codeowners/esp32
+/docs/_static/esp32s2/      @documentation/codeowners/hw @documentation/codeowners/esp32s2
+/docs/_static/esp32s3/      @documentation/codeowners/hw @documentation/codeowners/esp32s3
+/docs/_static/esp32c2/      @documentation/codeowners/hw @documentation/codeowners/esp32c2
+/docs/_static/esp32c3/      @documentation/codeowners/hw @documentation/codeowners/esp32c3
+/docs/_static/esp32c6/      @documentation/codeowners/hw @documentation/codeowners/esp32c6
+/docs/_static/esp32h2/      @documentation/codeowners/hw @documentation/codeowners/esp32h2
+/docs/_static/*.png         @documentation/codeowners/hw @documentation/codeowners/esp32 @documentation/codeowners/esp32s2 @documentation/codeowners/esp32s3 @documentation/codeowners/esp32c2 @documentation/codeowners/esp32c3 @documentation/codeowners/esp32c6 @documentation/codeowners/esp32h2
+/docs/_static/*.svg         @documentation/codeowners/esp-hardware-design-guidelines
+/docs/_static/*.js          @documentation/codeowners/esp-hardware-design-guidelines
+
+# Shared content
+/docs/en/*.rst @documentation/codeowners/hw @documentation/codeowners/esp32 @documentation/codeowners/esp32s2 @documentation/codeowners/esp32s3 @documentation/codeowners/esp32c2 @documentation/codeowners/esp32c3 @documentation/codeowners/esp32c6 @documentation/codeowners/esp32h2
+/docs/en/shared/ @documentation/codeowners/hw @documentation/codeowners/esp32 @documentation/codeowners/esp32s2 @documentation/codeowners/esp32s3 @documentation/codeowners/esp32c2 @documentation/codeowners/esp32c3 @documentation/codeowners/esp32c6 @documentation/codeowners/esp32h2
+/docs/zh_CN/*.rst @documentation/codeowners/hw @documentation/codeowners/esp32 @documentation/codeowners/esp32s2 @documentation/codeowners/esp32s3 @documentation/codeowners/esp32c2 @documentation/codeowners/esp32c3 @documentation/codeowners/esp32c6 @documentation/codeowners/esp32h2
+/docs/zh_CN/shared/ @documentation/codeowners/hw @documentation/codeowners/esp32 @documentation/codeowners/esp32s2 @documentation/codeowners/esp32s3 @documentation/codeowners/esp32c2 @documentation/codeowners/esp32c3 @documentation/codeowners/esp32c6 @documentation/codeowners/esp32h2
+
+# Project configuration
+/docs/en/_templates          @documentation/codeowners/esp-hardware-design-guidelines
+/docs/zh_CN/_templates       @documentation/codeowners/esp-hardware-design-guidelines
+/docs/en/*.py                @documentation/codeowners/esp-hardware-design-guidelines
+/docs/zh_CN/*.py             @documentation/codeowners/esp-hardware-design-guidelines
+/docs/*.py                   @documentation/codeowners/esp-hardware-design-guidelines
+/docs/*.sh                   @documentation/codeowners/esp-hardware-design-guidelines
+/docs/*.txt                  @documentation/codeowners/esp-hardware-design-guidelines
+/docs/inline_substitutions   @documentation/codeowners/esp-hardware-design-guidelines

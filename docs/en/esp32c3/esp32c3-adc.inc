@@ -1,0 +1,1 @@
+It is recommend to use ADC1, given that ADC2 is not factory-calibrated, and ADC2 of some chip revisions is not operable. For details, please refer to `{IDF_TARGET_NAME} Series SoC Errata <https://www.espressif.com/sites/default/files/documentation/esp32-c3_errata_en.pdf>`_.

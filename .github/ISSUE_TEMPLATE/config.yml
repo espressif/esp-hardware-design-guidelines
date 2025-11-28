@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: ESP Hardware Design Guidelines
+    url: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32/index.html
+    about: Switch between chips by clicking the drop-down menu at the top left of the page
+  - name: Related documentation and resources
+    url: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32/related-documentation-and-resources.html
+    about: Switch between chips by clicking the drop-down menu at the top left of the page

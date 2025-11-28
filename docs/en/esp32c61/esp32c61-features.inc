@@ -1,0 +1,5 @@
+* Wi-Fi 6 (2.4 GHz band)
+* Bluetooth® 5 (LE)
+* High-performance 32-bit RISC-V single-core processor
+* Multiple peripherals
+* Built-in security hardware

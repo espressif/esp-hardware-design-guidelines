@@ -1,0 +1,20 @@
+.. list-table:: LP UART 管脚分配
+    :name: tab-lp-uart-pin-config
+    :header-rows: 1
+    :widths: 50 50 
+    :align: center
+
+    * - 信号
+      - 管脚
+    * - LP_UART_DTRN
+      - XTAL_32K_P
+    * - LP_UART_DSRN
+      - XTAL_32K_N
+    * - LP_UART_RTSN
+      - GPIO2
+    * - LP_UART_CTSN
+      - GPIO3
+    * - LP_UART_RXD
+      - MTMS
+    * - LP_UART_TXD
+      - MTDI
