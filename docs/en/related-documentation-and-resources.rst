@@ -9,7 +9,9 @@ Related Documentation and Resources
 
 For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.espressif.com/en/products/modules>`_ section on Espressif's official website.
 
-For module reference designs please refer to:
+.. only:: not esp32p4
+
+    For module reference designs please refer to:
 
 .. only:: latex
 
@@ -67,30 +69,51 @@ For module reference designs please refer to:
 
     The antenna design is for reference only. For actual projects, perform antenna simulations based on the PCB layout.
 
-.. note::
+.. only:: not esp32p4
 
-    Use the following tools to open the files in module reference designs:
+    .. note::
 
-        - .DSN files: OrCAD Capture V16.6
-        - .pcb files: Pads Layout VX.2. If you cannot open the .pcb files, please try importing the .asc files into your software to view the PCB layout.
+        Use the following tools to open the files in module reference designs:
+
+            - .DSN files: OrCAD Capture V16.6
+            - .pcb files: Pads Layout VX.2. If you cannot open the .pcb files, please try importing the .asc files into your software to view the PCB layout.
 
 {IDF_TARGET_NAME} Development Boards
 --------------------------------------------
 
 For a list of the latest designs of {IDF_TARGET_NAME} boards please check the `Development Boards <https://www.espressif.com/en/products/hardware/development-boards>`_ section on Espressif's official website.
 
+.. only:: esp32p4
+
+    For development board reference designs please refer to:
+
+    .. only:: html
+
+        - :download:`ESP32-P4-Function-EV-Board V1.5.2 Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4-Function-EV-Board_V1.5.2_EN.zip>`
+        - :download:`ESP32-P4-EYE V2.3 Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4-EYE-MB_V2.3_EN.zip>`
+
+    .. note::
+
+        Use the following tools to open the files in development board reference designs:
+
+            - .DSN files: OrCAD Capture V16.6
+            - .brd files: Allegro 16.6
+
 Other Related Documentation and Resources
 ---------------------------------------------
 
 .. list::
 
-    :not esp32c5 and not esp32p4: - `Chip Datasheet (PDF) <{IDF_TARGET_DATASHEET_EN_URL}>`__
-    :not esp32c5 and not esp32p4: - `Technical Reference Manual (PDF) <{IDF_TARGET_TRM_EN_URL}>`__
+    - `Chip Datasheet (PDF) <{IDF_TARGET_DATASHEET_EN_URL}>`__
+    - `Technical Reference Manual (PDF) <{IDF_TARGET_TRM_EN_URL}>`__
     :esp32: - `Chip Errata <https://espressif.com/sites/default/files/documentation/eco_and_workarounds_for_bugs_in_esp32_en.pdf>`_
     :esp32s2: - `Chip Errata <https://www.espressif.com/sites/default/files/documentation/esp32-s2_errata_en.pdf>`_
     :esp32s3: - `Chip Errata <https://www.espressif.com/sites/default/files/documentation/esp32-s3_errata_en.pdf>`_
     :esp32c3: - `Chip Errata <https://www.espressif.com/sites/default/files/documentation/esp32-c3_errata_en.pdf>`_
     :esp32c2: - `Chip Errata <https://www.espressif.com/sites/default/files/documentation/esp8684_errata_en.pdf>`_
+    :esp32c5: - `Chip Errata <https://docs.espressif.com/projects/esp-chip-errata/en/latest/esp32c5/index.html>`_
+    :esp32p4: - `Chip Errata <https://docs.espressif.com/projects/esp-chip-errata/en/latest/esp32p4/index.html>`_
+    :esp32p4: - `Consolidated Pin Overview Excel <https://documentation.espressif.com/ESP32-P4%20Appendix%20Consolidated%20Pin%20Overview.xlsx>`_
     - `{IDF_TARGET_NAME} Chip Variants <https://espressif.com/en/products/socs?id={IDF_TARGET_NAME}>`__
     - `Espressif KiCad Library <https://github.com/espressif/kicad-libraries>`__
     - `ESP Product Selector <https://products.espressif.com/#/product-selector?names=>`__

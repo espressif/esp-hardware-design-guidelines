@@ -4,7 +4,9 @@
 
 .. note::
 
-    在 eFuse 配置之前，VDDO_FLASH 默认输出 3.3 V 电压，此时接到 1.8 V flash 会有风险。因此，使用 1.8 V flash 时，建议在 VDDO_FLASH 和 VDD_FLASHIO 之间加一个跳帽，直到 VDDO_FLASH 电压确认为 1.8 V 之后再供电给 flash。
+    建议在使用 1.8 V SPI flash 时，在确认 VDDO_FLASH 输出电压已正确配置为 1.8 V 之前，先断开 VDDO_FLASH 与 SPI flash 的电源连接，以避免因供电电压过高而导致 1.8 V flash 损坏。
+
+    若该方案用于量产，请联系商务。
 
 .. flat-table:: VDDO_FLASH 电压控制
     :name: tab-vdd-flash-voltage-control
@@ -28,18 +30,25 @@
 
 建议在电路中靠近 VDDO_FLASH、VDDO_PSRAM、VDDO_3/4 电源管脚处添加 1 μF。
 
-VDD_HP_0/2/3 系列电源由外部 DCDC 供电，其中：
+VDD_HP_0/1/2/3 系列电源由外部 DCDC 供电，其中：
 
 - 外部 DCDC 的输入和 VDD_DCDCC 电源一致。
 - 管脚 EN_DCDC 为外部 DCDC 的使能管脚。在下载模式和没有固件的情况下，EN_DCDC 电压为 0。正常启动固件后，EN_DCDC 由内部控制。在下载模式下，EN_DCDC 电压为 0。在睡眠模式下，可以通过管脚 EN_DCDC 关闭该系列的电源从而降低功耗。
 - 管脚 FB_DCDC 为外部 DCDC 的反馈管脚。
-- 管脚 EN_DCDC 与 FB_DCDC 默认由 ESP32-P4 内部电路全权控制，请务必将其分别连接至外部 DCDC 的 EN 与 FB 管脚。布局时必须预留反馈电阻与反馈电容的焊盘位置（无需上件），同时确保 DCDC 紧靠 ESP32-P4 放置。
+- 管脚 EN_DCDC 与 FB_DCDC 默认由 ESP32-P4 内部电路全权控制，请务必将其分别连接至外部 DCDC 的 EN 与 FB 管脚，同时确保 DCDC 紧靠 ESP32-P4 放置。使用芯片版本 v1.0 和 v1.3（**不推荐用于新设计**）布局时必须预留反馈电阻与反馈电容的焊盘位置但无需上件，使用芯片版本 v3.0 和之后版本布局时则需要上件反馈电阻和反馈电容。
 
 请使用验证过的 DCDC 型号：ETA3485/SY8088/RY3420/TLV62569。输入、输出和电感参数请按照具体的规格书设计，下图为 TLV62569 的电路设计。
 
-.. figure:: ../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4-TLV62569_20250403.png
+.. figure:: ../_static/{IDF_TARGET_PATH_NAME}/esp32p4-TLV62569-rev3.0-and-later.png
   :align: center
   :width: 150%
-  :alt: TLV62569 电路参考设计
+  :alt: TLV62569 电路参考设计（芯片版本 v3.0 及之后版本）
 
-  TLV62569 电路参考设计
+  TLV62569 电路参考设计（芯片版本 v3.0 及之后版本）
+
+.. figure:: ../_static/{IDF_TARGET_PATH_NAME}/esp32p4-TLV62569-rev1.0-and-v1.3.png
+  :align: center
+  :width: 150%
+  :alt: TLV62569 电路参考设计（芯片版本 v1.0 和 v1.3）
+
+  TLV62569 电路参考设计（芯片版本 v1.0 和 v1.3）

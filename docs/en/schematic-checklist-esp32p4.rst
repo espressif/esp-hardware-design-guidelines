@@ -9,15 +9,36 @@ Overview
 
 The integrated circuitry of ESP32-P4 series chips requires only 40 electrical components (resistors, capacitors, and inductors) and a crystal, as well as an SPI flash and a direct current to direct current converter (DCDC). The high integration of ESP32-P4 allows for simple peripheral circuit design. This chapter details the schematic design of ESP32-P4.
 
-The following figure shows a reference schematic design of ESP32-P4. It can be used as the basis of your schematic design.
+The following figures show the reference schematics of ESP32-P4, which can be used as the basis of your schematic design.
 
-.. figure:: ../_static/esp32p4/ESP32-P4-core-schematic_20250403.png
-   :name: fig-chip-core-schematic
+.. attention::
+
+    For new designs, please refer to the schematic of chip revisions v3.0 and later versions.
+
+.. figure:: ../_static/esp32p4/esp32p4-core-schematic_rev3.0-and-later.png
+   :name: fig-chip-core-schematic-2
    :align: center
    :width: 95%
-   :alt: ESP32-P4 Reference Schematic
+   :alt: ESP32-P4 Reference Schematic (Chip Revisions v3.0 and Later)
 
-   ESP32-P4 Reference Schematic
+   ESP32-P4 Reference Schematic (Chip Revisions v3.0 and Later)
+
+.. figure:: ../_static/esp32p4/esp32p4-core-schematic_rev1.0-and-v1.3.png
+   :name: fig-chip-core-schematic-1
+   :align: center
+   :width: 95%
+   :alt: ESP32-P4 Reference Schematic (Chip Revisions v1.0 and v1.3)
+
+   ESP32-P4 Reference Schematic (Chip Revisions v1.0 and v1.3)
+
+.. important::
+
+    The main differences between chip revisions v1.0/v1.3 (**not recommended for new designs**) and v3.0 and later versions include the definition of pin 54, the 1 MΩ resistor on the DP pin, the two 499 kΩ resistors and one 22 pF capacitor in the DCDC circuit. For detailed descriptions of these differences, please refer to the following sections.
+
+    In chip revisions v3.0 and later versions, pin 54 of ESP32-P4 is defined as VDD_HP_1; in chip revisions v1.0 and v1.3, this pin is defined as NC.
+
+    Differences between ESP32-P4 chip revisions and how to distinguish them are described in `ESP32-P4 Series SoC Errata <https://docs.espressif.com/projects/esp-chip-errata/en/latest/esp32p4/index.html>`_.
+
 
 Any basic ESP32-P4 circuit design includes the following major building blocks:
 
@@ -39,13 +60,15 @@ Any basic ESP32-P4 circuit design includes the following major building blocks:
 
 The rest of this chapter details the specifics of circuit design for each of these sections.
 
+.. _p4-power-supply:
+
 Power Supply
 ----------------
 
 The general recommendations for power supply design are:
 
 - For a single power supply, a voltage of 3.3 V is recommended.
-- Without external peripherals, ESP32-P4 requires a minimum supply current of 430 mA. For the supply current when peripherals are connected, please refer to `HP/LP IO Power Supply`_, `MIPI PHY Power Supply`_ and `USB PHY Power Supply`_. Calculate the required supply current based on your application and choose an appropriate power supply chip.
+- Without external peripherals, ESP32-P4 requires a minimum supply current of 380 mA. For the supply current when peripherals are connected, please refer to `HP/LP IO Power Supply`_, `MIPI PHY Power Supply`_ and `USB PHY Power Supply`_. Calculate the required supply current based on your application and choose an appropriate power supply chip.
 - It is suggested to add a 10 μF capacitor at each power entrance.
 - The power scheme is as shown in Figure :ref:`fig-chip-power-scheme`.
 
@@ -79,19 +102,25 @@ If the MIPI function is not required, VDD_MIPI_DPHY can be left floating.
 
     The voltage level of MIPI signals is defined by the MIPI specification. For details, please refer to the relevant MIPI protocol documentation. Note that this is a different concept from the MIPI DPHY voltage level. The 1.8 V/3.3 V levels mentioned in Camera/Display Datasheet refer to signals other than the MIPI signals (Data Lane & CLK), such as MCLK and I2C. The voltage level of MIPI signals is handled internally by the ESP32-P4's built-in MIPI DPHY and requires no additional configuration.
 
+.. _usb-phy-power-supply:
+
 USB PHY Power Supply
 ^^^^^^^^^^^^^^^^^^^^
 
 The VDD_USBPHY of ESP32-P4 is the power supply pin for USB PHY. The operating voltage range is 2.97 V ~ 3.63 V. The maximum current consumption is 20 mA. It is recommended to place 10 nF + 0.1 μF + 1 μF capacitors near VDD_USBPHY in the circuit.
 
-If the high-speed USB 2.0 OTG function is not required, VDD_USBPHY can be left floating. When this power supply is used, it cannot be completely turned off, causing additional power consumption in low-power mode. To reduce power consumption, it is recommended to add a MOSFET circuit to fully disconnect it from the external power supply. Initially, a series resistor can be reserved on VDD_USBPHY.
+If DP and DM are not required, the VDD_USBPHY power supply can be left floating.
 
-.. figure:: ../_static/esp32p4/esp32p4-usbphy-circuit-design.png
+If DP and DM are required, for chip revisions v1.0 and v1.3 (**not recommended for new designs**), note that the VDD_USBPHY power supply exhibits leakage current in low power modes. Therefore, it is recommended to add a MOSFET circuit to completely shut off this power supply in low power modes. During the validation phase, a 0 Ω series resistor can be added on VDD_USBPHY.
+
+.. figure:: ../_static/esp32p4/esp32p4-usbphy-circuit-design-rev1.0-and-v1.3.png
   :align: center
   :width: 70%
-  :alt: VDD_USBPHY Reference Schematic
+  :alt: VDD_USBPHY Reference Schematic (Chip Revisions v1.0 and v1.3)
 
-  VDD_USBPHY Reference Schematic
+  VDD_USBPHY Reference Schematic (Chip Revisions v1.0 and v1.3)
+
+In chip revisions v3.0 and later versions, this issue has been fixed, and the 0 Ω series resistor can be retained for design compatibility.
 
 Flash and PSRAM IO Power Supply
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -100,17 +129,19 @@ The VDD_FLASHIO of ESP32-P4 is the power supply pin for FLASH IO. The operating 
 
 VDD_PSRAM_0 and VDD_PSRAM_1 are power supply pins for PSRAM IO. The operating voltage is 1.65 V ~ 1.95 V. This power is supplied by VDDO_PSRAM from the voltage regulators. It is recommended to place 0.1 μF + 1 μF capacitors near VDD_PSRAM_0 and VDD_PSRAM_1 in the circuit.
 
+.. _p4-analog-power-supply:
+
 Analog Power Supply
 ^^^^^^^^^^^^^^^^^^^^
 
-The VDD_ANA of ESP32-P4 is an analog power supply pin. The operating voltage range is 3.0 V ~ 3.6 V. It is recommended to place a 0.1 μF capacitor near VDD_ANA in the circuit. The VDD_BAT is also an analog power supply pin. The operating voltage range is 3.0 V ~ 3.6 V. It is recommended to place 0.1 μF + 10 μF capacitors near VDD_BAT.
+The VDD_ANA of ESP32-P4 is an analog power supply pin. The operating voltage range is 3.0 V ~ 3.6 V. It is recommended to place a 0.1 μF capacitor near VDD_ANA in the circuit. The VDD_BAT is also an analog power supply pin. The operating voltage range is 2.5 V ~ 3.6 V. It is recommended to place 0.1 μF + 10 μF capacitors near VDD_BAT.
 
 Pin VDD_BAT must not be left floating. An external battery can be connected. For details, refer to the `ESP32-P4 Battery Backup Solution <https://docs.espressif.com/projects/esp-iot-solution/en/latest/low_power_solution/esp32p4_vbat.html>`__.
 
 Digital Power Supply
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-VDD_HP_0, VDD_HP_2, and VDD_HP_3 of the ESP32-P4 are digital power supply pins, working in a voltage range of 0.99 V ~ 1.3 V. This power is supplied by ESP_VDD_HP from the external DCDC. It is recommended to place a 10 μF capacitor at the main power source and 0.1 μF capacitors near each power pin.
+VDD_HP_0, VDD_HP_1, VDD_HP_2, and VDD_HP_3 of the ESP32-P4 are digital power supply pins, working in a voltage range of 0.99 V ~ 1.3 V. This power is supplied by ESP_VDD_HP from the external DCDC. It is recommended to place a 10 μF capacitor at the main power source and 0.1 μF capacitors near each power pin.
 
 .. _internal-voltage-regulators:
 
@@ -353,6 +384,8 @@ SDIO
 ------
 
 .. include:: esp32p4/esp32p4-sdio.inc
+
+.. _esp32p4-usb:
 
 USB
 -------

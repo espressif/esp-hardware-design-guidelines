@@ -23,8 +23,8 @@ General Guidelines
 
 - Whenever possible, route the power traces on the inner layers (not the ground layer) and connect them to the chip pins through vias. Ensure the power traces are surrounded by ground copper.
 - The trace width for the 3.3 V main power supply should be at least 25 mil.
-- For the power traces of VDD_LP, VDD_IO_0, VDD_IO_4, VDD_IO_5 and VDD_IO_6, use a trace width of at least 10 mil. Place a 10 µF capacitor at the power entry point for this series of power supply and a 0.1 µF capacitor for each power pin.
-- The trace width for the main power supply traces of VDD_HP_0, VDD_HP_2, and VDD_HP_3 should be at least 20 mil. Place a 10 µF capacitor at the power entry point for this series of power supply and a 0.1 µF capacitor for each power pin.
+- For the power traces of VDD_LP, VDD_IO_0, VDD_IO_4, VDD_IO_5, VDD_IO_6, VDD_BAT and VDD_ANA, use a trace width of at least 10 mil. Place a 10 µF capacitor at the power entry point for this series of power supply and a 0.1 µF capacitor for each power pin.
+- The trace width for the main power supply traces of VDD_HP_0, VDD_HP_1, VDD_HP_2, and VDD_HP_3 should be at least 20 mil. Place a 10 µF capacitor at the power entry point for this series of power supply and a 0.1 µF capacitor for each power pin.
 - For VDD_LDO and VDD_DCDCC, which handle higher current, use a trace width of at least 20 mil and place a 10 µF capacitor close to each power pin.
 - It is recommended to use a star routing method to distribute power traces to each power pin.
 - Because the VDD_HP power supply is by default fully controlled internally by ESP32-P4, the external DCDC should be placed close to the chip to ensure that the input, output, and feedback loops are as short as possible.

@@ -11,13 +11,34 @@ ESP32-P4 系列芯片的核心电路只需要 40 个左右的电阻电容电感�
 
 下图所示为 ESP32-P4 的核心电路参考设计，可以将它作为原理图设计的基础。
 
-.. figure:: ../_static/esp32p4/ESP32-P4-core-schematic_20250403.png
-   :name: fig-chip-core-schematic
+.. attention::
+
+    对于新设计，请参考芯片版本 v3.0 及之后版本的原理图。
+
+.. figure:: ../_static/esp32p4/esp32p4-core-schematic_rev3.0-and-later.png
+   :name: fig-chip-core-schematic-2
    :align: center
    :width: 95%
-   :alt: ESP32-P4 系列芯片参考设计原理图
+   :alt: ESP32-P4 参考设计原理图（芯片版本 v3.0 及之后版本）
 
-   ESP32-P4 系列芯片参考设计原理图
+   ESP32-P4 参考设计原理图（芯片版本 v3.0 及之后版本）
+
+.. figure:: ../_static/esp32p4/esp32p4-core-schematic_rev1.0-and-v1.3.png
+   :name: fig-chip-core-schematic-1
+   :align: center
+   :width: 95%
+   :alt: ESP32-P4 参考设计原理图（芯片版本 v1.0 和 v1.3）
+
+   ESP32-P4 参考设计原理图（芯片版本 v1.0 和 v1.3）
+
+.. important::
+
+    芯片版本 v1.0/v1.3 （**不推荐用于新设计**）与 v3.0 及之后版本 之间的主要差异在于管脚 54 的定义，DP 管脚上的 1 MΩ 电阻，DCDC 电路中的两个 499 kΩ 电阻及一个 22 pF 电容。相关差异的详细说明请参见后续章节。
+
+    在芯片版本 v3.0 及之后版本 中，ESP32-P4 的管脚 54 定义为 VDD_HP_1；而在芯片版本 v1.0 和 v1.3 中，该管脚定义为 NC。
+
+    ESP32-P4 芯片版本信息及其区分方式见 `ESP32-P4 系列芯片勘误表 <https://docs.espressif.com/projects/esp-chip-errata/zh_CN/latest/esp32p4/index.html>`_。
+
 
 ESP32-P4 系列芯片的核心电路图的设计有以下重要组成部分：
 
@@ -39,13 +60,15 @@ ESP32-P4 系列芯片的核心电路图的设计有以下重要组成部分：
 
 下文将分别对这些部分进行描述。
 
+.. _p4-power-supply:
+
 电源
 --------
 
 电源电路设计的通用要点有：
 
 - 使用单电源供电时，建议供给 ESP32-P4 的电源电压为 3.3 V。
-- ESP32-P4 的基本供电电流至少为 430 mA（含 flash 和 PSRAM），各个外设的供电电流请参考 `HP/LP IO 电源`_， `MIPI PHY 电源`_ 和 `USB PHY 电源`_。请根据具体应用选择合适的电源芯片。
+- ESP32-P4 的基本供电电流至少为 380 mA（含 flash 和 PSRAM），各个外设的供电电流请参考 `HP/LP IO 电源`_， `MIPI PHY 电源`_ 和 `USB PHY 电源`_。请根据具体应用选择合适的电源芯片。
 - 建议在各个总电源入口处添加 10 μF 电容。
 - 电源管理如图 :ref:`fig-chip-power-scheme` 所示。
 
@@ -79,19 +102,25 @@ ESP32-P4 的管脚 VDD_MIPI_DPHY 为 MIPI PHY 电源管脚，工作电压范围�
 
     MIPI 信号电平由 MIPI 协议规定，具体可以查阅 MIPI 协议相关文档，和 MIPI DPHY 电平是两个概念。摄像头/显示屏规格书中提到的 1.8 V/3.3 V 指的是除 MIPI 信号 (Data Lane & CLK) 之外的信号电平，如 MCLK 和 I2C 等。MIPI 信号电平由 ESP32-P4 内部 MIPI DPHY 自行处理，无需额外配置。
 
+.. _usb-phy-power-supply:
+
 USB PHY 电源
 ^^^^^^^^^^^^^^^^
 
 ESP32-P4 的管脚 VDD_USBPHY 为 USB PHY 电源管脚，工作电压范围为 2.97 V ~ 3.63 V，最大电流功耗为 20 mA。建议在电路中靠近 VDD_USBPHY 电源管脚处添加 10 nF + 0.1 μF + 4.7 μF。
 
-如果不需要高速 USB 2.0 OTG 功能，管脚 VDD_USBPHY 可以悬空。如果使用了该电源，并且对功耗有要求，因为该电源无法完全关闭，在低功耗模式下有额外的耗电，建议添加一个 MOSFET 电路完全关断和外部电源的连接。初始可以预留一个串联电阻在 VDD_USBPHY 上。
+如果不需要使用 DP 和 DM，电源 VDD_USBPHY 可以悬空。
 
-.. figure:: ../_static/esp32p4/esp32p4-usbphy-circuit-design.png
+如果需要使用 DP 和 DM，在芯片版本 v1.0 和 v1.3（**不推荐用于新设计**）中，请注意电源 VDD_USBPHY 在低功耗模式下有漏电，因此建议添加一个 MOSFET 电路，从而在低功耗模式下可以完全关断该电源。验证阶段可以添加一个 0 Ω 串联电阻在 VDD_USBPHY 上。
+
+.. figure:: ../_static/esp32p4/esp32p4-usbphy-circuit-design-rev1.0-and-v1.3.png
   :align: center
   :width: 70%
-  :alt: VDD_USBPHY 电路参考设计
+  :alt: VDD_USBPHY 电路参考设计（芯片版本 v1.0 和 v1.3）
 
-  VDD_USBPHY 电路参考设计
+  VDD_USBPHY 电路参考设计（芯片版本 v1.0 和 v1.3）
+
+在芯片版本 v3.0 和之后版本中，该问题已经被修复，可以保留 0 Ω 串联电阻用于兼容设计。
 
 Flash 和 PSRAM IO 电源
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -100,17 +129,19 @@ ESP32-P4 的管脚 VDD_FLASHIO 为 FLASH IO 电源管脚，工作电压范围为
 
 管脚 VDD_PSRAM_0 和 VDD_PSRAM_1 为 PSRAM IO 电源管脚，工作电压范围为 1.65 V ~ 1.95 V。该电源由内部电压稳压器输出 VDDO_PSRAM 提供，建议在电路中靠近 VDD_PSRAM_0 和VDD_PSRAM_1 电源管脚处添加 0.1 μF + 1 μF。
 
+.. _p4-analog-power-supply:
+
 模拟电源
 ^^^^^^^^^^^
 
-ESP32-P4 的管脚 VDD_ANA 为模拟电源管脚，工作电压范围为 3.0 V ~ 3.6 V。建议在电路中靠近 VDD_ANA 电源管脚处添加 0.1 μF。管脚 VDD_BAT 为模拟电源管脚，工作电压范围为 3.0 V ~ 3.6 V，建议在电路中靠近 VDD_ANA 电源管脚处添加 0.1 μF + 10 μF。
+ESP32-P4 的管脚 VDD_ANA 为模拟电源管脚，工作电压范围为 3.0 V ~ 3.6 V。建议在电路中靠近 VDD_ANA 电源管脚处添加 0.1 μF。管脚 VDD_BAT 为模拟电源管脚，工作电压范围为 2.5 V ~ 3.6 V，建议在电路中靠近 VDD_ANA 电源管脚处添加 0.1 μF + 10 μF。
 
 VDD_BAT 电源管脚不可悬空，可外接电池，请参考 `ESP32-P4 备用电池供电方案 <https://docs.espressif.com/projects/esp-iot-solution/zh_CN/latest/low_power_solution/esp32p4_vbat.html>`__。
 
 数字电源
 ^^^^^^^^^^^^^
 
-ESP32-P4 的管脚 VDD_HP_0、管脚 VDD_HP_2 和管脚 VDD_HP_3 为数字电源管脚，工作电压范围为 0.99 V ~ 1.3 V。该电源由外部 DCDC 输出 ESP_VDD_HP 提供，建议在总电源处添加 10 uF，在各个电源管脚处添加 0.1 μF。
+ESP32-P4 的管脚 VDD_HP_0、管脚 VDD_HP_1、管脚 VDD_HP_2 和管脚 VDD_HP_3 为数字电源管脚，工作电压范围为 0.99 V ~ 1.3 V。该电源由外部 DCDC 输出 ESP_VDD_HP 提供，建议在总电源处添加 10 uF，在各个电源管脚处添加 0.1 μF。
 
 .. _internal-voltage-regulators:
 
@@ -353,6 +384,8 @@ SDIO
 --------
 
 .. include:: esp32p4/esp32p4-sdio.inc
+
+.. _esp32p4-usb:
 
 USB
 -------

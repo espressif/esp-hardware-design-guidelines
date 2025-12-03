@@ -6,7 +6,7 @@ Refer to the table below for the GPIO configuration of the EMAC RMII interface.
 
    * - Signal
      - Pin Name
-   * - RMII\_RXDV
+   * - RMII\_CRSDV
      - GPIO28, GPIO45, GPIO51
    * - RMII\_RXD0
      - GPIO29, GPIO46, GPIO52

@@ -1,22 +1,8 @@
-{IDF_TARGET_NAME} series chips have only one SD/MMC host controller, which cannot operate as a slave. SDIO 2.0 and SDIO 3.0 interfaces require time-division multiplexing.
+{IDF_TARGET_NAME} series chips integrate an SD/MMC host controller, which cannot operate as a slave. The SD/MMC host peripheral provides two slots. Each slot can be used independently to connect to an SD card, SDIO device, or eMMC chip.
 
-SDIO 2.0 interface signals can be configured to any available GPIO through the GPIO matrix. However, in SDIO 3.0 interface, certain signal pins are fixed and should be connected as specified in the table below.
+Slot 1 (SDMMC_HOST_SLOT_0) signals are fixed to the GPIO pins listed in the table below via the IO MUX and are dedicated to UHS-I mode.
 
-Additionally, it is recommended to add one series pull-up resistor for the each SDIO GPIO pin and populate a capacitor to ground on the SDIO CLK line.
-
-SDIO 3.0 protocol specifies that the voltage of SDIO GPIOs should switch automatically. Therefore, it is recommended to connect the SDIO GPIO power domain VDD_IO_5 and the external pull-up power supply to VDDO_4. Additionally, a 10 μF capacitor should be populated to VDD_IO_5. The SD card's power supply should be connected to the 3.3 V power supply of the system.
-
-.. figure:: ../_static/esp32p4/esp32p4-sd3-card-power-circuit.png
-   :name: esp32p4-sd3-card-power-circuit
-   :align: center
-   :width: 95%
-   :alt: ESP32-P4 SD 3.0 Card Power Circuit
-
-   ESP32-P4 SD 3.0 Card Power Circuit
-
-To reduce the power consumption of the SD card and reset it, you can populate a MOSFET at the power supply circuit of SD card and control it via GPIO.
-
-.. list-table:: SDIO 3.0 Interface Configuration
+.. list-table:: Slot 1 (SDMMC_HOST_SLOT_0) Signal Mapping
    :header-rows: 1
    :widths: 15 10
 
@@ -42,3 +28,19 @@ To reduce the power consumption of the SD card and reset it, you can populate a 
      - GPIO47
    * - SD1\_CDATA7\_PAD
      - GPIO48
+
+Slot 2 (SDMMC_HOST_SLOT_1) signals can be routed to any GPIO pins through the GPIO matrix, making this slot suitable for non–UHS-I applications.
+
+Additionally, it is recommended to add one series pull-up resistor for the each SDIO GPIO pin and populate a capacitor to ground on the SDIO CLK line.
+
+SDIO 3.0 protocol specifies that the voltage of SDIO GPIOs should switch automatically. Therefore, it is recommended to connect the SDIO GPIO power domain VDD_IO_5 and the external pull-up power supply to VDDO_4. Additionally, a 10 μF capacitor should be populated to VDD_IO_5. The SD card's power supply should be connected to the 3.3 V power supply of the system.
+
+.. figure:: ../_static/esp32p4/esp32p4-sd3-card-power-circuit.png
+   :name: esp32p4-sd3-card-power-circuit
+   :align: center
+   :width: 95%
+   :alt: ESP32-P4 SD 3.0 Card Power Circuit
+
+   ESP32-P4 SD 3.0 Card Power Circuit
+
+To reduce the power consumption of the SD card and reset it, you can populate a MOSFET at the power supply circuit of SD card and control it via GPIO.

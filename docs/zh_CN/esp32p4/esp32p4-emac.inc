@@ -6,7 +6,7 @@ EMAC RMII 接口 GPIO 配置请见下表。
 
    * - EMAC 信号
      - 管脚名称
-   * - RMII\_RXDV
+   * - RMII\_CRSDV
      - GPIO28, GPIO45, GPIO51
    * - RMII\_RXD0
      - GPIO29, GPIO46, GPIO52

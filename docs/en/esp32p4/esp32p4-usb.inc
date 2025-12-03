@@ -10,6 +10,17 @@ When using the USB serial/JTAG controller and full-speed USB OTG, please note th
 
 {IDF_TARGET_NAME} also features a high-speed USB OTG peripheral with an integrated transceiver, compliant with USB 2.0 specifications, where DM and DP respectively serve as USB D- and USB D+.
 
+When using chip revisions v1.0 and v1.3 (**not recommended for new designs**), add a 1 MΩ pull-down resistor on the DP pin to reduce the large transient current on VDD_USBPHY when CHIP_PU is pulled low.
+
+.. figure:: ../_static/esp32p4/esp32p4-usbphy-circuit-design-rev1.0-and-v1.3.png
+  :align: center
+  :width: 70%
+  :alt: DP Pull-down Resistor (Chip Revisions v1.0 and v1.3)
+
+  DP Pull-down Resistor (Chip Revisions v1.0 and v1.3)
+
+In chip revisions v3.0 and later versions, this issue has been fixed, allowing the retention of a 1 MΩ pull-down resistor for design compatibility.
+
 It is recommended to add a 22/33 Ω series resistor and optional ground capacitors on the Full-speed USB D- and USB D+ lines. These components should be placed close to the chip end.
 
 .. figure:: ../_static/esp32p4/USB-RC-circuit_20250228.png
