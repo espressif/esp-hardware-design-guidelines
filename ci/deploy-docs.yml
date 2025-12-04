@@ -9,6 +9,8 @@
     - build_html_for_c_series_gen2
     - build_html_for_other_series
     - build_pdf_for_s_series
+    - build_pdf_for_c_series_gen1
+    - build_pdf_for_c_series_gen2
     - build_pdf_for_other_series
 
 deploy_docs_preview:
