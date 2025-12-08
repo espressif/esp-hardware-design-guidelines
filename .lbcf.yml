@@ -413,8 +413,8 @@ documents:
       document_type: guide # or errata, datasheet, reference, book, guide, application note
       document_type_old_website: guide
       document_status: active
-      version: v1.3 # or specific version number
-      revision_date: 2025-09-02
+      version: v1.4 # or specific version number
+      revision_date: 2025-12-09
       language: en # or cn
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c5/index.html
@@ -441,8 +441,8 @@ documents:
       document_type: guide # or errata, datasheet, reference, book, guide, application note
       document_type_old_website: guide
       document_status: active
-      version: v1.3 # or specific version number
-      revision_date: 2025-09-02 # or generate automatically?
+      version: v1.4 # or specific version number
+      revision_date: 2025-12-09 # or generate automatically?
       language: cn # or en
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c5/index.html

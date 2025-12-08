@@ -2,28 +2,26 @@ Related Documentation and Resources
 =======================================
 :link_to_translation:`zh_CN:[中文]`
 
-.. only:: not esp32c5
+.. _hardware-development-modules:
 
-    .. _hardware-development-modules:
+{IDF_TARGET_NAME} Modules
+------------------------------
 
-    {IDF_TARGET_NAME} Modules
-    ------------------------------
+For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.espressif.com/en/products/modules>`_ section on Espressif's official website.
 
-    For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.espressif.com/en/products/modules>`_ section on Espressif's official website.
+For module reference designs please refer to:
 
-    For module reference designs please refer to:
+.. only:: latex
 
-    .. only:: latex
+    - `Download links <https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
 
-        - `Download links <https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
+.. only:: esp32
 
-    .. only:: esp32
+    .. only:: html
 
-        .. only:: html
-
-            - :download:`ESP32-MINI-1 reference design <../_static/{IDF_TARGET_PATH_NAME}/esp32-mini-1_reference_design.zip>`
-            - :download:`ESP32-WROOM-32E reference design <../_static/{IDF_TARGET_PATH_NAME}/esp32-wroom-32e_reference_design.zip>`
-            - :download:`ESP32-WROVER-E reference design <../_static/{IDF_TARGET_PATH_NAME}/esp32-wrover-e_reference_design.zip>`
+        - :download:`ESP32-MINI-1 reference design <../_static/{IDF_TARGET_PATH_NAME}/esp32-mini-1_reference_design.zip>`
+        - :download:`ESP32-WROOM-32E reference design <../_static/{IDF_TARGET_PATH_NAME}/esp32-wroom-32e_reference_design.zip>`
+        - :download:`ESP32-WROVER-E reference design <../_static/{IDF_TARGET_PATH_NAME}/esp32-wrover-e_reference_design.zip>`
 
 .. only:: esp32s3
 
@@ -59,6 +57,15 @@ Related Documentation and Resources
 
         - :download:`ESP8684-MINI-1 reference design <../_static/{IDF_TARGET_PATH_NAME}/esp8684-mini-1_reference_design.zip>`
         - :download:`ESP8684-WROOM-02C reference design <../_static/{IDF_TARGET_PATH_NAME}/esp8684-wroom-02c_reference_design.zip>`
+
+.. only:: esp32c5
+
+    .. only:: html
+
+        - :download:`ESP32-C5-MINI-1-N4 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-mini-1-n4_reference_design.zip>`
+        - :download:`ESP32-C5-WROOM-1-N8R8 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-wroom-1-n8r8_reference_design.zip>`
+
+    The antenna design is for reference only. For actual projects, perform antenna simulations based on the PCB layout.
 
 .. note::
 

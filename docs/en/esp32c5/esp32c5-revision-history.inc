@@ -5,6 +5,9 @@
    * - Date
      - Version
      - Release Notes
+   * - 2025-12-09
+     - v1.4
+     - :doc:`../related-documentation-and-resources`: Added Section :ref:`hardware-development-modules`
    * - 2025-09-02
      - v1.3
      -  - :doc:`../schematic-checklist`

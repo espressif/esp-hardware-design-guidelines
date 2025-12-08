@@ -5,6 +5,9 @@
    * - 日期
      - 版本
      - 发布说明
+   * - 2025-12-09
+     - v1.4
+     - :doc:`../related-documentation-and-resources`：新增章节 :ref:`hardware-development-modules`
    * - 2025-09-02
      - v1.3
      -  - :doc:`../schematic-checklist`

@@ -2,28 +2,26 @@
 ===================
 :link_to_translation:`en:[English]`
 
-.. only:: not esp32c5
+.. _hardware-development-modules:
 
-    .. _hardware-development-modules:
+{IDF_TARGET_NAME} 系列模组
+------------------------------
 
-    {IDF_TARGET_NAME} 系列模组
-    ------------------------------
+请至乐鑫官网的 `模组页面 <https://www.espressif.com/zh-hans/products/modules>`_ 查看 {IDF_TARGET_NAME} 系列模组的最新详细信息。
 
-    请至乐鑫官网的 `模组页面 <https://www.espressif.com/zh-hans/products/modules>`_ 查看 {IDF_TARGET_NAME} 系列模组的最新详细信息。
+{IDF_TARGET_NAME} 系列模组的参考设计请参考：
 
-    {IDF_TARGET_NAME} 系列模组的参考设计请参考：
+.. only:: latex
 
-    .. only:: latex
+    - `下载链接 <https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
 
-        - `下载链接 <https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
+.. only:: esp32
 
-    .. only:: esp32
+    .. only:: html
 
-        .. only:: html
-
-            - :download:`ESP32-MINI-1 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-mini-1_reference_design.zip>`
-            - :download:`ESP32-WROOM-32E 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-wroom-32e_reference_design.zip>`
-            - :download:`ESP32-WROVER-E 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-wrover-e_reference_design.zip>`
+        - :download:`ESP32-MINI-1 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-mini-1_reference_design.zip>`
+        - :download:`ESP32-WROOM-32E 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-wroom-32e_reference_design.zip>`
+        - :download:`ESP32-WROVER-E 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-wrover-e_reference_design.zip>`
 
 .. only:: esp32s3
 
@@ -59,6 +57,15 @@
 
         - :download:`ESP8684-MINI-1 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp8684-mini-1_reference_design.zip>`
         - :download:`ESP8684-WROOM-02C 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp8684-wroom-02c_reference_design.zip>`
+
+.. only:: esp32c5
+
+    .. only:: html
+
+        - :download:`ESP32-C5-MINI-1-N4 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-mini-1-n4_reference_design.zip>`
+        - :download:`ESP32-C5-WROOM-1-N8R8 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-wroom-1-n8r8_reference_design.zip>`
+
+    天线设计仅供参考，实际项目需基于 PCB 进行仿真设计。
 
 .. note::
 
