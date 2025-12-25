@@ -30,6 +30,6 @@ pdf_title = u'Hardware Design Guidelines'
 # for a list of supported languages.
 language = 'en'
 
-doc_id = {'esp32': '4089', 'esp32s2': '4422', 'esp32s3': '5419', 'esp32c2': '5726', 'esp32c3': '5084', 'esp32c6': '6511', 'esp32h2': '6715', 'esp32c5': '8823', 'esp32p4': '', 'esp32c61': ''}
+doc_id = {'esp32': '4089', 'esp32s2': '4422', 'esp32s3': '5419', 'esp32c2': '5726', 'esp32c3': '5084', 'esp32c6': '6511', 'esp32h2': '6715', 'esp32c5': '8823', 'esp32p4': '8877', 'esp32c61': '9579'}
 
 html_js_files = ['js/chatbot_widget_en.js']
