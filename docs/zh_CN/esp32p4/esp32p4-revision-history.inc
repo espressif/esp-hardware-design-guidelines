@@ -5,6 +5,9 @@
    * - 日期
      - 版本
      - 发布说明
+   * - 2026-02-05
+     - v1.5
+     - :doc:`related-documentation-and-resources`：增加开发板的参考设计
    * - 2026-02-04
      - v1.4
      - - :doc:`../schematic-checklist-esp32p4`

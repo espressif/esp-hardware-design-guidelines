@@ -89,8 +89,8 @@
 
     .. only:: html
 
-        - :download:`ESP32-P4-Function-EV-Board V1.5.2 参考设计 (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4-Function-EV-Board_V1.5.2_CN.zip>`
-        - :download:`ESP32-P4-EYE V2.3 参考设计 (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4-EYE-MB_V2.3_CN.zip>`
+        - :download:`ESP32-P4X-Function-EV-Board 参考设计 (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-Function-EV-Board-CN.zip>`
+        - :download:`ESP32-P4X-EYE 参考设计 (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-EYE-CN.zip>`
 
     .. note::
 

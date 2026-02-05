@@ -89,8 +89,8 @@ For a list of the latest designs of {IDF_TARGET_NAME} boards please check the `D
 
     .. only:: html
 
-        - :download:`ESP32-P4-Function-EV-Board V1.5.2 Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4-Function-EV-Board_V1.5.2_EN.zip>`
-        - :download:`ESP32-P4-EYE V2.3 Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4-EYE-MB_V2.3_EN.zip>`
+        - :download:`ESP32-P4X-Function-EV-Board Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-Function-EV-Board-EN.zip>`
+        - :download:`ESP32-P4X-EYE Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-EYE-EN.zip>`
 
     .. note::
 

@@ -5,6 +5,9 @@
    * - Date
      - Version
      - Release Notes
+   * - 2026-02-05
+     - v1.5
+     - :doc:`related-documentation-and-resources`: Added the reference design for development boards
    * - 2026-02-04
      - v1.4
      - - :doc:`../schematic-checklist-esp32p4`
