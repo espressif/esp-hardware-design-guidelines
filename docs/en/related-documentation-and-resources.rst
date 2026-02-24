@@ -67,6 +67,17 @@ For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.e
         - :download:`ESP32-C5-MINI-1-N4 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-mini-1-n4_reference_design.zip>`
         - :download:`ESP32-C5-WROOM-1-N8R8 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-wroom-1-n8r8_reference_design.zip>`
 
+.. only:: esp32c61
+
+    .. only:: html
+
+        - :download:`ESP32-C61-MINI-1-N4 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-mini-1-n4_v1.1_reference_design.zip>`
+        - :download:`ESP32-C61-WROOM-1-N8R8 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-wroom-1-n8r8_v1.3_reference_design.zip>`
+
+.. only:: esp32c5 or esp32c61
+
+    The above reference design applies only to the specified MPN. If a different MPN is used, the corresponding BOM and schematic may vary. Please refer to the relevant datasheet and design guide to obtain the correct design information.
+
     The antenna design is for reference only. For actual projects, perform antenna simulations based on the PCB layout.
 
 .. only:: not esp32p4

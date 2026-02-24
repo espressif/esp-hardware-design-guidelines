@@ -67,6 +67,17 @@
         - :download:`ESP32-C5-MINI-1-N4 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-mini-1-n4_reference_design.zip>`
         - :download:`ESP32-C5-WROOM-1-N8R8 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c5-wroom-1-n8r8_reference_design.zip>`
 
+.. only:: esp32c61
+
+    .. only:: html
+
+        - :download:`ESP32-C61-MINI-1-N4 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-mini-1-n4_v1.1_reference_design.zip>`
+        - :download:`ESP32-C61-WROOM-1-N8R8 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-wroom-1-n8r8_v1.3_reference_design.zip>`
+
+.. only:: esp32c5 or esp32c61
+
+    本参考设计仅针对特定 MPN。若使用其他 MPN，相关 BOM 和原理图可能存在差异，请查阅对应规格书和设计指南以获取正确设计信息。
+
     天线设计仅供参考，实际项目需基于 PCB 进行仿真设计。
 
 .. only:: not esp32p4
