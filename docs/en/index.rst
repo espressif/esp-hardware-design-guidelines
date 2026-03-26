@@ -34,7 +34,7 @@ ESP Hardware Design Guidelines
     .. _Download Guidelines: download-guidelines.html
 
     .. |Resources| image:: ../_static/hardware-development.png
-    .. _Resources: hardware-development.html
+    .. _Resources: related-documentation-and-resources.html
 
 .. only:: esp32p4
 
