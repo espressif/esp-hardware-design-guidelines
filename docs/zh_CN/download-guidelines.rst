@@ -33,6 +33,8 @@ UART 下载的过程如下：
 
     .. list::
 
+        - 固件下载的步骤，也可参考 `乐鑫固件下载工具使用说明 <https://docs.espressif.com/projects/esp-techpedia/zh_CN/latest/esp-friends/get-started/try-firmware/try-firmware-hardware/index.html>`__。
+        - 如何查看串口输出，也可参考 `建立与 {IDF_TARGET_NAME} 的串口连接 <https://docs.espressif.com/projects/esp-idf/zh_CN/v6.0/{IDF_TARGET_PATH_NAME}/get-started/establish-serial-connection.html>`__。
         - 建议看到 "waiting for download" 的信息后再进行下载。
         - 串口打印工具和烧录工具不能同时占用一个串口端口。
 

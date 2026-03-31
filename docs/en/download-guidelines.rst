@@ -33,6 +33,9 @@ To download via UART:
 
     .. list::
 
+
+        - For firmware download instructions, see also `ESP Product Firmware Download Instructions <https://docs.espressif.com/projects/esp-techpedia/en/latest/esp-friends/get-started/try-firmware/try-firmware-hardware/index.html>`__.
+        - For how to check serial port output, see also `Establish Serial Connection with {IDF_TARGET_NAME} <https://docs.espressif.com/projects/esp-idf/en/v6.0/{IDF_TARGET_PATH_NAME}/get-started/establish-serial-connection.html>`__.
         - It is advised to download the firmware only after the "waiting for download" log shows via the serial port.
         - Serial tools cannot be used simultaneously with the Flash Download Tool on one COM port.
 
