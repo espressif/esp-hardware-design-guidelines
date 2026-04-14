@@ -122,10 +122,12 @@ ESP32-P4 的管脚 VDD_USBPHY 为 USB PHY 电源管脚，工作电压范围为 2
 
 在芯片版本 v3.0 和之后版本中，该问题已经被修复，可以保留 0 Ω 串联电阻用于兼容设计。
 
+.. _flash-and-psram-io-power-supply:
+
 Flash 和 PSRAM IO 电源
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ESP32-P4 的管脚 VDD_FLASHIO 为 FLASH IO 电源管脚，工作电压范围为 1.65 V ~ 1.95 V/3.0 V ~ 3.6 V。该电源由内部电压稳压器输出 VDDO_FLASH 提供，建议在电路中靠近 VDD_FLASHIO 电源管脚处添加 0.1 μF + 1 μF。
+ESP32-P4 的管脚 VDD_FLASHIO 为 FLASH IO 电源管脚，工作电压范围为 1.65 V ~ 3.6 V。该电源由内部电压稳压器输出 VDDO_FLASH 提供，建议在电路中靠近 VDD_FLASHIO 电源管脚处添加 0.1 μF + 1 μF。
 
 管脚 VDD_PSRAM_0 和 VDD_PSRAM_1 为 PSRAM IO 电源管脚，工作电压范围为 1.65 V ~ 1.95 V。该电源由内部电压稳压器输出 VDDO_PSRAM 提供，建议在电路中靠近 VDD_PSRAM_0 和VDD_PSRAM_1 电源管脚处添加 0.1 μF + 1 μF。
 

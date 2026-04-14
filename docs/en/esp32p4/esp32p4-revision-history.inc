@@ -5,6 +5,11 @@
    * - Date
      - Version
      - Release Notes
+   * - 2026-04-15
+     - v1.6
+     - - :doc:`../schematic-checklist-esp32p4`
+           - Section :ref:`hp-lp-power-supply`: Modified the recommended operating voltage for VDD_IO_0, VDD_IO_4, VDD_IO_5, and VDD_IO_6
+           - Section :ref:`flash-and-psram-io-power-supply`: Modified the recommended operating voltage for VDD_FLASHIO
    * - 2026-02-05
      - v1.5
      - :doc:`related-documentation-and-resources`: Added the reference design for development boards

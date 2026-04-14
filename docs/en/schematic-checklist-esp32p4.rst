@@ -122,10 +122,12 @@ If DP and DM are required, for chip revisions v1.0 and v1.3 (**not recommended f
 
 In chip revisions v3.0 and later versions, this issue has been fixed, and the 0 Ω series resistor can be retained for design compatibility.
 
+.. _flash-and-psram-io-power-supply:
+
 Flash and PSRAM IO Power Supply
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The VDD_FLASHIO of ESP32-P4 is the power supply pin for FLASH IO. The operating voltage is 1.65 V ~ 1.95 V/3.0 V ~ 3.6 V. This power is supplied by VDDO_FLASH from the voltage regulator. It is recommended to place 0.1 μF + 1 μF capacitors near VDD_FLASHIO in the circuit.
+The VDD_FLASHIO of ESP32-P4 is the power supply pin for FLASH IO. The operating voltage is 1.65 V ~ 3.6 V. This power is supplied by VDDO_FLASH from the voltage regulator. It is recommended to place 0.1 μF + 1 μF capacitors near VDD_FLASHIO in the circuit.
 
 VDD_PSRAM_0 and VDD_PSRAM_1 are power supply pins for PSRAM IO. The operating voltage is 1.65 V ~ 1.95 V. This power is supplied by VDDO_PSRAM from the voltage regulators. It is recommended to place 0.1 μF + 1 μF capacitors near VDD_PSRAM_0 and VDD_PSRAM_1 in the circuit.
 

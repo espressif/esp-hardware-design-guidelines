@@ -5,6 +5,11 @@
    * - 日期
      - 版本
      - 发布说明
+   * - 2026-04-15
+     - v1.6
+     - - :doc:`../schematic-checklist-esp32p4`
+           - 章节 :ref:`hp-lp-power-supply`：修改以下管脚的推荐工作电压：VDD_IO_0、VDD_IO_4、VDD_IO_5 和 VDD_IO_6
+           - 章节 :ref:`flash-and-psram-io-power-supply`：修改管脚 VDD_FLASHIO 的推荐工作电压
    * - 2026-02-05
      - v1.5
      - :doc:`related-documentation-and-resources`：增加开发板的参考设计
