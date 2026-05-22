@@ -560,3 +560,57 @@ documents:
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public
+
+########################################
+# ESP32-S31 Hardware Design Guidelines
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-S31 Hardware Design Guidelines
+      doc_id: 10845
+      translation_docid: 10843
+      chip_series: ESP32-S31
+      product_name:
+        - ESP32-S31 SoC Series
+      product_name_old_website:
+        - ESP32-S31
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v0.1 # or specific version number
+      revision_date: 2026-06-23 # or generate automatically?
+      language: en # or cn
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s31/index.html
+      document_summary: The hardware design guidelines give advice on how to integrate ESP32-S31 in other products.
+      notify_subscribers: true # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_status: active
+      document_classification: public
+########################################
+# ESP32-S31 硬件设计指南
+########################################
+    # Common configuration for internal release and public release
+    - document_name: ESP32-S31 硬件设计指南
+      doc_id: 10843
+      translation_docid: 10845
+      chip_series: ESP32-S31
+      product_name:
+        - ESP32-S31 SoC Series
+      product_name_old_website:
+        - ESP32-S31
+      soc_series_base_filter: all
+      document_type: guide # or errata, datasheet, reference, book, guide, application note
+      document_type_old_website: guide
+      document_status: active
+      version: v0.1 # or specific version number
+      revision_date: 2026-06-23 # or generate automatically?
+      language: cn # or en
+      document_storage: docs
+      document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32s31/index.html
+      document_summary: 本文提供基于 ESP32-S31 的硬件设计的指导规范。
+      notify_subscribers: true # or true
+      visibility_on_website: show # or hide
+      scheduled_release_date:
+      document_classification: public

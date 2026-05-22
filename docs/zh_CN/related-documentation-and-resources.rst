@@ -9,11 +9,11 @@
 
 请至乐鑫官网的 `模组页面 <https://www.espressif.com/zh-hans/products/modules>`_ 查看 {IDF_TARGET_NAME} 系列模组的最新详细信息。
 
-.. only:: not esp32p4
+.. only:: not esp32p4 and not esp32s31
 
     {IDF_TARGET_NAME} 系列模组的参考设计请参考：
 
-.. only:: latex
+.. only:: latex and not esp32s31
 
     - `下载链接 <https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
 
@@ -80,7 +80,7 @@
 
     天线设计仅供参考，实际项目需基于 PCB 进行仿真设计。
 
-.. only:: not esp32p4
+.. only:: not esp32p4 and not esp32s31
 
     .. note::
 
@@ -116,7 +116,7 @@
 .. list::
 
     - `芯片规格书 (PDF) <{IDF_TARGET_DATASHEET_CN_URL}>`__
-    - `技术参考手册 (PDF) <{IDF_TARGET_TRM_CN_URL}>`__
+    :not esp32s31: - `技术参考手册 (PDF) <{IDF_TARGET_TRM_CN_URL}>`__
     :esp32: - `芯片勘误表 <https://espressif.com/sites/default/files/documentation/eco_and_workarounds_for_bugs_in_esp32_cn.pdf>`_
     :esp32s2: - `芯片勘误表 <https://www.espressif.com/sites/default/files/documentation/esp32-s2_errata_cn.pdf>`_
     :esp32s3: - `芯片勘误表 <https://www.espressif.com/sites/default/files/documentation/esp32-s3_errata_cn.pdf>`_
@@ -128,7 +128,7 @@
     - `{IDF_TARGET_NAME} 系列芯片 <https://espressif.com/zh-hans/products/socs?id={IDF_TARGET_NAME}>`__
     - `乐鑫 KiCad 仓库 <https://github.com/espressif/kicad-libraries>`__
     - `乐鑫产品选型工具 <https://products.espressif.com/#/product-selector?names=>`__
-    - `产品证书 <https://www.espressif.com/zh-hans/certificates>`__
+    - `产品证书 <https://documentation.espressif.com/zh/documentList?t=Certificate>`__
     - `论坛（硬件问题讨论） <https://esp32.com/viewforum.php?f=30>`__
     - `技术支持 <https://www.espressif.com/zh-hans/contact-us/technical-inquiries>`__
     - `常见问题 (ESP-FAQ) <https://docs.espressif.com/projects/esp-faq/zh_CN/latest/index.html>`__

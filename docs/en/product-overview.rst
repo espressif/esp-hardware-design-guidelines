@@ -27,13 +27,13 @@ Product Overview
     :not esp32h2 and not esp32c2: - Audio Devices
     - Generic Low-power IoT Sensor Hubs
     - Generic Low-power IoT Data Loggers
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - Cameras for Video Streaming
-    :esp32s3 or esp32s2 or esp32p4: - USB Devices
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - Speech Recognition
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - Image Recognition
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - Cameras for Video Streaming
+    :esp32s3 or esp32s2 or esp32p4 or esp32s31: - USB Devices
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - Speech Recognition
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - Image Recognition
     :esp32: - SDIO Wi-Fi + Bluetooth Networking Card
-    :esp32s3 or esp32c5: - Wi-Fi + Bluetooth Networking Card
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - Touch and Proximity Sensing
+    :esp32s3 or esp32c5 or esp32s31: - Wi-Fi + Bluetooth Networking Card
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - Touch and Proximity Sensing
 
 .. only:: not esp32c5 and not esp32p4
 

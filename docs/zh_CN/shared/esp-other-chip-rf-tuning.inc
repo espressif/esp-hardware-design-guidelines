@@ -1,4 +1,4 @@
-{IDF_TARGET_CONJUGATE_POINT_VALUE:default="35+j0", esp32="25+j0", esp32c2="30+j0", esp32c5="(40 ~ 45)+j0（2.4 GHz）或 (50 ~ 65)+j0（5 GHz）"}
+{IDF_TARGET_CONJUGATE_POINT_VALUE:default="35+j0", esp32="25+j0", esp32c2="30+j0", esp32s31="40+j0", esp32c5="(40 ~ 45)+j0（2.4 GHz）或 (50 ~ 65)+j0（5 GHz）"}
 
 {IDF_TARGET_S21_FREQ:default=" 4.8 GHz 和 7.2 GHz ", esp32c5="二次和三次谐波"}
 
@@ -29,7 +29,7 @@
           - 1.2 ~ 1.8 pF
           - GRM0335C1H1RXBA01D
         * - L2
-          - 2.4 ~ 3.0 nH
+          - 2.0 ~ 3.0 nH
           - LQP03TN2NXB02D
         * - C12
           - 1.8 ~ 1.2 pF
@@ -54,7 +54,7 @@
           - 0.2 ~ 1.5 pF
           - GRM0335C1H1RXBA01D
         * - L2
-          - 2.4 ~ 3.0 nH
+          - 2.0 ~ 3.0 nH
           - 0 ~ 3 nH
           - LQP03TN2NXB02D
         * - C12

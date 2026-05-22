@@ -7,13 +7,19 @@
 概述
 ----
 
-{IDF_TARGET_ELEC_COMP_NUM: default="20", esp32h2="17", esp32c2="15", esp32c5="30", esp32c61="30"}
+{IDF_TARGET_ELEC_COMP_NUM: default="20", esp32h2="17", esp32c2="15", esp32c5="30", esp32c61="30", esp32s31="30"}
 
 {IDF_TARGET_ELEC_COMP:default="，以及 1 个 SPI flash", esp32c6="，以及 1 个 SPI flash（QFN32 型号不需要）", esp32h2="", esp32c2="", esp32c61="，以及 1 个 SPI flash（封装内或封装外）"}
 
 {IDF_TARGET_NAME} 系列芯片的核心电路只需要 {IDF_TARGET_ELEC_COMP_NUM} 个左右的电阻电容电感和 1 个无源晶振{IDF_TARGET_ELEC_COMP}。为了能够更好地保证 {IDF_TARGET_NAME} 系列芯片的工作性能，本章将详细介绍 {IDF_TARGET_NAME} 系列芯片的原理图设计。
 
 下图所示为 {IDF_TARGET_NAME} 的核心电路参考设计，您可以将它作为您的原理图设计的基础。
+
+.. only:: esp32s31
+
+    .. note::
+
+        核心电路已经是最小电路，请不要随意删减器件。
 
 .. only:: not esp32c6
 
@@ -54,18 +60,21 @@
     - `电源`_
     - `上电时序与复位`_
     :esp32h2 or esp32c3 or esp32c6 or esp32c2: - `Flash`_
-    :esp32 or esp32s2 or esp32s3 or esp32c5 or esp32c61: - `Flash 及 PSRAM`_
+    :esp32 or esp32s2 or esp32s3 or esp32c5 or esp32c61 or esp32s31: - `Flash 及 PSRAM`_
     - `时钟源`_
     - `射频`_
     - `UART`_
+    - `SPI`_
     - `Strapping 管脚`_
+    :esp32 or esp32s31: - `外置阻容`_
     - `GPIO`_
     - `ADC`_
-    :esp32: - `外置阻容`_
-    :esp32c61: - `SPI`_
     :esp32 or esp32s3 or esp32c6 or esp32c5 or esp32c61: - `SDIO`_
-    :esp32h2 or esp32s2 or esp32s3 or esp32c6 or esp32c3 or esp32c5 or esp32c61: - `USB`_
-    :esp32 or esp32s2 or esp32s3: - `触摸传感器`_
+    :esp32s31: - `SD/MMC 主机控制器`_
+    :esp32h2 or esp32s2 or esp32s3 or esp32c6 or esp32c3 or esp32c5 or esp32c61 or esp32s31: - `USB`_
+    :esp32 or esp32s2 or esp32s3 or esp32s31: - `触摸传感器`_
+    :esp32s31: - `以太网 MAC`_
+    :esp32s31: - `LCD 与 Camera 控制器`_
 
 下文将分别对这些部分进行描述。
 
@@ -74,18 +83,18 @@
 电源
 --------
 
-{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA"}
+{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA", esp32s31="800 mA"}
 
 电源电路设计的通用要点有：
 
 - 使用单电源供电时，建议供给 {IDF_TARGET_NAME} 的电源电压为 3.3 V，最大输出电流至少 {IDF_TARGET_OUTPUT_CUR}。
-- 建议在总电源入口处添加 ESD 保护器件和至少 10 μF 的大电容。
+- 建议在总电源入口处（外部电源接入 PCB 的位置）添加 ESD 保护器件和至少 10 μF 的大电容。
 
-.. only:: not esp32c5 and not esp32s3 and not esp32 and not esp32c61 and not esp32c6
+.. only:: not esp32c5 and not esp32s3 and not esp32 and not esp32c61 and not esp32c6 and not esp32s31
 
     电源管理如 `{IDF_TARGET_NAME} 系列芯片技术规格书 <{IDF_TARGET_DATASHEET_CN_URL}#cd-pwr-scheme>`__ > 图 *{IDF_TARGET_NAME} 电源管理* 所示。
 
-.. only:: esp32c5 or esp32s3 or esp32 or esp32c6
+.. only:: esp32c5 or esp32s3 or esp32 or esp32c6 or esp32s31
 
     电源管理如图 :ref:`fig-chip-power-scheme` 所示。
 
@@ -118,33 +127,40 @@
 
 {IDF_TARGET_RSPI_VALUE:default="待定", esp32="6", esp32s2="5", esp32s3="14"}
 
-.. only:: not esp32c5 and not esp32s3 and not esp32
+.. only:: not esp32s31
 
-    {IDF_TARGET_NAME} 的{IDF_TARGET_DIG_POWER_PIN} 为数字电源管脚，工作电压范围为 {IDF_TARGET_DIG_POWER_PIN_VOL}。建议在电路中靠近数字电源管脚处添加 0.1 μF 电容。
+    .. only:: not esp32c5 and not esp32s3 and not esp32
 
-.. only:: esp32c5
+        {IDF_TARGET_NAME} 的{IDF_TARGET_DIG_POWER_PIN} 为数字电源管脚，工作电压范围为 {IDF_TARGET_DIG_POWER_PIN_VOL}。建议在电路中靠近数字电源管脚处添加 0.1 μF 电容。
 
-    {IDF_TARGET_NAME} 的 {IDF_TARGET_DIG_POWER_PIN} 为数字电源管脚，工作电压范围为 {IDF_TARGET_DIG_POWER_PIN_VOL}。建议在电路中靠近 VDDPST1 电源管脚处添加 1 μF 电容，靠近 VDDPST2 和 VDDPST3 电源管脚处添加 0.1 μF 电容。
+    .. only:: esp32c5
 
-.. only:: esp32s2 or esp32s3 or esp32
+        {IDF_TARGET_NAME} 的 {IDF_TARGET_DIG_POWER_PIN} 为数字电源管脚，工作电压范围为 {IDF_TARGET_DIG_POWER_PIN_VOL}。建议在电路中靠近 VDDPST1 电源管脚处添加 1 μF 电容，靠近 VDDPST2 和 VDDPST3 电源管脚处添加 0.1 μF 电容。
 
-    .. include:: shared/esp32-s-series-digital-power-supply.inc
+    .. only:: esp32s2 or esp32s3 or esp32
 
-.. only:: esp32c3 or esp32c6 or esp32c5 or esp32c61
+        .. include:: shared/esp32-s-series-digital-power-supply.inc
 
-    .. include:: shared/esp32-c-series-digital-power-supply.inc
+    .. only:: esp32c3 or esp32c6 or esp32c5 or esp32c61
+
+        .. include:: shared/esp32-c-series-digital-power-supply.inc
+
+
+.. only:: esp32s31
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-digital-power-supply.inc
 
 
 模拟电源
 ^^^^^^^^^^^
 
-{IDF_TARGET_ANA_POWER_PIN:default="待定", esp32="VDDA（管脚 1、43、46）、VDD3P3（管脚 3、4）", esp32s3="VDD3P3（管脚 2、3 ）和 VDDA（管脚 55、56）", esp32c3="VDDA 和 VDD3P3 管脚", esp32s2="VDDA、VDD3P3 和 VDD3P3_RTC 管脚", esp32c6="VDDA 和 VDDA3P3 管脚", esp32h2="VDD3P3、VBAT 和 VDDA_PMU 管脚", esp32c2="VDDA 和 VDDA3P3 管脚", esp32c5="VDDA1 至 VDDA8 管脚", esp32c61="VDDA1 至 VDDA4 管脚"}
+{IDF_TARGET_ANA_POWER_PIN:default="待定", esp32="VDDA（管脚 1、43、46）、VDD3P3（管脚 3、4）", esp32s3="VDD3P3（管脚 2、3 ）和 VDDA（管脚 55、56）", esp32c3="VDDA 和 VDD3P3 管脚", esp32s2="VDDA、VDD3P3 和 VDD3P3_RTC 管脚", esp32c6="VDDA 和 VDDA3P3 管脚", esp32h2="VDD3P3、VBAT 和 VDDA_PMU 管脚", esp32c2="VDDA 和 VDDA3P3 管脚", esp32c5="VDDA1 至 VDDA8 管脚", esp32c61="VDDA1 至 VDDA4 管脚", esp32s31="VDDA1 至 VDDA4 管脚"}
 
 {IDF_TARGET_ANA_POWER_PIN_VOL:default="3.0 V ~ 3.6 V", esp32="2.3 V ~ 3.6 V", esp32s2="2.8 V ~ 3.6 V"}
 
-{IDF_TARGET_ANA_POWER_PIN_COLLAPSE:default="VDD3P3", esp32c6="VDDA3P3", esp32h2="管脚 1 和 管脚 2 的 VDD3P3", esp32c2="VDDA3P3", esp32c5="VDDA1、VDDA2、VDDA6 和 VDDA7", esp32c61="VDDA3 和 VDDA4"}
+{IDF_TARGET_ANA_POWER_PIN_COLLAPSE:default="VDD3P3", esp32c6="VDDA3P3", esp32h2="管脚 1 和 管脚 2 的 VDD3P3", esp32c2="VDDA3P3", esp32c5="VDDA1、VDDA2、VDDA6 和 VDDA7", esp32c61="VDDA3 和 VDDA4", esp32s31="VDDA3 和 VDDA4"}
 
-{IDF_TARGET_ANA_POWER_PIN_CAP:default="1 μF", esp32h2="1 μF 和 0.1 μF", esp32c2="0.1 μF", esp32s2="0.1 μF", esp32c3="0.1 μF"}
+{IDF_TARGET_ANA_POWER_PIN_CAP:default="1 μF", esp32h2="1 μF 和 0.1 μF", esp32c2="0.1 μF", esp32s2="0.1 μF", esp32c3="0.1 μF", esp32s31="1 μF"}
 
 {IDF_TARGET_CAP_POWER_RAILS_PIN:default="待定", esp32c5="VDDA1/2、VDDA6/7", esp32c61="VDDA3 和 VDDA4"}
 
@@ -153,6 +169,10 @@
 {IDF_TARGET_ADDITIONAL_NOTE_FOR_LC_POWER_RAILS_PIN:default="", esp32c5="在靠近 VDDA6 和 VDDA7 处添加两个电容，"}
 
 {IDF_TARGET_NAME} 的 {IDF_TARGET_ANA_POWER_PIN} 为模拟电源管脚，工作电压范围为 {IDF_TARGET_ANA_POWER_PIN_VOL}。
+
+.. only:: esp32s31
+
+    建议在电路中靠近 VDDA1 和 VDDA2 电源管脚处添加 10 nF 和 1 μF 电容。
 
 对于 {IDF_TARGET_ANA_POWER_PIN_COLLAPSE}，当 {IDF_TARGET_NAME} 工作在 TX 时，瞬间电流会加大，往往引起电源的轨道塌陷。所以在电路设计时建议在 {IDF_TARGET_ANA_POWER_PIN_COLLAPSE} 的电源走线上增加一个 10 μF 电容，该电容可与 {IDF_TARGET_ANA_POWER_PIN_CAP} 电容或其他电容搭配使用。
 
@@ -173,6 +193,7 @@
 .. only:: esp32c2
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sche-analog-power-two-layer.inc
+
 
 其余电容电路请参考 :ref:`fig-chip-core-schematic`。
 
@@ -200,9 +221,9 @@
 
 {IDF_TARGET_CHIPUP_PIN:default="CHIP_PU", esp32h2="CHIP_EN", esp32c3="CHIP_EN", esp32c2="CHIP_EN"}
 
-{IDF_TARGET_RESET_POWER_PIN:default="VDD", esp32c5="VDDPST1", esp32s3="VDD3P3_RTC", esp32c61="VDDPST1"}
+{IDF_TARGET_RESET_POWER_PIN:default="VDD", esp32c5="VDDPST1", esp32s3="VDD3P3_RTC", esp32c61="VDDPST1", esp32s31="VDDPST_1"}
 
-{IDF_TARGET_RESET_POWER:default="(–0.3 ~ 0.25 × VDD)", esp32c5="(–0.3 ~ 0.25 × VDDPST1)", esp32s3="(–0.3 ~ 0.25 × VDD3P3_RTC)", esp32="(NA ~ 0.6)", esp32c61="(–0.3 ~ 0.25 × VDDPST1)", esp32c6="(–0.3 ~ 0.25 × VDDPST1)"}
+{IDF_TARGET_RESET_POWER:default="(–0.3 ~ 0.25 × VDD)", esp32c5="(–0.3 ~ 0.25 × VDDPST1)", esp32s3="(–0.3 ~ 0.25 × VDD3P3_RTC)", esp32="(NA ~ 0.6)", esp32c61="(–0.3 ~ 0.25 × VDDPST1)", esp32c6="(–0.3 ~ 0.25 × VDDPST1)", esp32s31="(–0.3 ~ 0.15 × VDDPST_1)"}
 
 {IDF_TARGET_NAME} 的 {IDF_TARGET_CHIPUP_PIN} 管脚为高电平时使能芯片，为低电平时复位芯片。
 
@@ -222,7 +243,19 @@
 
        {IDF_TARGET_NAME} 系列芯片上电和复位时序图
 
-.. only:: not esp32
+
+.. only:: esp32s31
+
+    .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-chip-timing.png
+       :name: fig-chip-timing
+       :align: center
+       :width: 100%
+       :alt: {IDF_TARGET_NAME} 系列芯片上电和复位时序图
+
+       {IDF_TARGET_NAME} 系列芯片上电和复位时序图
+
+
+.. only:: not esp32 and not esp32s31
 
     .. figure:: ../_static/shared-chip-timing__cn.png
        :name: fig-chip-timing
@@ -234,21 +267,45 @@
 
 上电和复位时序参数说明见表 :ref:`tab-chip-timing`。
 
-.. list-table:: 上电和复位时序参数说明
-    :name: tab-chip-timing
-    :header-rows: 1
-    :widths: 20 60 20
-    :align: center
 
-    * - 参数
-      - 说明
-      - 最小值 (µs)
-    * - t\ :sub:`STBL`
-      - {IDF_TARGET_CHIPUP_PIN} 管脚上电晚于电源管脚上电的延时时间
-      - 50
-    * - t\ :sub:`RST`
-      - {IDF_TARGET_CHIPUP_PIN} 电平低于 V\ :sub:`IL_nRST` 从而复位芯片的时间
-      - 50
+.. only:: not esp32s31
+
+    .. list-table:: 上电和复位时序参数说明
+        :name: tab-chip-timing
+        :header-rows: 1
+        :widths: 20 60 20
+        :align: center
+
+        * - 参数
+          - 说明
+          - 最小值 (µs)
+        * - t\ :sub:`STBL`
+          - {IDF_TARGET_CHIPUP_PIN} 管脚上电晚于电源管脚上电的延时时间
+          - 50
+        * - t\ :sub:`RST`
+          - {IDF_TARGET_CHIPUP_PIN} 电平低于 V\ :sub:`IL_nRST` 从而复位芯片的时间
+          - 50
+
+
+.. only:: esp32s31
+
+    .. list-table:: 上电和复位时序参数说明
+        :name: tab-chip-timing
+        :header-rows: 1
+        :widths: 20 60 20
+        :align: center
+
+        * - 参数
+          - 说明
+          - 最小值 (ms)
+        * - t\ :sub:`STBL`
+          - {IDF_TARGET_CHIPUP_PIN} 管脚拉高激活芯片前，VDDA1、VDDA2、VDDA3、VDDA4、VDDPST_1、VDDPST_2、VDDPST_3、VDDPST_4 达到稳定所需的时间
+          - 1
+        * - t\ :sub:`RST`
+          - {IDF_TARGET_CHIPUP_PIN} 电平低于 V\ :sub:`IL_nRST` 从而复位芯片的时间
+          - 1
+
+
 
 .. attention::
 
@@ -260,10 +317,7 @@
         - 需要频繁上下电的操作；
         - 供电电源不稳定，例如光伏发电。
 
-      此时，仅仅通过 RC 电路不一定能满足时序要求，有概率会导致芯片无法进入正常的工作模式。此时，需要增加一些额外的电路设计，比如：
-
-        - 增加复位芯片或者看门狗芯片，通常阈值为 3.0 V 左右；
-        - 通过按键或主控实现复位等。
+      此时，仅仅只有 RC 电路不一定能够满足时序要求，有概率会导致芯片无法进入正常的工作模式或者 flash 擦除操作可能偶尔无法彻底完成从而出现问题。此时，请预留电源监控芯片，保证在电源异常的情况下可以复位芯片，电源监控芯片的阈值建议 3.0 V 左右。
 
 .. only:: esp32 or esp32s3 or esp32s2 or esp32c5 or esp32c61
 
@@ -381,6 +435,33 @@
 
        {IDF_TARGET_NAME} 系列芯片封装外 Flash 电路图
 
+.. only:: esp32s31
+
+    .. _schematic-checklist-flash:
+
+    Flash 及 PSRAM
+    ------------------
+
+    目前 {IDF_TARGET_NAME} 系列芯片固件仅支持 NOR flash。
+
+    {IDF_TARGET_NAME} 需要配合封装外 flash 一起使用，用于存储应用的固件和数据。{IDF_TARGET_NAME} 支持以 SPI、Dual SPI、Quad SPI/QPI 等接口模式连接 flash，最大可支持 256 MB flash。
+
+    {IDF_TARGET_NAME} 内部封装了八线、1.8 V 工作电压的 PSRAM，但是 PSRAM 的管脚并没有引出芯片。
+
+    表 :ref:`tab-chip-flash-pin-mapping` 列出了所有 SPI 模式下芯片与 flash 的管脚对应关系。
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-chip-flash-pin-mapping.inc
+
+    为了减少软件适配的风险，推荐使用乐鑫官方适配过的 flash 型号，具体选型请咨询商务或者技术团队。建议如图 :ref:`fig-external-flash-schematic` 所示在 SPI 线上预留 0 Ω 串联电阻，以便在需要时进行灵活调整，实现降低驱动电流、减小对射频的干扰、调节时序、提升抗干扰能力等功能。
+
+    .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sche-external-flash.png
+       :name: fig-external-flash-schematic
+       :align: center
+       :width: 90%
+       :alt: {IDF_TARGET_NAME} 系列芯片封装外 Flash 电路图
+
+       {IDF_TARGET_NAME} 系列芯片封装外 Flash 电路图
+
 时钟源
 ----------
 
@@ -400,9 +481,9 @@
 
 {IDF_TARGET_CRYSTAL_FREQ:default="40", esp32h2="32", esp32c2="26 MHz and 40", esp32c5="48"}
 
-{IDF_TARGET_EXT_CAPACITOR:default="C4", esp32="C2", esp32c3="C2", esp32c2="C2", esp32c5="C2", esp32c61="C2"}
+{IDF_TARGET_EXT_CAPACITOR:default="C4", esp32="C2", esp32c3="C2", esp32c2="C2", esp32c5="C2", esp32c61="C2", esp32s31="C2"}
 
-{IDF_TARGET_WIFI_BLE:default="Wi-Fi 或蓝牙", esp32h2="蓝牙"}
+{IDF_TARGET_WIFI_BLE:default="Wi-Fi 或蓝牙", esp32h2="蓝牙", esp32s31="Wi-Fi 或蓝牙"}
 
 {IDF_TARGET_WIFI_BAND:default="2.4", esp32c5="2.4 或者 5"}
 
@@ -428,9 +509,13 @@
 
     XTAL_P 时钟走线上请放置一个串联电阻，初始建议使用 0 Ω，用来减弱晶振高频谐波对射频性能的影响，最终值需要通过测试后确认。
 
-.. only:: not esp32
+.. only:: esp32s31
 
-    XTAL_P 时钟走线上请放置一个串联元器件，初始建议使用 24 nH 电感，用来减弱晶振高频谐波对射频性能的影响，最终值需要通过测试后确认。
+    XTAL_P 时钟走线上必须添加一个串联电感，初始建议使用 24 nH (0201)。该电感作为系统正常启动的必须的元器件，即使不使用射频功能也需要该电感，也可以用来减弱晶振高频谐波对射频性能的影响，最终值需要通过测试后确认。
+
+.. only:: not esp32 and not esp32s31
+
+    XTAL_P 时钟走线上必须添加一个串联电感，初始建议使用 24 nH。该电感作为系统正常启动的必须的元器件，也可以用来减弱晶振高频谐波对射频性能的影响，最终值需要通过测试后确认。
 
 外部匹配电容 C1 和 {IDF_TARGET_EXT_CAPACITOR} 的初始值可参考以下公式来决定：
 
@@ -442,7 +527,7 @@
 
 1. 通过 `认证测试工具 <https://www.espressif.com/zh-hans/support/download/other-tools?keys=>`_，选择 TX tone 模式。
 2. 使用综测仪或者频谱仪查看 {IDF_TARGET_WIFI_BAND} GHz 信号，解调得到实际频偏。
-3. 通过调整外置负载电容，把频偏调整到 ±10 ppm（建议）以内。
+3. 通过调整外置负载电容，把频偏调整到 ±10 ppm（室温）以内。
 
   - 当中心频率偏正时，说明等效负载电容偏小，需要增加外置负载电容。
   - 当中心频率偏负时，说明等效负载电容偏大，需要减小外置负载电容。
@@ -520,7 +605,7 @@
 射频电路
 ^^^^^^^^^^^^^^
 
-{IDF_TARGET_RF_MAT_CIRCUIT:default="CLC", esp32c6="CLCCL", esp32h2="CLCCL", esp32c2="CLCCL", esp32c61="CLCCL"}
+{IDF_TARGET_RF_MAT_CIRCUIT:default="CLC", esp32c6="CLCCL", esp32h2="CLCCL", esp32c2="CLCCL", esp32c61="CLCCL", esp32s31="CLCCL"}
 
 {IDF_TARGET_NAME} 系列芯片的射频电路主要由三部分组成：PCB 板射频走线、芯片匹配电路、天线及其匹配电路。各部分电路应满足以下设计规范：
 
@@ -533,6 +618,8 @@
 
         :esp32c61 or esp32c6: - {IDF_TARGET_RF_MAT_CIRCUIT} 结构构成带通滤波器，主要用来调整阻抗点，抑制高频谐波及抑制低频噪声。
 
+        :esp32s31: - {IDF_TARGET_RF_MAT_CIRCUIT} 结构构成带通滤波器，主要用来调整阻抗点，抑制高频谐波和低频噪声，以及提高抗干扰能力。
+
         :esp32s2 or esp32c3: - {IDF_TARGET_RF_MAT_CIRCUIT} 结构主要用于阻抗匹配及谐波抑制，空间允许的情况下可以再加一组 LC。
 
         :esp32s3 or esp32: - {IDF_TARGET_RF_MAT_CIRCUIT} 结构主要用于阻抗匹配及谐波抑制。
@@ -541,7 +628,14 @@
 
         - 芯片匹配电路如图 :ref:`fig-rf-matching-schematic` 所示。
 
-- 天线及其匹配电路：为保证辐射性能，建议天线的输入阻抗为 50 Ω 左右。为保险起见，推荐在靠近天线位置增加一组 CLC 匹配电路，用于调节天线的输入阻抗。如果经过仿真可以确保天线阻抗点为 50 Ω 左右，并且空间较小，则可以不加天线端的匹配电路。
+.. only:: not esp32s31
+
+    - 天线及其匹配电路：为保证辐射性能，建议天线的输入阻抗为 50 Ω 左右。为保险起见，推荐在靠近天线位置增加一组 CLC 匹配电路，用于调节天线的输入阻抗。如果经过仿真可以确保天线阻抗点为 50 Ω 左右，并且空间较小，则可以不加天线端的匹配电路。
+
+.. only:: esp32s31
+
+    - 天线及其匹配电路：为保证辐射性能，建议天线的输入阻抗为 50 Ω 左右。为保险起见，推荐在靠近天线位置增加一组 CLC 匹配电路，用于调节天线的输入阻抗。
+    - 整体匹配电路建议至少有两组 CLC 结构。
 
 .. only:: esp32c5
 
@@ -570,7 +664,7 @@
 射频调试
 ^^^^^^^^^^^^^^
 
-{IDF_TARGET_CONJUGATE_POINT_VALUE:default="35+j0", esp32="25+j0", esp32c2="30+j0"}
+{IDF_TARGET_CONJUGATE_POINT_VALUE:default="35+j0", esp32="25+j0", esp32c2="30+j0", esp32s31="40+j0"}
 
 射频匹配网络的参数值和 PCB 板有关，不要直接使用模组的匹配值，须按照下述射频调试进行确认。
 
@@ -587,17 +681,27 @@
 UART
 ---------
 
-.. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6
+.. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6 or esp32s31
 
-    {IDF_TARGET_UART_NUM:default="待定", esp32c5="3", esp32s3="3", esp32="3", esp32c61="3", esp32c6="3"}
-    {IDF_TARGET_UART_NAMES:default="待定", esp32c5="UART0、UART1 和 LP UART", esp32s3="UART0、UART1 和 UART2", esp32="UART0、UART1 和 UART2", esp32c61="UART0、UART1 和 UART2", esp32c6="UART0、UART1 和 LP UART"}
+    {IDF_TARGET_UART_NUM:default="待定", esp32c5="3", esp32s3="3", esp32="3", esp32c61="3", esp32c6="3", esp32s31="4"}
+    {IDF_TARGET_UART_NAMES:default="待定", esp32c5="UART0、UART1 和 LP UART", esp32s3="UART0、UART1 和 UART2", esp32="UART0、UART1 和 UART2", esp32c61="UART0、UART1 和 UART2", esp32c6="UART0、UART1 和 LP UART", esp32s31="UART0 ~ UART3"}
 
-    {IDF_TARGET_U0TXD:default="待定", esp32s3="GPIO43", esp32c5="GPIO11", esp32="GPIO1", esp32c61="GPIO11", esp32c6="GPIO16"}
-    {IDF_TARGET_U0RXD:default="待定", esp32s3="GPIO44", esp32c5="GPIO12", esp32="GPIO3", esp32c61="GPIO10", esp32c6="GPIO17"}
+    {IDF_TARGET_U0TXD:default="待定", esp32s3="GPIO43", esp32c5="GPIO11", esp32="GPIO1", esp32c61="GPIO11", esp32c6="GPIO16", esp32s31="GPIO58"}
+    {IDF_TARGET_U0RXD:default="待定", esp32s3="GPIO44", esp32c5="GPIO12", esp32="GPIO3", esp32c61="GPIO10", esp32c6="GPIO17", esp32s31="GPIO59"}
 
     {IDF_TARGET_UART_SIGNAL:default=" UART 信号", esp32c5="信号"}
 
-    {IDF_TARGET_NAME} 有 {IDF_TARGET_UART_NUM} 个 UART 接口，即 {IDF_TARGET_UART_NAMES}。U0TXD 和 U0RXD 默认为 {IDF_TARGET_U0TXD} 和 {IDF_TARGET_U0RXD}，其他{IDF_TARGET_UART_SIGNAL}可以通过软件配置到任意空闲的 GPIO 管脚上。
+.. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6
+
+    {IDF_TARGET_NAME} 有 {IDF_TARGET_UART_NUM} 个 UART 接口，即 {IDF_TARGET_UART_NAMES}。U0TXD 和 U0RXD 默认为 {IDF_TARGET_U0TXD} 和 {IDF_TARGET_U0RXD}，其他 {IDF_TARGET_UART_SIGNAL}可以通过软件配置到任意空闲的 GPIO 管脚上。
+
+.. only:: esp32s31
+
+    {IDF_TARGET_NAME} 有 {IDF_TARGET_UART_NUM} 个 UART 接口，即 {IDF_TARGET_UART_NAMES}。U0TXD 和 U0RXD 默认为 {IDF_TARGET_U0TXD} 和 {IDF_TARGET_U0RXD}，其他{IDF_TARGET_UART_SIGNAL}可以通过 GPIO 交换矩阵功能配置到任意空闲的 GPIO 管脚上。
+
+.. only:: esp32s31
+
+    {IDF_TARGET_NAME} 还有 1 个 LP UART，可以配置到任意 LP GPIO 管脚上。
 
 .. only:: esp32c5 or esp32c6
 
@@ -605,7 +709,7 @@ UART
 
 UART0 通常作为下载和 log 打印的串口。关于如何使用 UART0 进行下载，请参考章节 :ref:`download-guidelines`。U0TXD 线上建议串联 499 Ω 电阻用于抑制谐波。
 
-推荐使用其他 UART 作为通信的串口，同样在 TX 线上建议预留串联电阻用于抑制谐波。
+应用通信建议优先使用 UART0 以外的 UART，并在 TX 线上串联电阻用于抑制谐波。
 
 .. only:: esp32s2
 
@@ -631,11 +735,11 @@ SPI
 Strapping 管脚
 -----------------
 
-{IDF_TARGET_STRAP_PIN_NO_CAP:default="待定", esp32="GPIO0", esp32s3="GPIO0", esp32c6="GPIO9", esp32h2="GPIO9", esp32c2="GPIO9", esp32s2="GPIO0", esp32c3="GPIO9", esp32c5="GPIO28", esp32c61="GPIO9"}
+{IDF_TARGET_STRAP_PIN_NO_CAP:default="待定", esp32="GPIO0", esp32s3="GPIO0", esp32c6="GPIO9", esp32h2="GPIO9", esp32c2="GPIO9", esp32s2="GPIO0", esp32c3="GPIO9", esp32c5="GPIO28", esp32c61="GPIO9", esp32s31="GPIO61"}
 
-{IDF_TARGET_BOOT_STRAP_PIN:default="待定", esp32="GPIO0 和 GPIO2", esp32s3="GPIO0 和 GPIO46", esp32h2="GPIO8 和 GPIO9", esp32c3="GPIO2、GPIO8 和 GPIO9", esp32c2="GPIO8 和 GPIO9", esp32s2="GPIO0 和 GPIO46", esp32c5="GPIO26、GPIO27 和 GPIO28", esp32c6="GPIO8 和 GPIO9", esp32c61="GPIO8 和 GPIO9"}
+{IDF_TARGET_BOOT_STRAP_PIN:default="待定", esp32="GPIO0 和 GPIO2", esp32s3="GPIO0 和 GPIO46", esp32h2="GPIO8 和 GPIO9", esp32c3="GPIO2、GPIO8 和 GPIO9", esp32c2="GPIO8 和 GPIO9", esp32s2="GPIO0 和 GPIO46", esp32c5="GPIO26、GPIO27 和 GPIO28", esp32c6="GPIO8 和 GPIO9", esp32c61="GPIO8 和 GPIO9", esp32s31="GPIO60 和 GPIO61"}
 
-{IDF_TARGET_STRAP_PIN:default="to be defined", esp32="GPIO、GPIO2、GPIO5、MTDI 和 MTDO", esp32s3="GPIO0、GPIO3、GPIO45 和 GPIO46", esp32h2="GPIO8、GPIO9 和 GPIO25", esp32c3="GPIO2、GPIO8 和 GPIO9", esp32c2="GPIO8 和 GPIO9", esp32s2="GPIO0、GPIO45 和 GPIO46", esp32c5="GPIO25、GPIO26、GPIO27、GPIO28、GPIO7、MTMS 和 MTDI", esp32c6="GPIO8、GPIO9、GPIO15、MTMS 和 MTDI", esp32c61="GPIO7、GPIO8、GPIO9、MTMS 和 MTDI"}
+{IDF_TARGET_STRAP_PIN:default="待定", esp32="GPIO0、GPIO2、GPIO5、MTDI 和 MTDO", esp32s3="GPIO0、GPIO3、GPIO45 和 GPIO46", esp32h2="GPIO8、GPIO9 和 GPIO25", esp32c3="GPIO2、GPIO8 和 GPIO9", esp32c2="GPIO8 和 GPIO9", esp32s2="GPIO0、GPIO45 和 GPIO46", esp32c5="GPIO25、GPIO26、GPIO27、GPIO28、GPIO7、MTMS 和 MTDI", esp32c6="GPIO8、GPIO9、GPIO15、MTMS 和 MTDI", esp32c61="GPIO7、GPIO8、GPIO9、MTMS 和 MTDI", esp32s31="GPIO37、GPIO60 和 GPIO61"}
 
 芯片每次上电或复位时，都需要一些初始配置参数，如加载芯片的启动模式等。这些参数通过 strapping 管脚控制。复位放开后，strapping 管脚和普通 IO 管脚功能相同。
 
@@ -693,6 +797,25 @@ Strapping 管脚的时序参数包括 *建立时间* 和 *保持时间*。更多
         - 建议在 {IDF_TARGET_STRAP_PIN_NO_CAP} 管脚处预留上拉电阻。
         - 建议在 {IDF_TARGET_STRAP_PIN_NO_CAP} 管脚处预留电容位置用于调节，电容先不要上件、值不要过大，否则可能会导致进入下载模式。
 
+
+.. only:: esp32
+
+    外置阻容
+    -------------
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-external-capacitor.inc
+
+.. only:: esp32s31
+
+    外置阻容
+    -------------
+
+    {IDF_TARGET_NAME} 系列芯片有以下需要外接电容的管脚：
+
+    - VREF_TOUCH 是 TOUCH 参考电压电容管脚，建议在电路中靠近该管脚处添加 0.47 μF 电容。如果不使用 TOUCH 功能，该管脚可以悬空。
+    - VREF_ADC 是 ADC 参考电压电容管脚，建议在电路中靠近该管脚处添加 0.1 μF 电容。如果不使用 ADC 功能，该管脚可以悬空。
+
+
 .. _schematic-checklist-gpio:
 
 GPIO
@@ -709,17 +832,18 @@ GPIO
 .. list::
 
     - Strapping 管脚的上电状态。
-    - 请注意 GPIO 复位后的默认配置，详见下表。建议对处于高阻态的管脚配置上拉或下拉，或在软件初始化时开启管脚自带的上下拉，以避免不必要的耗电。
+    - 请注意 GPIO 复位后的默认配置，详见下表。对于未使用、处于高阻态且无内部上下拉的管脚，建议配置上拉或下拉电阻，或在软件初始化时开启内部上下拉，以避免不必要的耗电，具体方向按外部电路要求选择。
     :esp32 or esp32s3 or esp32s2 or esp32c61: - 避免使用 flash/PSRAM 占用的管脚。
     :esp32: - 请注意 GPIO34 及以上的 GPIO 仅为输入，并且内部没有上下拉，需要的话请在外部添加合适的电阻。
     :esp32s2: - GPIO33 ~ GPIO37 属于同一电源域，即 VDD3P3_CPU，也可由软件配置为 VDD_SPI。
-    :esp32c6 or esp32c3 or esp32c5: - 避免使用 flash 占用的管脚。
+    :esp32c6 or esp32c3 or esp32c5 or esp32s31: - 避免使用 flash 占用的管脚。
     :esp32s3 or esp32c2 or esp32c3: - 上电过程中，部分管脚会有毛刺，详见表 :ref:`tab-glitches-on-pins`。
     :esp32s3: - 在启用 USB-OTG Download Boot 模式时，部分管脚会有电平输出，详见表 :ref:`IO Pad Status After Chip Initialization in the USB-OTG Download Boot Mode`。
     :esp32s3: - SPICLK_N、SPICLK_P、GPIO33 ~ GPIO37 属于同样的电源域，因此，如果使用八线 1.8 V 的 flash/PSRAM，SPICLK_P 和 SPICLK_N 也属于 1.8 V 电源域。
     :esp32 or esp32s3 or esp32c6: - Deep-sleep 模式下只能控制电源域为 {IDF_TARGET_DEEP_SLEEP_POWER_DOMAIN} 的 GPIO。
     :esp32c5 : - Deep-sleep 模式下只能控制 LP GPIO，即 GPIO0 至 GPIO6。
     :esp32c61: - Deep-sleep 模式下只能控制 LP GPIO, 即下表中供电管脚为 VDDPST1 的 GPIO。
+    :esp32s31: - Deep-sleep 模式下只能控制 LP GPIO，即 GPIO0 至 GPIO7。
 
 
 .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-table-io-mux.inc
@@ -749,7 +873,7 @@ ADC
 
 {IDF_TARGET_ADC_CALI_ERROR3:default="待定", esp32="±60 mV", esp32s3="±50 mV", esp32c6="±40 mV", esp32h2="±23 mV", esp32c2="±10 mV", esp32c3="±35 mV", esp32c61="±15 mV"}
 
-.. only:: esp32s3 or esp32
+.. only:: esp32s3 or esp32 or esp32s31
 
     ADC 功能对应的 GPIO 管脚如下表所示。
 
@@ -767,17 +891,12 @@ ADC
 
 .. list::
 
-    :not esp32s2 and not esp32c5: - 当 ATTEN=0，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN0} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR0}。
-    :not esp32c2 and not esp32s2 and not esp32c5: - 当 ATTEN=1，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN1} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR1}。
-    :not esp32c2 and not esp32s2 and not esp32c5: - 当 ATTEN=2，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN2} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR2}。
-    :not esp32s2 and not esp32c5: - 当 ATTEN=3，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN3} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR3}。
+    :not esp32s2 and not esp32c5 and not esp32s31: - 当 ATTEN=0，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN0} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR0}。
+    :not esp32c2 and not esp32s2 and not esp32c5 and not esp32s31: - 当 ATTEN=1，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN1} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR1}。
+    :not esp32c2 and not esp32s2 and not esp32c5 and not esp32s31: - 当 ATTEN=2，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN2} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR2}。
+    :not esp32s2 and not esp32c5 and not esp32s31: - 当 ATTEN=3，有效测量范围为 {IDF_TARGET_ADC_CALI_ATTEN3} 时，总误差为 {IDF_TARGET_ADC_CALI_ERROR3}。
 
-.. only:: esp32
 
-    外置阻容
-    -------------
-
-    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-external-capacitor.inc
 
 .. only:: esp32 or esp32s3 or esp32c6 or esp32c5 or esp32c61
 
@@ -786,7 +905,17 @@ ADC
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sdio.inc
 
-.. only:: esp32s2 or esp32s3 or esp32c3 or esp32c6 or esp32h2 or esp32c5 or esp32c61
+.. only:: esp32s31
+
+    .. _schematic-checklist-sdmmc:
+
+    SD/MMC 主机控制器
+    ------------------
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sdmmc.inc
+
+
+.. only:: esp32s2 or esp32s3 or esp32c3 or esp32c6 or esp32h2 or esp32c5 or esp32c61 or esp32s31
 
     .. _schematic-checklist-usb:
 
@@ -795,19 +924,29 @@ ADC
 
     {IDF_TARGET_USB_SPEC:default="2.0", esp32s2="1.1"}
 
-    {IDF_TARGET_USB_GPIO:default="待定", esp32s2="GPIO19 和 GPIO20", esp32s3="GPIO19 和 GPIO20", esp32c3="GPIO18 和 GPIO19", esp32c6="GPIO12 和 GPIO13", esp32h2="GPIO26 和 GPIO27", esp32c5="GPIO13 和 GPIO14", esp32c61="GPIO12 和 GPIO13"}
+    {IDF_TARGET_USB_GPIO:default="待定", esp32s2="GPIO19 和 GPIO20", esp32s3="GPIO19 和 GPIO20", esp32c3="GPIO18 和 GPIO19", esp32c6="GPIO12 和 GPIO13", esp32h2="GPIO26 和 GPIO27", esp32c5="GPIO13 和 GPIO14", esp32c61="GPIO12 和 GPIO13", esp32s31="GPIO33 和 GPIO34"}
 
     .. only:: esp32s2 or esp32s3
 
         {IDF_TARGET_NAME} 系列芯片带有一个集成了收发器的全速 USB On-The-Go (OTG) 外设，符合 USB {IDF_TARGET_USB_SPEC} 规范。
 
-    .. only:: not esp32s2
+    .. only:: not esp32s2 and not esp32s31
 
         {IDF_TARGET_NAME} 系列芯片集成了一个 USB 串口/JTAG 控制器，作为兼容 USB 2.0 全速模式的设备。
 
-    {IDF_TARGET_USB_GPIO} 可以分别作为 USB 的 D- 和 D+，线上建议预留串联电阻（初始值可为 22/33 Ω）和对地电容（初始可不上件），并注意靠近芯片端放置。
+    .. only:: esp32s31
 
-    .. only:: esp32c5 or esp32s3 or esp32c61 or esp32c6
+        {IDF_TARGET_NAME} 系列芯片带有一个集成了收发器的 USB 2.0 高速 OTG 外设，管脚 44 USB_DP 和管脚 45 USB_DM 分别作为 USB 2.0 高速 OTG 接口的 USB_D- 和 USB_D+ 的专用数字管脚，其余信号通过 GPIO 交换矩阵可配置使用任意 GPIO 管脚。
+
+        {IDF_TARGET_NAME} 系列芯片包含一个 USB 串口/JTAG 控制器，{IDF_TARGET_USB_GPIO} 分别作为 USB 串口/JTAG 控制器接口的 USB_D- 和 USB_D+ 的专用数字管脚。
+
+        {IDF_TARGET_USB_GPIO} 线上建议预留串联电阻（初始值可为 22/33 Ω）和对地电容（初始可不上件），并注意靠近芯片端放置。
+
+    .. only:: not esp32s31
+
+        {IDF_TARGET_USB_GPIO} 可以分别作为 USB 的 D- 和 D+，线上建议预留串联电阻（初始值可为 22/33 Ω）和对地电容（初始可不上件），并注意靠近芯片端放置。
+
+    .. only:: esp32c5 or esp32s3 or esp32c61 or esp32c6 or esp32s31
 
         USB RC 电路如图 :ref:`fig-usb-rc-schematic` 所示。
 
@@ -819,7 +958,9 @@ ADC
 
             {IDF_TARGET_NAME} 系列芯片 USB RC 电路图
 
-    请注意 USB_D+ 管脚上电时会输出高低电平信号，其中高电平的状态比较强，需要较强的下拉才可以拉低。因此，如果需要一个稳定的初始状态，建议添加外部上拉来提供稳定的高电平初始值。
+    .. only:: not esp32s31
+    
+        请注意 USB_D+ 管脚上电时会输出高低电平信号，其中高电平的状态比较强，需要较强的下拉才可以拉低。因此，如果需要一个稳定的初始状态，建议添加外部上拉来提供稳定的高电平初始值。
 
     .. only:: not esp32s2
 
@@ -833,14 +974,14 @@ ADC
 
         .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-usb.inc
 
-.. only:: esp32 or esp32s2 or esp32s3
+.. only:: esp32 or esp32s2 or esp32s3 or esp32s31
 
     .. _schematic-checklist-touch:
 
     触摸传感器
     -------------
 
-    {IDF_TARGET_TOUCH_PIN_NUM:default="待定", esp32s3="14", esp32="10", esp32s2="14"}
+    {IDF_TARGET_TOUCH_PIN_NUM:default="待定", esp32s3="14", esp32="10", esp32s2="14", esp32s31="14"}
 
     {IDF_TARGET_NAME} 提供了多达 {IDF_TARGET_TOUCH_PIN_NUM} 个电容式传感 GPIO，能够探测由手指或其他物品直接接触或接近而产生的电容差异。这种设计具有低噪声和高灵敏度的特点，可以用于支持使用相对较小的触摸板。设计中也可以使用触摸板阵列以探测更大区域或更多点。
 
@@ -848,9 +989,16 @@ ADC
 
         {IDF_TARGET_NAME} 的触摸传感器同时还支持防水和数字滤波等功能来进一步提高传感器的性能。
 
-    .. attention::
+    .. only:: esp32s31
 
-        {IDF_TARGET_NAME} 触摸传感器目前尚无法通过射频抗扰度测试系统 (CS) 认证，应用场景有所限制。
+        {IDF_TARGET_NAME} 的触摸传感器同时还支持防水、跳频检测和数字滤波等功能来进一步提高传感器的性能。
+
+    .. only:: not esp32s31
+
+        .. attention::
+
+            {IDF_TARGET_NAME} 触摸传感器目前尚无法通过射频抗扰度测试系统 (CS) 认证，应用场景有所限制。
+
 
     触摸传感器功能对应的 GPIO 管脚如下表所示。
 
@@ -862,7 +1010,7 @@ ADC
 
     使用 TOUCH 功能时，建议靠近芯片侧预留串联电阻，用于减小线上的耦合噪声和干扰，也可加强 ESD 保护。该阻值建议 470 Ω 到 2 kΩ，推荐 510 Ω。具体值还需根据产品实际测试效果而定。
 
-.. only:: esp32
+.. only:: esp32 or esp32s31
 
     .. _schematic-checklist-ethernet-mac:
 
@@ -870,3 +1018,12 @@ ADC
     ---------------
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-emac.inc
+
+.. only:: esp32s31
+
+    .. _schematic-checklist-lcd-cam:
+
+    LCD 与 Camera 控制器
+    -----------------------
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-lcd-cam.inc

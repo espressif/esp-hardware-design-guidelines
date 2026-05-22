@@ -19,26 +19,45 @@ PCB 版图布局
 
 建议采用四层板设计，即：
 
-- 第一层（顶层），主要用于走信号线和摆件。
-- 第二层（地层），不走信号线，保证一个完整的地平面。
-- 第三层（电源线层），铺地平面，使射频及晶振部分可以得到更好的屏蔽。在保证射频及晶振部分下方完整地平面的情况下，将电源走在该层，可适度走信号线。
-- 第四层（底层），不建议摆件，可适度走信号线。
+.. only:: not esp32s31
 
-.. only:: not esp32c5
+    - 第一层（顶层），主要用于走信号线和摆件。
+    - 第二层（地层），不走信号线，保证一个完整的地平面。
+    - 第三层（电源线层），铺地平面，使射频及晶振部分可以得到更好的屏蔽。在保证射频及晶振部分下方完整地平面的情况下，将电源走在该层，可适度走信号线。
+    - 第四层（底层），不建议摆件，可适度走信号线。
+
+.. only:: esp32s31
+
+    - 第一层（顶层），铺地铜，主要用于走信号线和摆件。
+    - 第二层（地层），铺地铜，不走信号线，保证一个完整的地平面。
+    - 第三层（电源层），铺地铜，将电源走在该层，可走信号线。
+    - 第四层（底层），铺地铜，可走信号线。
+
+
+.. only:: not esp32c5 and not esp32s31
 
     如采用两层板设计：
 
     - 第一层（顶层），主要用于摆件和走线。
     - 第二层（底层），不要摆件，走线也越少越好，保证射频、晶振和芯片有一个完整的地平面。
 
+
+.. only:: esp32s31
+
+    如采用两层板设计：
+
+    - 第一层（顶层），铺地铜，主要用于摆件和走线。
+    - 第二层（底层），铺地铜，不要摆件，走线也越少越好，保证射频、晶振和芯片有一个完整的地平面。
+
+
 .. _pcb-layout-design-power-supply:
 
 电源
 -------
 
-{IDF_TARGET_POWER_TRACE_WIDTH:default="25", esp32c3="20", esp32c2="20", esp32h2="20", esp32c5="35"}
+{IDF_TARGET_POWER_TRACE_WIDTH:default="25", esp32c3="20", esp32c2="20", esp32h2="20", esp32c5="35", esp32s31="30"}
 
-{IDF_TARGET_ANALOG_POWER_TRACE:default="VDD3P3", esp32c6="VDDA3P3", esp32c2="VDDA3P3", esp32h2="pin1 和 pin2 处的 VDD3P3", esp32s2="pin3 和 pin4 处的 VDD3P3", esp32c5="管脚 1、3、40 和 41 处的 VDDA6、VDDA7、VDDA1 和 VDDA2", esp32s3="pin2 和 pin3 处的 VDD3P3"}
+{IDF_TARGET_ANALOG_POWER_TRACE:default="VDD3P3", esp32c6="VDDA3P3", esp32c2="VDDA3P3", esp32h2="pin1 和 pin2 处的 VDD3P3", esp32s2="pin3 和 pin4 处的 VDD3P3", esp32c5="管脚 1、3、40 和 41 处的 VDDA6、VDDA7、VDDA1 和 VDDA2", esp32s3="pin2 和 pin3 处的 VDD3P3", esp32s31="VDDA3 和 VDDA4"}
 
 {IDF_TARGET_ANALOG_POWER_TRACE_WIDTH:default="20", esp32c3="15", esp32c2="15", esp32h2="15"}
 
@@ -63,7 +82,7 @@ PCB 版图布局
 晶振
 -------
 
-{IDF_TARGET_CRYSTAL_GAP:default="待定", esp32="2.7", esp32s2="2.0", esp32s3="2.0", esp32c3="2.0", esp32c6="2.4", esp32h2="1.8", esp32c2="2.0", esp32s2="2.0", esp32c5="2.4", esp32c61="2.4"}
+{IDF_TARGET_CRYSTAL_GAP:default="待定", esp32="2.7", esp32s2="2.0", esp32s3="2.0", esp32c3="2.0", esp32c6="2.4", esp32h2="1.8", esp32c2="2.0", esp32s2="2.0", esp32c5="2.4", esp32c61="2.4", esp32s31="1.7"}
 
 .. only:: esp32
 
@@ -101,7 +120,7 @@ PCB 版图布局
 
         {IDF_TARGET_NAME} 系列芯片晶振设计（顶层没有 keep-out）
 
-.. only:: esp32s3 or esp32h2 or esp32c5 or esp32c61 or esp32c6
+.. only:: esp32s3 or esp32h2 or esp32c5 or esp32c61 or esp32c6 or esp32s31
 
     如果顶层的地很充分，建议顶层设置 keep-out 和地隔离开，既可以减小寄生电容，也可以抑制温度传导，以防影响频偏。如果不充分，建议不设置 keep-out，和地充分接触。
 
@@ -122,7 +141,7 @@ PCB 版图布局
 
 {IDF_TARGET_STUB_LENGTH:default="15", esp32c5="10"}
 
-{IDF_TARGET_RF_MATCHING_CIRCUIT:default="CLC", esp32c61="CLCCL", esp32c5="5G 射频接口的 CLC", esp32c6="CLCCL"}
+{IDF_TARGET_RF_MATCHING_CIRCUIT:default="CLC", esp32c61="CLCCL", esp32c5="5G 射频接口的 CLC", esp32c6="CLCCL", esp32s31="CLCCL"}
 
 .. only:: esp32
 
@@ -143,24 +162,44 @@ PCB 版图布局
 
 .. list::
 
-    - 射频走线需做 50 Ω 阻抗控制，参考平面为芯片邻层。射频走线在做 50 Ω 阻抗控制时，可参考下图所示的 PCB 叠层结构设计。
+    :not esp32s31: - 射频走线需做 50 Ω 阻抗控制，参考平面为芯片邻层。射频走线在做 50 Ω 阻抗控制时，可参考下图所示的 PCB 叠层结构设计。
+    :esp32s31: - 射频走线需做 50 Ω 阻抗控制，参考平面为第三层。射频走线在做 50 Ω 阻抗控制时，可参考下图所示的 PCB 叠层结构设计。
 
-.. figure:: ../_static/shared-stackup-design__cn.png
-    :name: fig-stackup-design
-    :align: center
-    :width: 90%
-    :alt: {IDF_TARGET_NAME} 系列芯片 PCB 叠层结构设计
+.. only:: not esp32s31
 
-    {IDF_TARGET_NAME} 系列芯片 PCB 叠层结构设计
+    .. figure:: ../_static/shared-stackup-design__cn.png
+        :name: fig-stackup-design
+        :align: center
+        :width: 90%
+        :alt: {IDF_TARGET_NAME} 系列芯片 PCB 叠层结构设计
+
+        {IDF_TARGET_NAME} 系列芯片 PCB 叠层结构设计
+
+.. only:: esp32s31
+
+    .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-pcb-stackup-design__cn.png
+        :name: fig-stackup-design
+        :align: center
+        :width: 90%
+        :alt: {IDF_TARGET_NAME} 系列芯片 PCB 叠层结构设计
+
+        {IDF_TARGET_NAME} 系列芯片 PCB 叠层结构设计
+
+.. only:: esp32s31
+
+    .. attention::
+
+        该模组以第三层为参考平面是因为按照当前的叠层结构，射频走线宽度和元器件焊盘尺寸之间差距太大。为了避免走线到元器件焊盘的突变，挖空第二层的射频走线下方，以第三层为参考地平面，可以得到合适宽度的射频走线。
+
+        如果使用的叠层没有这个问题，推荐以芯片邻层为参考地平面。
 
 .. list::
 
-    :esp32c2 or esp32c6 or esp32c61: - 射频走线上需预留一个 {IDF_TARGET_RF_MATCHING_CIRCUIT} 匹配电路。请使用 0201 器件，把匹配器件靠近管脚放置，并呈 Z 字型摆放。也就是说两个电容勿朝同一方向，以减少互相干扰。
     :esp32c5: - 调节芯片需要至少一个 CLC 匹配电路。请使用 0201 器件，把匹配器件靠近管脚放置，并呈 Z 字型摆放。也就是说两个电容勿朝同一方向，以减少互相干扰。
-    :not esp32c2 and not esp32c5 and not esp32c6 and not esp32c61: - 调节芯片需要一个 CLC 匹配电路。请使用 0201 器件，把匹配器件靠近管脚放置，并呈 Z 字型摆放。也就是说两个电容勿朝同一方向，以减少互相干扰。
-    :not esp32s2: - {IDF_TARGET_RF_MATCHING_CIRCUIT} 匹配电路中靠近芯片侧的对地电容上请添加一段枝节，以有效抑制二次谐波。枝节的长度建议为 {IDF_TARGET_STUB_LENGTH} mil，线宽根据 PCB 叠层结构进行确定，确保枝节的特征阻抗为 100 Ω ± 10%。此外，枝节地孔与第三层相连，第一、二层做 keep-out 隔离处理。下图  :ref:`fig-stub-layout` 中的高亮走线即为枝节。当 {IDF_TARGET_RF_MATCHING_CIRCUIT} 匹配电路元器件封装为 0402 或者更大时，则无需做枝节处理。
+    :not esp32c5: - 调节芯片需要一个 {IDF_TARGET_RF_MATCHING_CIRCUIT} 匹配电路。请使用 0201 器件，把匹配器件靠近管脚放置，并呈 Z 字型摆放。也就是说两个电容勿朝同一方向，以减少互相干扰。
     :esp32s2: - CLC 匹配电路中靠近芯片侧的对地电容上请添加一段枝节，以有效抑制二次谐波。枝节的长度建议为 {IDF_TARGET_STUB_LENGTH} mil，线宽根据 PCB 叠层结构进行确定，确保枝节的特征阻抗为 100 Ω ± 10%。此外，枝节地孔与第三层相连，第一、二层做 keep-out 隔离处理。当 CLC 匹配电路元器件封装为 0402 或者更大时，则无需做枝节处理。
-    :esp32s3 or esp32c5 or esp32 or esp32c61 or esp32c6: - IPEX 天线连接器下方建议全部层净空，详见图 :ref:`fig-pcb-ipex-layout`。
+    :not esp32s2: - 请在匹配电路中靠近芯片侧的对地电容的地焊盘上加一段短截线，可有效抑制二次谐波。短截线的长度建议为 {IDF_TARGET_STUB_LENGTH} mil，线宽根据 PCB 叠层结构进行确定。短截线的特征阻抗为 100 Ω ± 10%，参考平面为第三层，因此第二层走线下方需挖空处理。图 :ref:`fig-stub-layout` 中的高亮走线即为短截线。请注意当匹配电路元器件封装为 0402 及以上时，无需做短截线处理。
+    :esp32s3 or esp32c5 or esp32 or esp32c61 or esp32c6 or esp32s31: - IPEX 天线连接器下方建议全部层净空，详见图 :ref:`fig-pcb-ipex-layout`。
     - PCB 天线请注意需要经过仿真和实际开发板测试。建议额外增加一组 CLC 匹配电路用于调节天线，该电路需尽可能地靠近天线端。
 
 .. only:: not esp32s2
@@ -169,19 +208,19 @@ PCB 版图布局
         :name: fig-stub-layout
         :align: center
         :width: 50%
-        :alt: {IDF_TARGET_NAME} 系列芯片四层板射频枝节设计
+        :alt: {IDF_TARGET_NAME} 系列芯片四层板射频短截线设计
 
-        {IDF_TARGET_NAME} 系列芯片四层板射频枝节设计
+        {IDF_TARGET_NAME} 系列芯片四层板射频短截线设计
 
-.. only:: esp32s3 or esp32c5 or esp32 or esp32c61 or esp32c6
+.. only:: esp32s3 or esp32c5 or esp32 or esp32c61 or esp32c6 or esp32s31
 
     .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-pcb-ipex-layout.png
         :name: fig-pcb-ipex-layout
         :align: center
         :width: 50%
-        :alt: {IDF_TARGET_NAME} 系列芯片 IPEX 版图设计
+        :alt: {IDF_TARGET_NAME} 系列芯片 IPEX 天线连接器版图设计
 
-        {IDF_TARGET_NAME} 系列芯片 IPEX 版图设计
+        {IDF_TARGET_NAME} 系列芯片 IPEX 天线连接器版图设计
 
 - 射频走线线宽请注意保持一致，不可有分支走线。射频走线长度须尽量短，并注意周围密集地孔屏蔽。
 - 射频走线在表层，走线不可有过孔，即不能跨层走线，且尽量使用 135° 角走线或是圆弧走线。
@@ -195,11 +234,11 @@ PCB 版图布局
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-rf-layout-two-layer-pcb-design.inc
 
-.. only:: esp32 or esp32s3 or esp32c3 or esp32c6 or esp32s2 or esp32c5 or esp32c61
+.. only:: esp32 or esp32s3 or esp32c3 or esp32c6 or esp32s2 or esp32c5 or esp32c61 or esp32s31
 
-    {IDF_TARGET_FLASH_PSRAM:default="Flash", esp32="Flash 及 PSRAM", esp32s3="Flash 及 PSRAM", esp32s2="Flash 及 PSRAM", esp32c5="Flash 及 PSRAM", esp32c61="Flash 及 PSRAM"}
+    {IDF_TARGET_FLASH_PSRAM:default="Flash", esp32="Flash 及 PSRAM", esp32s3="Flash 及 PSRAM", esp32s2="Flash 及 PSRAM", esp32c5="Flash 及 PSRAM", esp32c61="Flash 及 PSRAM", esp32s31="Flash 及 PSRAM"}
 
-    {IDF_TARGET_FLASH_PSRAM_CASE:default="flash", esp32="flash 及 PSRAM", esp32s3="flash 及 PSRAM", esp32s2="flash 及 PSRAM"}
+    {IDF_TARGET_FLASH_PSRAM_CASE:default="flash", esp32="flash 及 PSRAM", esp32s3="flash 及 PSRAM", esp32s2="flash 及 PSRAM", esp32s31="flash 及 PSRAM"}
 
     {IDF_TARGET_VDD_POWER:default="VDD_SPI", esp32="VDD_SDIO"}
 
@@ -213,7 +252,7 @@ PCB 版图布局
         - SPI 通信线上预留的 0 Ω 串联电阻请靠近 {IDF_TARGET_NAME} 侧放置。
         - SPI 走线请尽可能地走到内层（例如第三层），并且时钟及数据走线都单独进行包地处理。
         :esp32s3: - 八线 SPI 还需做等长处理。
-        :esp32c5 or esp32 or esp32s3 or esp32c3 or esp32c6 or esp32s2 or esp32c61: - 如果 flash 和 PSRAM 距离 {IDF_TARGET_NAME} 较远，建议在 {IDF_TARGET_VDD_POWER} 电源、flash 和 PSRAM 电源处都放置合适的去耦电容。
+        :esp32c5 or esp32 or esp32s3 or esp32c3 or esp32c6 or esp32s2 or esp32c61 or esp32s31: - 如果 flash 和 PSRAM 距离 {IDF_TARGET_NAME} 较远，建议在 {IDF_TARGET_VDD_POWER} 电源、flash 和 PSRAM 电源处都放置合适的去耦电容。
 
     .. only:: not esp32 and not esp32s2
 
@@ -298,13 +337,13 @@ UART 版图设计应遵循以下规范：
 
 {IDF_TARGET_ANTENNA_POINT:default="馈点", esp32c5="接地点"}
 
-{IDF_TARGET_ANTENNA_POINT_POSITION:default="右侧", esp32h2="左侧", esp32c2="左侧"}
+{IDF_TARGET_ANTENNA_POINT_POSITION:default="右侧", esp32h2="左侧", esp32c2="左侧", esp32s31="左侧"}
 
 如使用模组进行板上 (on-board) 设计，需注意模组在底板的布局，应尽可能地减小底板对模组 PCB 天线性能的影响。
 
 建议将模组天线区域伸出板边，{IDF_TARGET_ANTENNA_POINT} 靠近底板板边放置。在下面模组摆放位置图中，✓ 代表强烈推荐的摆放位置，其他位置不推荐。
 
-.. only:: not esp32c2
+.. only:: not esp32c2 and not esp32s31
 
     .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-module-place-on-base-board-right.png
         :name: fig-module-place-on-base-board-right
@@ -324,19 +363,34 @@ UART 版图设计应遵循以下规范：
 
         {IDF_TARGET_NAME} 系列模组 (天线{IDF_TARGET_ANTENNA_POINT}在左侧) 在底板上的位置示意图
 
-如果天线无法伸出板边，请保证给 PCB 天线一个足够大的净空区域（严禁铺铜、走线、摆放元件），该净空区域建议至少 15 mm（所有方向上都是）。PCB 天线下方区域的底板请切割掉，以尽可能地减少底板板材对 PCB 天线的影响。{IDF_TARGET_ANTENNA_POINT} 尽量靠近板边放置。图 :ref:`fig-module-clearance` 以 {IDF_TARGET_ANTENNA_POINT} 在 {IDF_TARGET_ANTENNA_POINT_POSITION} 的模组为例，画出了建议的净空区。
+如果天线无法伸出板边，{IDF_TARGET_ANTENNA_POINT}还是尽量靠近板边放置，然后请切割掉天线两边和下面的底板，以尽可能地减少底板板材对 PCB 天线的影响，给 PCB 天线一个足够大的净空区域。注意模组不能放在板子中间，四周挖空来提供净空区。在 :ref:`fig-module-clearance` 中，画出了建议的净空区，请注意在天线附近的底板上铺上充分的地和密集的地孔。
 
 .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-module-clearance.png
     :name: fig-module-clearance
     :align: center
-    :width: 60%
-    :alt: {IDF_TARGET_NAME} 天线区域净空示意图
+    :width: 75%
+    :alt: {IDF_TARGET_NAME} 系列模组 (天线{IDF_TARGET_ANTENNA_POINT}在左侧) 天线区域净空示意图
 
-    {IDF_TARGET_NAME} 天线区域净空示意图
+    {IDF_TARGET_NAME} 系列模组 (天线{IDF_TARGET_ANTENNA_POINT}在左侧) 天线区域净空示意图
 
-涉及整机设计时，请注意考虑外壳对天线的影响，并进行 RF 验证。请注意最终仍需要对整机产品进行吞吐量和通讯距离等测试来确保产品射频性能。
+之后把底板放入整机，涉及整机设计时请注意考虑外壳对天线的影响，保证底板上的PCB天线在外壳中也有足够大的净空区域，该净空区域建议至少 15 mm（所有方向上都是）。
 
-.. only:: esp32s3 or esp32c3 or esp32c6 or esp32h2 or esp32s2 or esp32c5 or esp32c61
+请注意最终需要对整机产品进行吞吐量和通讯距离等测试来确保产品射频性能。
+
+
+.. only:: esp32s31
+
+    .. _adc-layout:
+
+    ADC
+    --------
+
+    ADC 版图设计应遵循以下规范：
+
+    - 高精度 ADC 的 P 和 N 端建议紧贴走线，中间间距 1~1.5 倍线宽，和其他走线注意铺地隔离。
+
+
+.. only:: esp32s3 or esp32c3 or esp32c6 or esp32h2 or esp32s2 or esp32c5 or esp32c61 or esp32s31
 
     .. _usb-layout:
 
@@ -351,7 +405,7 @@ UART 版图设计应遵循以下规范：
     - USB 走线下方一定要有参考层（推荐用地层），且一定要保证参考层的连续性。
     - USB 走线两侧请注意包地处理。
 
-.. only:: esp32 or esp32s3 or esp32c6 or esp32c5 or esp32c61
+.. only:: esp32 or esp32s3 or esp32c6 or esp32c5 or esp32c61 or esp32s31
 
     .. _sdio-layout:
 
@@ -366,7 +420,7 @@ UART 版图设计应遵循以下规范：
         - SDIO_CMD、SDIO_DATA0 ~ SDIO_DATA3 走线长度以 SDIO_CLK 走线长度为基准 ± 50 mil，需要时绕蛇形线。
         - SDIO 走线请保证 50 Ω 单端阻抗控制，误差不能大于 ±10%。
         - 从芯片 SDIO 管脚到对端 SDIO 接口的总长度越短越好，最好在 2000 mil 以内。
-        - SDIO 走线要保证不跨平面。SDIO 走线下方一定要有要有参考层（推荐用地层），且一定要保证参考层的连续性。
+        - SDIO 走线要保证不跨平面。SDIO 走线下方一定要有参考层（推荐用地层），且一定要保证参考层的连续性。
         - SDIO_CLK 走线两侧请注意包地处理。
         :esp32c61: - 对于层数较多的 PCB 设计，建议 SDIO 走线在芯片引出后立即通过过孔引入内层，以降低高速信号线的干扰。同时，请在打孔换层的地方加一对地孔回流。
 
@@ -376,7 +430,8 @@ UART 版图设计应遵循以下规范：
 
             芯片版本 v1.0 支持该外设，v0.1 暂不可用。
 
-.. only:: esp32 or esp32s3 or esp32s2
+
+.. only:: esp32 or esp32s3 or esp32s2 or esp32s31
 
     触摸传感器
     --------------
@@ -393,7 +448,7 @@ UART 版图设计应遵循以下规范：
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-touch-sensor-pcb-layout.inc
 
-    .. only:: esp32s3
+    .. only:: esp32s3 or esp32s31
 
         防水和接近传感器布局
         ^^^^^^^^^^^^^^^^^^^^^^^
@@ -403,6 +458,24 @@ UART 版图设计应遵循以下规范：
     .. note::
 
         更多关于触摸传感器的硬件设计可查看 `触摸传感器应用方案简介 <https://github.com/espressif/esp-iot-solution/blob/release/v1.0/documents/touch_pad_solution/touch_sensor_design_cn.md>`_。
+
+
+
+.. only:: esp32s31
+
+    .. _emac-layout:
+
+    EMAC
+    --------
+
+    EMAC 版图设计应遵循以下规范：
+
+    - EMAC 走线请保证 50 Ω 单端阻抗控制，误差不能大于 ±10%。
+    - EMAC 走线请遵守高速数字电路布线基本 3W 准则。
+    - MII/RGMII 接口中 TX 数据走线长度以 TX_CLK 走线长度为基准 ± 50 mil，RX 数据走线长度以 RX_CLK 走线长度为基准 ± 50 mil，需要时绕蛇形线。
+    - EMAC 走线下方一定要有参考层，且一定要保证参考层的连续性。
+    - 对于层数较多的 PCB 设计，建议 EMAC 走线在芯片引出后立即通过过孔引入内层，以降低高速信号线的干扰。同时，请在打孔换层的地方加一对地孔回流。
+    - EMAC 走线和其他走线注意铺地隔离。
 
 版图设计常见问题
 -------------------

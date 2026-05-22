@@ -11,6 +11,7 @@ Welcome to the **ESP Hardware Design Guidelines** repository. This repository ho
 - [ESP32-C2 (ESP8684) Hardware Design Guidelines](https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c2/index.html)
 - [ESP32-C5 Hardware Design Guidelines](https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c5/index.html)
 - [ESP32-P4 Hardware Design Guidelines](https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32p4/index.html)
+- [ESP32-S31 Hardware Design Guidelines](https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s31/index.html)
 
 
 ## Features

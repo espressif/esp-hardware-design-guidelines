@@ -7,13 +7,19 @@ Schematic Checklist
 Overview
 ---------
 
-{IDF_TARGET_ELEC_COMP_NUM: default="20", esp32h2="17", esp32c2="15", esp32c5="30", esp32c61="30"}
+{IDF_TARGET_ELEC_COMP_NUM: default="20", esp32h2="17", esp32c2="15", esp32c5="30", esp32c61="30", esp32s31="30"}
 
 {IDF_TARGET_ELEC_COMP: default=", as well as an SPI flash", esp32c6=", as well as an SPI flash (not needed for QFN32 package)", esp32h2="", esp32c2="", esp32c61=", as well as an SPI flash (in-package or off-package)"}
 
 The integrated circuitry of {IDF_TARGET_NAME} requires only {IDF_TARGET_ELEC_COMP_NUM} electrical components (resistors, capacitors, and inductors) and a crystal{IDF_TARGET_ELEC_COMP}. The high integration of {IDF_TARGET_NAME} allows for simple peripheral circuit design. This chapter details the schematic design of {IDF_TARGET_NAME}.
 
 The following figure shows a reference schematic design of {IDF_TARGET_NAME}. It can be used as the basis of your schematic design.
+
+.. only:: esp32s31
+
+    .. note::
+
+        The core circuit is the minimum required circuit. Please do not remove components arbitrarily.
 
 .. only:: not esp32c6
 
@@ -54,18 +60,21 @@ Any basic {IDF_TARGET_NAME} circuit design may be broken down into the following
     - `Power supply`_
     - `Chip power-up and reset timing`_
     :esp32h2 or esp32c3 or esp32c6 or esp32c2: - `Flash`_
-    :esp32 or esp32s2 or esp32s3 or esp32c5 or esp32c61: - `Flash and PSRAM`_
+    :esp32 or esp32s2 or esp32s3 or esp32c5 or esp32c61 or esp32s31: - `Flash and PSRAM`_
     - `Clock source`_
     - `RF`_
     - `UART`_
+    - `SPI`_
     - `Strapping pins`_
+    :esp32 or esp32s31: - `External capacitor`_
     - `GPIO`_
     - `ADC`_
-    :esp32: - `External capacitor`_
-    :esp32c61: - `SPI`_
     :esp32 or esp32s3 or esp32c6 or esp32c5 or esp32c61: - `SDIO`_
-    :esp32h2 or esp32s2 or esp32s3 or esp32c6 or esp32c3 or esp32c5 or esp32c61: - `USB`_
-    :esp32 or esp32s2 or esp32s3: - `Touch sensor`_
+    :esp32s31: - `SD/MMC Host Controller`_
+    :esp32h2 or esp32s2 or esp32s3 or esp32c6 or esp32c3 or esp32c5 or esp32c61 or esp32s31: - `USB`_
+    :esp32 or esp32s2 or esp32s3 or esp32s31: - `Touch sensor`_
+    :esp32s31: - `Ethernet MAC`_
+    :esp32s31: - `LCD and Camera Controller`_
 
 The rest of this chapter details the specifics of circuit design for each of these sections.
 
@@ -74,18 +83,18 @@ The rest of this chapter details the specifics of circuit design for each of the
 Power Supply
 ----------------
 
-{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA"}
+{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA", esp32s31="800 mA"}
 
 The general recommendations for power supply design are:
 
 - When using a single power supply, the recommended power supply voltage is 3.3 V and the output current is no less than {IDF_TARGET_OUTPUT_CUR}.
-- It is suggested to add an ESD protection diode and at least 10 μF capacitor at the power entrance.
+- It is suggested to add an ESD protection diode and at least 10 μF capacitor at the main power entrance (where the external power supply enters the PCB).
 
-.. only:: not esp32c5 and not esp32s3 and not esp32 and not esp32c61 and not esp32c6
+.. only:: not esp32c5 and not esp32s3 and not esp32 and not esp32c61 and not esp32c6 and not esp32s31
 
     The power scheme is shown in `{IDF_TARGET_NAME} Series Datasheet <{IDF_TARGET_DATASHEET_EN_URL}#cd-pwr-scheme>`__ > Figure *{IDF_TARGET_NAME} Power Scheme*.
 
-.. only:: esp32c5 or esp32s3 or esp32 or esp32c6
+.. only:: esp32c5 or esp32s3 or esp32 or esp32c6 or esp32s31
 
     The power scheme is shown in Figure :ref:`fig-chip-power-scheme`.
 
@@ -118,33 +127,40 @@ Digital Power Supply
 
 {IDF_TARGET_RSPI_VALUE:default="to be defined", esp32="6", esp32s2="5", esp32s3="14"}
 
-.. only:: not esp32c5 and not esp32s3 and not esp32
+.. only:: not esp32s31
 
-    {IDF_TARGET_NAME} has {IDF_TARGET_DIG_POWER_PIN} as the digital power supply pin(s) working in a voltage range of {IDF_TARGET_DIG_POWER_PIN_VOL}. It is recommended to add an extra 0.1 μF decoupling capacitor close to the pin(s).
+    .. only:: not esp32c5 and not esp32s3 and not esp32
 
-.. only:: esp32c5
+        {IDF_TARGET_NAME} has {IDF_TARGET_DIG_POWER_PIN} as the digital power supply pin(s) working in a voltage range of {IDF_TARGET_DIG_POWER_PIN_VOL}. It is recommended to add an extra 0.1 μF decoupling capacitor close to the pin(s).
 
-    {IDF_TARGET_NAME} has {IDF_TARGET_DIG_POWER_PIN} as the digital power supply pin(s) working in a voltage range of {IDF_TARGET_DIG_POWER_PIN_VOL}. It is recommended to add an extra 1 μF decoupling capacitor close to VDDPST1, and an extra 0.1 μF decoupling capacitor close to VDDPST2 and VDDPST3.
+    .. only:: esp32c5
 
-.. only:: esp32s2 or esp32s3 or esp32
+        {IDF_TARGET_NAME} has {IDF_TARGET_DIG_POWER_PIN} as the digital power supply pin(s) working in a voltage range of {IDF_TARGET_DIG_POWER_PIN_VOL}. It is recommended to add an extra 1 μF decoupling capacitor close to VDDPST1, and an extra 0.1 μF decoupling capacitor close to VDDPST2 and VDDPST3.
 
-    .. include:: shared/esp32-s-series-digital-power-supply.inc
+    .. only:: esp32s2 or esp32s3 or esp32
 
-.. only:: esp32c3 or esp32c6 or esp32c5 or esp32c61
+        .. include:: shared/esp32-s-series-digital-power-supply.inc
 
-    .. include:: shared/esp32-c-series-digital-power-supply.inc
+    .. only:: esp32c3 or esp32c6 or esp32c5 or esp32c61
+
+        .. include:: shared/esp32-c-series-digital-power-supply.inc
+
+
+.. only:: esp32s31
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-digital-power-supply.inc
 
 
 Analog Power Supply
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-{IDF_TARGET_ANA_POWER_PIN:default="to be defined", esp32="VDDA (pin 1/43/46) and VDD3P3 (pin 3/4)", esp32s3="VDD3P3 pins (pin2 and pin3) and VDDA pins (pin55 and pin56)", esp32c3="VDDA and VDD3P3 pins", esp32s2="VDDA, VDD3P3, and VDD3P3_RTC pins", esp32c6="VDDA and VDDA3P3 pins", esp32h2="VDD3P3, VBAT, and VDDA_PMU pins", esp32c2="VDDA and VDDA3P3 pins", esp32c5="VDDA1 to VDDA8 pins", esp32c61="VDDA1 to VDDA4 pins"}
+{IDF_TARGET_ANA_POWER_PIN:default="to be defined", esp32="VDDA (pin 1/43/46) and VDD3P3 (pin 3/4)", esp32s3="VDD3P3 pins (pin2 and pin3) and VDDA pins (pin55 and pin56)", esp32c3="VDDA and VDD3P3 pins", esp32s2="VDDA, VDD3P3, and VDD3P3_RTC pins", esp32c6="VDDA and VDDA3P3 pins", esp32h2="VDD3P3, VBAT, and VDDA_PMU pins", esp32c2="VDDA and VDDA3P3 pins", esp32c5="VDDA1 to VDDA8 pins", esp32c61="VDDA1 to VDDA4 pins", esp32s31="VDDA1 to VDDA4 pins"}
 
 {IDF_TARGET_ANA_POWER_PIN_VOL:default="3.0 V ~ 3.6 V", esp32="2.3 V ~ 3.6 V", esp32s2="2.8 V ~ 3.6 V"}
 
-{IDF_TARGET_ANA_POWER_PIN_COLLAPSE:default="VDD3P3", esp32c6="VDDA3P3", esp32h2="VDD3P3 at pin1 and pin2", esp32c2="VDDA3P3", esp32c5="VDDA1, VDDA2, VDDA6, and VDDA7", esp32c61="VDDA3 and VDDA4"}
+{IDF_TARGET_ANA_POWER_PIN_COLLAPSE:default="VDD3P3", esp32c6="VDDA3P3", esp32h2="VDD3P3 at pin1 and pin2", esp32c2="VDDA3P3", esp32c5="VDDA1, VDDA2, VDDA6, and VDDA7", esp32c61="VDDA3 and VDDA4", esp32s31="VDDA3 and VDDA4"}
 
-{IDF_TARGET_ANA_POWER_PIN_CAP:default="1 μF", esp32h2="1 μF and 0.1 μF", esp32c2="0.1 μF", esp32s2="0.1 μF", esp32c3="0.1 μF"}
+{IDF_TARGET_ANA_POWER_PIN_CAP:default="1 μF", esp32h2="1 μF and 0.1 μF", esp32c2="0.1 μF", esp32s2="0.1 μF", esp32c3="0.1 μF", esp32s31="1 μF"}
 
 {IDF_TARGET_CAP_POWER_RAILS_PIN:default="TBD", esp32c5="VDDA1/2 and VDDA6/7", esp32c61="VDDA3 and VDDA4"}
 
@@ -154,9 +170,13 @@ Analog Power Supply
 
 {IDF_TARGET_NAME}'s {IDF_TARGET_ANA_POWER_PIN} are the analog power supply pins, working at {IDF_TARGET_ANA_POWER_PIN_VOL}.
 
+.. only:: esp32s31
+
+    It is recommended to add 10 nF and 1 μF capacitors close to the VDDA1 and VDDA2 power supply pins in the circuit.
+
 For {IDF_TARGET_ANA_POWER_PIN_COLLAPSE}, when {IDF_TARGET_NAME} is transmitting signals, there may be a sudden increase in the current draw, causing power rail collapse. Therefore, it is highly recommended to add a 10 μF capacitor to the power rail, which can work in conjunction with the {IDF_TARGET_ANA_POWER_PIN_CAP} capacitor(s) or other capacitors.
 
-It is suggested to add an extra 10 μF capacitor at the power entrance. If the power entrance is close to {IDF_TARGET_ANA_POWER_PIN_COLLAPSE}, then two 10 μF capacitors can be merged into one.
+It is suggested to add an extra 10 μF capacitor at the main power entrance. If the main power entrance is close to {IDF_TARGET_ANA_POWER_PIN_COLLAPSE}, then the two 10 μF capacitors can be merged into one.
 
 .. only:: esp32c5 or esp32c61
 
@@ -173,6 +193,7 @@ It is suggested to add an extra 10 μF capacitor at the power entrance. If the p
 .. only:: esp32c2
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sche-analog-power-two-layer.inc
+
 
 For the remaining capacitor circuits, please refer to :ref:`fig-chip-core-schematic`.
 
@@ -200,9 +221,9 @@ Chip Power-up and Reset Timing
 
 {IDF_TARGET_CHIPUP_PIN:default="CHIP_PU", esp32h2="CHIP_EN", esp32c3="CHIP_EN", esp32c2="CHIP_EN"}
 
-{IDF_TARGET_RESET_POWER_PIN:default="VDD", esp32c5="VDDPST1", esp32s3="VDD3P3_RTC", esp32c61="VDDPST1"}
+{IDF_TARGET_RESET_POWER_PIN:default="VDD", esp32c5="VDDPST1", esp32s3="VDD3P3_RTC", esp32c61="VDDPST1", esp32s31="VDDPST_1"}
 
-{IDF_TARGET_RESET_POWER:default="(–0.3 ~ 0.25 × VDD)", esp32c5="(–0.3 ~ 0.25 × VDDPST1)", esp32s3="(–0.3 ~ 0.25 × VDD3P3_RTC)", esp32="(NA ~ 0.6)", esp32c61="(–0.3 ~ 0.25 × VDDPST1)", esp32c6="(–0.3 ~ 0.25 × VDDPST1)"}
+{IDF_TARGET_RESET_POWER:default="(–0.3 ~ 0.25 × VDD)", esp32c5="(–0.3 ~ 0.25 × VDDPST1)", esp32s3="(–0.3 ~ 0.25 × VDD3P3_RTC)", esp32="(NA ~ 0.6)", esp32c61="(–0.3 ~ 0.25 × VDDPST1)", esp32c6="(–0.3 ~ 0.25 × VDDPST1)", esp32s31="(–0.3 ~ 0.15 × VDDPST_1)"}
 
 {IDF_TARGET_NAME}'s {IDF_TARGET_CHIPUP_PIN} pin can enable the chip when it is high and reset the chip when it is low.
 
@@ -222,7 +243,19 @@ Figure :ref:`fig-chip-timing` shows the power-up and reset timing of {IDF_TARGET
 
        {IDF_TARGET_NAME} Power-up and Reset Timing
 
-.. only:: not esp32
+
+.. only:: esp32s31
+
+    .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-chip-timing.png
+       :name: fig-chip-timing
+       :align: center
+       :width: 100%
+       :alt: {IDF_TARGET_NAME} Power-up and Reset Timing
+
+       {IDF_TARGET_NAME} Power-up and Reset Timing
+
+
+.. only:: not esp32 and not esp32s31
 
     .. figure:: ../_static/shared-chip-timing.png
        :name: fig-chip-timing
@@ -234,21 +267,43 @@ Figure :ref:`fig-chip-timing` shows the power-up and reset timing of {IDF_TARGET
 
 Table :ref:`tab-chip-timing` provides the specific timing requirements.
 
-.. list-table:: Description of Timing Parameters for Power-up and Reset
-    :name: tab-chip-timing
-    :header-rows: 1
-    :widths: 20 60 20
-    :align: center
 
-    * - Parameter
-      - Description
-      - Minimum (µs)
-    * - t\ :sub:`STBL`
-      - Time reserved for the power rails to stabilize before the {IDF_TARGET_CHIPUP_PIN} pin is pulled high to activate the chip
-      - 50
-    * - t\ :sub:`RST`
-      - Time reserved for {IDF_TARGET_CHIPUP_PIN} to stay below V\ :sub:`IL_nRST` to reset the chip
-      - 50
+.. only:: not esp32s31
+
+    .. list-table:: Description of Timing Parameters for Power-up and Reset
+        :name: tab-chip-timing
+        :header-rows: 1
+        :widths: 20 60 20
+        :align: center
+
+        * - Parameter
+          - Description
+          - Minimum (µs)
+        * - t\ :sub:`STBL`
+          - Time reserved for the power rails to stabilize before the {IDF_TARGET_CHIPUP_PIN} pin is pulled high to activate the chip
+          - 50
+        * - t\ :sub:`RST`
+          - Time reserved for {IDF_TARGET_CHIPUP_PIN} to stay below V\ :sub:`IL_nRST` to reset the chip
+          - 50
+
+
+.. only:: esp32s31
+
+    .. list-table:: Description of Timing Parameters for Power-up and Reset
+        :name: tab-chip-timing
+        :header-rows: 1
+        :widths: 20 60 20
+        :align: center
+
+        * - Parameter
+          - Description
+          - Minimum (ms)
+        * - t\ :sub:`STBL`
+          - Time required for VDDA1, VDDA2, VDDA3, VDDA4, VDDPST_1, VDDPST_2, VDDPST_3, and VDDPST_4 to stabilize before the {IDF_TARGET_CHIPUP_PIN} pin is pulled high to activate the chip
+          - 1
+        * - t\ :sub:`RST`
+          - Time reserved for {IDF_TARGET_CHIPUP_PIN} to stay below V\ :sub:`IL_nRST` to reset the chip
+          - 1
 
 .. attention::
 
@@ -260,10 +315,7 @@ Table :ref:`tab-chip-timing` provides the specific timing requirements.
         - Frequent power on/off operations.
         - Unstable power supply, such as in photovoltaic power generation.
 
-      Then, the RC circuit itself may not meet the timing requirements, resulting in the chip being unable to boot correctly. In this case, additional designs need to be added, such as:
-
-        - Adding an external reset chip or a watchdog chip, typically with a threshold of around 3.0 V.
-        - Implementing reset functionality through a button or the main controller.
+      Then, the RC circuit alone may not meet the timing requirements, which may prevent the chip from entering normal operating mode or cause flash erase operations to occasionally fail to complete. In this case, please reserve a power monitor chip to reset the chip when the power supply is abnormal, and the threshold of the power monitor chip is recommended to be around 3.0 V.
 
 .. only:: esp32 or esp32s3 or esp32s2 or esp32c5 or esp32c61
 
@@ -381,6 +433,33 @@ Table :ref:`tab-chip-timing` provides the specific timing requirements.
 
        {IDF_TARGET_NAME} Schematic for External Flash
 
+.. only:: esp32s31
+
+    .. _schematic-checklist-flash:
+
+    Flash and PSRAM
+    ------------------
+
+    Currently, {IDF_TARGET_NAME} firmware only supports NOR flash.
+
+    {IDF_TARGET_NAME} requires off-package flash to store application firmware and data. {IDF_TARGET_NAME} supports connecting flash via SPI, Dual SPI, Quad SPI/QPI, and other interface modes, with a maximum supported flash size of 256 MB.
+
+    {IDF_TARGET_NAME} has in-package octal 1.8 V PSRAM, but the PSRAM pins are not bonded out.
+
+    Table :ref:`tab-chip-flash-pin-mapping` lists the pin-to-pin mapping between the chip and off-package flash in all SPI modes.
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-chip-flash-pin-mapping.inc
+
+    To reduce the risk of software compatibility issues, it is recommended to use flash models officially validated by Espressif. For detailed model selection, consult the sales or technical support team. It is recommended to add zero-ohm resistor footprints in series on the SPI communication lines as shown in Figure :ref:`fig-external-flash-schematic`. These footprints provide flexibility for future adjustments, such as tuning drive strength, mitigating RF interference, correcting signal timing, and reducing noise, if needed.
+
+    .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sche-external-flash.png
+       :name: fig-external-flash-schematic
+       :align: center
+       :width: 90%
+       :alt: {IDF_TARGET_NAME} Schematic for External Flash
+
+       {IDF_TARGET_NAME} Schematic for External Flash
+
 Clock Source
 ----------------
 
@@ -400,9 +479,9 @@ External Crystal Clock Source (Compulsory)
 
 {IDF_TARGET_CRYSTAL_FREQ:default="40", esp32h2="32", esp32c2="26 MHz and 40", esp32c5="48"}
 
-{IDF_TARGET_EXT_CAPACITOR:default="C4", esp32="C2", esp32c3="C2", esp32c2="C2", esp32c5="C2", esp32c61="C2"}
+{IDF_TARGET_EXT_CAPACITOR:default="C4", esp32="C2", esp32c3="C2", esp32c2="C2", esp32c5="C2", esp32c61="C2", esp32s31="C2"}
 
-{IDF_TARGET_WIFI_BLE:default="Wi-Fi or Bluetooth", esp32h2="Bluetooth"}
+{IDF_TARGET_WIFI_BLE:default="Wi-Fi or Bluetooth", esp32h2="Bluetooth", esp32s31="Wi-Fi or Bluetooth"}
 
 {IDF_TARGET_WIFI_BAND:default="2.4", esp32c5="2.4 or 5"}
 
@@ -428,7 +507,11 @@ The circuit for the crystal is shown in Figure :ref:`fig-external-crystal-schema
 
     Please add a series inductor on the XTAL_P clock trace. Initially, it is suggested to use an inductor of 0 Ω to reduce the impact of high-frequency crystal harmonics on RF performance, and the value should be adjusted after an overall test.
 
-.. only:: not esp32
+.. only:: esp32s31
+
+    A series inductor must be added on the XTAL_P clock trace. Initially, it is suggested to use an inductor of 24 nH (0201). This inductor is required for normal system startup. Even if RF function is not used, this inductor is still required. It can also be used to reduce the impact of high-frequency crystal harmonics on RF performance, and the value should be confirmed after testing.
+
+.. only:: not esp32 and not esp32s31
 
     Please add a series component on the XTAL_P clock trace. Initially, it is suggested to use an inductor of 24 nH to reduce the impact of high-frequency crystal harmonics on RF performance, and the value should be adjusted after an overall test.
 
@@ -520,7 +603,7 @@ RF
 RF Circuit
 ^^^^^^^^^^^^^^
 
-{IDF_TARGET_RF_MAT_CIRCUIT:default="CLC", esp32c6="CLCCL", esp32h2="CLCCL", esp32c2="CLCCL", esp32c61="CLCCL"}
+{IDF_TARGET_RF_MAT_CIRCUIT:default="CLC", esp32c6="CLCCL", esp32h2="CLCCL", esp32c2="CLCCL", esp32c61="CLCCL", esp32s31="CLCCL"}
 
 {IDF_TARGET_NAME}'s RF circuit is mainly composed of three parts, the RF traces on the PCB board, the chip matching circuit, the antenna and the antenna matching circuit. Each part should meet the following requirements:
 
@@ -533,6 +616,8 @@ RF Circuit
 
         :esp32c61 or esp32c6: - The {IDF_TARGET_RF_MAT_CIRCUIT} structure forms a bandpass filter, which is mainly used to adjust impedance points, suppress high-frequency harmonics, and suppress low-frequency noise.
 
+        :esp32s31: - The {IDF_TARGET_RF_MAT_CIRCUIT} structure forms a bandpass filter, which is mainly used to adjust impedance points, suppress high-frequency harmonics and low-frequency noise, and improve anti-interference capability.
+
         :esp32s2 or esp32c3: - The {IDF_TARGET_RF_MAT_CIRCUIT} structure is mainly used to adjust the impedance point and suppress harmonics, and a set of LC can be added if space permits.
 
         :esp32s3 or esp32: - The {IDF_TARGET_RF_MAT_CIRCUIT} structure is mainly used to adjust the impedance point and suppress harmonics.
@@ -541,7 +626,14 @@ RF Circuit
 
         - The RF matching circuit is shown in Figure :ref:`fig-rf-matching-schematic`.
 
-- For the antenna and the antenna matching circuit, to ensure radiation performance, the antenna's characteristic impedance must be around 50 Ω. Adding a CLC matching circuit near the antenna is recommended to adjust the antenna. However, if the available space is limited and the antenna impedance point can be guaranteed to be 50 Ω by simulation, then there is no need to add a matching circuit near the antenna.
+.. only:: not esp32s31
+
+    - For the antenna and the antenna matching circuit, to ensure radiation performance, the antenna's characteristic impedance must be around 50 Ω. Adding a CLC matching circuit near the antenna is recommended to adjust the antenna. However, if the available space is limited and the antenna impedance point can be guaranteed to be 50 Ω by simulation, then there is no need to add a matching circuit near the antenna.
+
+.. only:: esp32s31
+
+    - For the antenna and the antenna matching circuit, to ensure radiation performance, the antenna's characteristic impedance must be around 50 Ω. Adding a CLC matching circuit near the antenna is recommended to adjust the antenna.
+    - It is recommended that the overall matching circuit include at least two CLC structures.
 
 .. only:: esp32c5
 
@@ -570,7 +662,7 @@ RF Circuit
 RF Tuning
 ^^^^^^^^^^^^^^
 
-{IDF_TARGET_CONJUGATE_POINT_VALUE:default="35+j0", esp32="25+j0", esp32c2="30+j0"}
+{IDF_TARGET_CONJUGATE_POINT_VALUE:default="35+j0", esp32="25+j0", esp32c2="30+j0", esp32s31="40+j0"}
 
 The RF matching parameters vary with the board, so the ones used in Espressif modules could not be applied directly. Follow the instructions below to do RF tuning.
 
@@ -587,17 +679,27 @@ Figure :ref:`fig-rf-tuning` shows the general process of RF tuning.
 UART
 ---------
 
+.. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6 or esp32s31
+
+    {IDF_TARGET_UART_NUM:default="to be defined", esp32c5="3", esp32s3="3", esp32="3", esp32c61="3", esp32c6="3", esp32s31="4"}
+    {IDF_TARGET_UART_NAMES:default="to be defined", esp32c5="UART0, UART1, and LP UART", esp32s3="UART0, UART1, and UART2", esp32="UART0, UART1, and UART2", esp32c61="UART0, UART1, and UART2", esp32c6="UART0, UART1, and LP UART", esp32s31="UART0 ~ UART3"}
+
+    {IDF_TARGET_U0TXD:default="to be defined", esp32s3="GPIO43", esp32c5="GPIO11", esp32="GPIO1", esp32c61="GPIO11", esp32c6="GPIO16", esp32s31="GPIO58"}
+    {IDF_TARGET_U0RXD:default="to be defined", esp32s3="GPIO44", esp32c5="GPIO12", esp32="GPIO3", esp32c61="GPIO10", esp32c6="GPIO17", esp32s31="GPIO59"}
+
+    {IDF_TARGET_UART_SIGNAL:default=" UART signals", esp32c5="signals"}
+
 .. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6
 
-    {IDF_TARGET_UART_NUM:default="to be defined", esp32c5="3", esp32s3="3", esp32c61="3", esp32c6="3"}
-    {IDF_TARGET_UART_NAMES:default="to be defined", esp32c5="UART0, UART1, and LP UART", esp32s3="UART0, UART1, and UART2", esp32="UART0, UART1, and UART2", esp32c61="UART0, UART1, and UART2", esp32c5="UART0, UART1, and LP UART"}
-
-    {IDF_TARGET_U0TXD:default="to be defined", esp32s3="GPIO43", esp32c5="GPIO11", esp32="GPIO1", esp32c61="GPIO11", esp32c6="GPIO16"}
-    {IDF_TARGET_U0RXD:default="to be defined", esp32s3="GPIO44", esp32c5="GPIO12", esp32="GPIO3", esp32c61="GPIO10", esp32c6="GPIO17"}
-
-    {IDF_TARGET_UART_SIGNAL:default="UART signals", esp32c5="signals"}
-
     {IDF_TARGET_NAME} includes {IDF_TARGET_UART_NUM} UART interfaces, {IDF_TARGET_UART_NAMES}. U0TXD and U0RXD are {IDF_TARGET_U0TXD} and {IDF_TARGET_U0RXD} by default. Other {IDF_TARGET_UART_SIGNAL} can be mapped to any available GPIOs by software configurations.
+
+.. only:: esp32s31
+
+    {IDF_TARGET_NAME} includes {IDF_TARGET_UART_NUM} UART interfaces, {IDF_TARGET_UART_NAMES}. U0TXD and U0RXD are {IDF_TARGET_U0TXD} and {IDF_TARGET_U0RXD} by default. Other {IDF_TARGET_UART_SIGNAL} can be mapped to any available GPIOs via the GPIO matrix.
+
+.. only:: esp32s31
+
+    {IDF_TARGET_NAME} also has one LP UART, which can be configured to any LP GPIO pin.
 
 .. only:: esp32c5 or esp32c6
 
@@ -605,7 +707,7 @@ UART
 
 Usually, UART0 is used as the serial port for download and log printing. For instructions on download over UART0, please refer to Section :ref:`download-guidelines`. It is recommended to connect a 499 Ω series resistor to the U0TXD line to suppress harmonics.
 
-If possible, use other UART interfaces as serial ports for communication. For these interfaces, it is suggested to add a series resistor to the TX line to suppress harmonics.
+For application communication, use UART interfaces other than UART0 if possible. Add a series resistor on the TX line to suppress harmonics.
 
 .. only:: esp32s2
 
@@ -631,11 +733,11 @@ When using the SPI function, to improve EMC performance, add a series resistor (
 Strapping Pins
 -----------------
 
-{IDF_TARGET_STRAP_PIN_NO_CAP:default="to be defined", esp32="GPIO0", esp32s3="GPIO0", esp32c6="GPIO9", esp32h2="GPIO9", esp32c2="GPIO9", esp32s2="GPIO0", esp32c3="GPIO9", esp32c5="GPIO28", esp32c61="GPIO9"}
+{IDF_TARGET_STRAP_PIN_NO_CAP:default="to be defined", esp32="GPIO0", esp32s3="GPIO0", esp32c6="GPIO9", esp32h2="GPIO9", esp32c2="GPIO9", esp32s2="GPIO0", esp32c3="GPIO9", esp32c5="GPIO28", esp32c61="GPIO9", esp32s31="GPIO61"}
 
-{IDF_TARGET_BOOT_STRAP_PIN:default="to be defined", esp32="GPIO0 and GPIO2", esp32s3="GPIO0 and GPIO46", esp32h2="GPIO8 and GPIO9", esp32c3="GPIO2, GPIO8, and GPIO9", esp32c2="GPIO8 and GPIO9", esp32s2="GPIO0 and GPIO46", esp32c5="GPIO26, GPIO27, and GPIO28", esp32c6="GPIO8 and GPIO9", esp32c61="GPIO8 and GPIO9"}
+{IDF_TARGET_BOOT_STRAP_PIN:default="to be defined", esp32="GPIO0 and GPIO2", esp32s3="GPIO0 and GPIO46", esp32h2="GPIO8 and GPIO9", esp32c3="GPIO2, GPIO8, and GPIO9", esp32c2="GPIO8 and GPIO9", esp32s2="GPIO0 and GPIO46", esp32c5="GPIO26, GPIO27, and GPIO28", esp32c6="GPIO8 and GPIO9", esp32c61="GPIO8 and GPIO9", esp32s31="GPIO60 and GPIO61"}
 
-{IDF_TARGET_STRAP_PIN:default="to be defined", esp32="GPIO0, GPIO2, GPIO5, MTDI, and MTDO", esp32s3="GPIO0, GPIO3, GPIO45, and GPIO46", esp32h2="GPIO8, GPIO9, and GPIO25", esp32c3="GPIO2, GPIO8, and GPIO9", esp32c2="GPIO8 and GPIO9", esp32s2="GPIO0, GPIO45, and GPIO46", esp32c5="GPIO25, GPIO26, GPIO27, GPIO28, GPIO7, MTMS, and MTDI", esp32c6="GPIO8, GPIO9, GPIO15, MTMS, and MTDI", esp32c61="GPIO7, GPIO8, GPIO9, MTMS, and MTDI"}
+{IDF_TARGET_STRAP_PIN:default="to be defined", esp32="GPIO0, GPIO2, GPIO5, MTDI, and MTDO", esp32s3="GPIO0, GPIO3, GPIO45, and GPIO46", esp32h2="GPIO8, GPIO9, and GPIO25", esp32c3="GPIO2, GPIO8, and GPIO9", esp32c2="GPIO8 and GPIO9", esp32s2="GPIO0, GPIO45, and GPIO46", esp32c5="GPIO25, GPIO26, GPIO27, GPIO28, GPIO7, MTMS, and MTDI", esp32c6="GPIO8, GPIO9, GPIO15, MTMS, and MTDI", esp32c61="GPIO7, GPIO8, GPIO9, MTMS, and MTDI", esp32s31="GPIO37, GPIO60, and GPIO61"}
 
 At each startup or reset, a chip requires some initial configuration parameters, such as in which boot mode to load the chip, etc. These parameters are passed over via the strapping pins. After reset, the strapping pins work as normal function pins.
 
@@ -693,6 +795,17 @@ Signals applied to the strapping pins should have specific *setup time* and *hol
         - It is recommended to place a pull-up resistor at the {IDF_TARGET_STRAP_PIN_NO_CAP} pin.
         - It is recommended to leave space for a capacitor at {IDF_TARGET_STRAP_PIN_NO_CAP} for tuning purposes. Do not install the capacitor initially or use a large value, or the chip may enter download mode.
 
+.. only:: esp32s31
+
+    External Capacitor
+    ------------------------
+
+    {IDF_TARGET_NAME} has the following pins that require external capacitors:
+
+    - VREF_TOUCH is the TOUCH reference voltage capacitor pin. It is recommended to add a 0.47 μF capacitor close to this pin in the circuit. If the TOUCH function is not used, this pin can be left floating.
+    - VREF_ADC is the ADC reference voltage capacitor pin. It is recommended to add a 0.1 μF capacitor close to this pin in the circuit. If the ADC function is not used, this pin can be left floating.
+
+
 .. _schematic-checklist-gpio:
 
 GPIO
@@ -709,17 +822,18 @@ When using GPIOs, please:
 .. list::
 
     - Pay attention to the states of strapping pins during power-up.
-    - Pay attention to the default configurations of the GPIOs after reset. The default configurations can be found in the table below. It is recommended to add a pull-up or pull-down resistor to pins in the high-impedance state or enable the pull-up and pull-down during software initialization to avoid extra power consumption.
+    - Pay attention to the default GPIO configurations after reset (see the table below). For unused pins in the high-impedance state without an internal pull-up or pull-down, it is recommended to add a pull-up or pull-down resistor or enable the internal pull during software initialization to avoid extra power consumption, selecting the direction as required by the external circuit.
     :esp32 or esp32s3 or esp32s2 or esp32c61: - Avoid using the pins already occupied by flash/PSRAM.
     :esp32: - Note that GPIO34 and above are input-only IOs and do not have internal pull-up or pull-down resistors. If needed, please add appropriate external resistors.
     :esp32s2: - GPIO33 ~ GPIO37 work in the same power domain VDD3P3_CPU, which can also be configured to VDD_SPI by software.
-    :esp32c6 or esp32c3 or esp32c5: - Avoid using the pins already occupied by flash.
+    :esp32c6 or esp32c3 or esp32c5 or esp32s31: - Avoid using the pins already occupied by flash.
     :esp32s3 or esp32c2 or esp32c3: - Some pins will have glitches during power-up. Refer to Table :ref:`tab-glitches-on-pins` for details.
     :esp32s3: - When USB-OTG Download Boot mode is enabled, some pins will have level output. Refer to Table `IO Pad Status After Chip Initialization in the USB-OTG Download Boot Mode`_ for details.
     :esp32s3: - SPICLK_N, SPICLK_P, and GPIO33 ~ GPIO37 work in the same power domain, so if octal 1.8 V flash/PSRAM is used, then SPICLK_P and SPICLK_N also work in the 1.8 V power domain.
     :esp32 or esp32s3 or esp32c6: - Only GPIOs in the {IDF_TARGET_DEEP_SLEEP_POWER_DOMAIN} power domain can be controlled in Deep-sleep mode.
     :esp32c5: - Only LP GPIOs can be controlled in Deep-sleep mode, which are GPIO0 to GPIO6.
     :esp32c61: - In Deep-sleep mode, only LP GPIOs can be controlled, that is, the GPIOs whose power supply pin is VDDPST1 as listed in the table below.
+    :esp32s31: - In Deep-sleep mode, only LP GPIOs can be controlled, which are GPIO0 to GPIO7.
 
 .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-table-io-mux.inc
 
@@ -748,7 +862,7 @@ ADC
 
 {IDF_TARGET_ADC_CALI_ERROR3:default="to be defined", esp32="±60 mV", esp32s3="±50 mV", esp32c6="±40 mV", esp32h2="±23 mV", esp32c2="±10 mV", esp32c3="±35 mV", esp32c61="±15 mV"}
 
-.. only:: esp32s3 or esp32
+.. only:: esp32s3 or esp32 or esp32s31
 
     Table below shows the correspondence between ADC channels and GPIOs.
 
@@ -766,10 +880,10 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
 
 .. list::
 
-    :not esp32s2 and not esp32c5: - When ATTEN=0 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN0}, the total error is {IDF_TARGET_ADC_CALI_ERROR0}.
-    :not esp32c2 and not esp32s2 and not esp32c5: - When ATTEN=1 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN1}, the total error is {IDF_TARGET_ADC_CALI_ERROR1}.
-    :not esp32c2 and not esp32s2 and not esp32c5:  - When ATTEN=2 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN2}, the total error is {IDF_TARGET_ADC_CALI_ERROR2}.
-    :not esp32s2 and not esp32c5: - When ATTEN=3 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN3}, the total error is {IDF_TARGET_ADC_CALI_ERROR3}.
+    :not esp32s2 and not esp32c5 and not esp32s31: - When ATTEN=0 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN0}, the total error is {IDF_TARGET_ADC_CALI_ERROR0}.
+    :not esp32c2 and not esp32s2 and not esp32c5 and not esp32s31: - When ATTEN=1 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN1}, the total error is {IDF_TARGET_ADC_CALI_ERROR1}.
+    :not esp32c2 and not esp32s2 and not esp32c5 and not esp32s31:  - When ATTEN=2 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN2}, the total error is {IDF_TARGET_ADC_CALI_ERROR2}.
+    :not esp32s2 and not esp32c5 and not esp32s31: - When ATTEN=3 and the effective measurement range is {IDF_TARGET_ADC_CALI_ATTEN3}, the total error is {IDF_TARGET_ADC_CALI_ERROR3}.
 
 .. only:: esp32
 
@@ -785,7 +899,17 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sdio.inc
 
-.. only:: esp32s2 or esp32s3 or esp32c3 or esp32c6 or esp32h2 or esp32c5 or esp32c61
+.. only:: esp32s31
+
+    .. _schematic-checklist-sdmmc:
+
+    SD/MMC Host Controller
+    -----------------------
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-sdmmc.inc
+
+
+.. only:: esp32s2 or esp32s3 or esp32c3 or esp32c6 or esp32h2 or esp32c5 or esp32c61 or esp32s31
 
     .. _schematic-checklist-usb:
 
@@ -794,19 +918,29 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
 
     {IDF_TARGET_USB_SPEC:default="2.0", esp32s2="1.1"}
 
-    {IDF_TARGET_USB_GPIO:default="to be defined", esp32s2="GPIO19 and GPIO20", esp32s3="GPIO19 and GPIO20", esp32c3="GPIO18 and GPIO19", esp32c6="GPIO12 and GPIO13", esp32h2="GPIO26 and GPIO27", esp32c5="GPIO13 and GPIO14", esp32c61="GPIO12 and GPIO13"}
+    {IDF_TARGET_USB_GPIO:default="to be defined", esp32s2="GPIO19 and GPIO20", esp32s3="GPIO19 and GPIO20", esp32c3="GPIO18 and GPIO19", esp32c6="GPIO12 and GPIO13", esp32h2="GPIO26 and GPIO27", esp32c5="GPIO13 and GPIO14", esp32c61="GPIO12 and GPIO13", esp32s31="GPIO33 and GPIO34"}
 
     .. only:: esp32s2 or esp32s3
 
         {IDF_TARGET_NAME} has a full-speed USB On-The-Go (OTG) peripheral with integrated transceivers. The USB peripheral is compliant with the USB {IDF_TARGET_USB_SPEC} specification.
 
-    .. only:: not esp32s2
+    .. only:: not esp32s2 and not esp32s31
 
         {IDF_TARGET_NAME} integrates a USB Serial/JTAG controller that supports USB 2.0 full-speed device.
 
-    {IDF_TARGET_USB_GPIO} can be used as D- and D + of USB respectively. It is recommended to populate 22/33 ohm series resistors between the mentioned pins and the USB connector. Also, reserve a footprint for a capacitor to ground on each trace. Note that both components should be placed close to the chip.
+    .. only:: esp32s31
 
-    .. only:: esp32c5 or esp32s3 or esp32c61 or esp32c6
+        {IDF_TARGET_NAME} has a USB 2.0 High-Speed OTG peripheral with integrated transceivers. Pin 44 USB_DP and pin 45 USB_DM serve as the dedicated digital pins for USB_D- and USB_D+ of the USB 2.0 High-Speed OTG interface respectively. Other signals can be routed to any GPIO via the GPIO Matrix.
+
+        {IDF_TARGET_NAME} integrates a USB Serial/JTAG controller. {IDF_TARGET_USB_GPIO} serve as the dedicated digital pins for USB_D- and USB_D+ of the USB Serial/JTAG controller interface respectively.
+
+        It is recommended to reserve series resistors (initial value can be 22/33 Ω) and capacitors to ground on the {IDF_TARGET_USB_GPIO} traces (initially can be unpopulated), and place them close to the chip.
+
+    .. only:: not esp32s31
+
+        {IDF_TARGET_USB_GPIO} can be used as D- and D+ of USB respectively. It is recommended to reserve series resistors (initial value can be 22/33 Ω) and capacitors to ground on the traces (initially can be unpopulated), and place them close to the chip.
+
+    .. only:: esp32c5 or esp32s3 or esp32c61 or esp32c6 or esp32s31
 
         The USB RC circuit is shown in Figure :ref:`fig-usb-rc-schematic`.
 
@@ -818,7 +952,9 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
 
             {IDF_TARGET_NAME} USB RC Schematic
 
-    Note that upon power-up, the USB_D+ signal will fluctuate between high and low states. The high-level signal is relatively strong and requires a robust pull-down resistor to drive it low. Therefore, if you need a stable initial state, adding an external pull-up resistor is recommended to ensure a consistent high-level output voltage at startup.
+    .. only:: not esp32s31
+
+        Note that upon power-up, the USB_D+ signal will fluctuate between high and low states. The high-level signal is relatively strong and requires a robust pull-down resistor to drive it low. Therefore, if you need a stable initial state, adding an external pull-up resistor is recommended to ensure a consistent high-level output voltage at startup.
 
     .. only:: not esp32s2
 
@@ -832,20 +968,26 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
 
         .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-usb.inc
 
-.. only:: esp32 or esp32s2 or esp32s3
+.. only:: esp32 or esp32s2 or esp32s3 or esp32s31
 
     .. _schematic-checklist-touch:
 
     Touch Sensor
     ----------------
 
-    {IDF_TARGET_TOUCH_PIN_NUM:default="to be defined", esp32s3="14", esp32="10", esp32s2="14"}
+    {IDF_TARGET_TOUCH_PIN_NUM:default="to be defined", esp32s3="14", esp32="10", esp32s2="14", esp32s31="14"}
 
     {IDF_TARGET_NAME} has {IDF_TARGET_TOUCH_PIN_NUM} capacitive-sensing GPIOs, which detect variations induced by touching or approaching the GPIOs with a finger or other objects. The low-noise nature of the design and the high sensitivity of the circuit allow relatively small pads to be used. Arrays of pads can also be used, so that a larger area or more points can be detected.
 
     .. only:: esp32s3 or esp32s2
 
         The touch sensing performance is further enhanced by the waterproof design and digital filtering feature.
+
+    .. only:: esp32s31
+
+        The touch sensing performance is further enhanced by the waterproof design, frequency hopping detection, and digital filtering feature.
+
+    .. only:: not esp32s31
 
         .. attention::
 
@@ -861,7 +1003,7 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
 
     When using the touch function, it is recommended to populate a series resistor at the chip side to reduce the coupling noise and interference on the line, and to strengthen the ESD protection. The recommended resistance is from 470 Ω to 2 kΩ, preferably 510 Ω. The specific value depends on the actual test results of the product.
 
-.. only:: esp32
+.. only:: esp32 or esp32s31
 
     .. _schematic-checklist-ethernet-mac:
 
@@ -869,3 +1011,12 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
     -------------
 
     .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-emac.inc
+
+.. only:: esp32s31
+
+    .. _schematic-checklist-lcd-cam:
+
+    LCD and Camera Controller
+    --------------------------
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-lcd-cam.inc

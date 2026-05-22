@@ -94,6 +94,8 @@ class PythonGitlabNotes():
                 product_name = 'ESP32-P4'
             elif chip_series == 'esp32c61':
                 product_name = 'ESP32-C61'
+            elif chip_series == 'esp32s31':
+                product_name = 'ESP32-S31'
             note += f"- {product_name} "
             if 'zh_CN' in language_links:
                 note += f"[硬件设计指南]({language_links['zh_CN']})/"

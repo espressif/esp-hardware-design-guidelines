@@ -3,7 +3,7 @@
 from esp_docs.conf_docs import *  # noqa: F403,F401
 
 languages = ['en', 'zh_CN']
-idf_targets = ['esp32', 'esp32s2', 'esp32s3', 'esp32c3', 'esp32c6', 'esp32h2', 'esp32c2', 'esp32c5', 'esp32p4', 'esp32c61']
+idf_targets = ['esp32', 'esp32s2', 'esp32s3', 'esp32c3', 'esp32c6', 'esp32h2', 'esp32c2', 'esp32c5', 'esp32p4', 'esp32c61', 'esp32s31']
 extensions += ['sphinx_copybutton',
                'linuxdoc.rstFlatTable',
                # Note: order is important here, events must
@@ -30,6 +30,7 @@ conditional_include_dict = {'esp32':GENERAL_DOCS,
                             'esp32c2':GENERAL_DOCS,
                             'esp32c5':GENERAL_DOCS,
                             'esp32c61':GENERAL_DOCS,
+                            'esp32s31':GENERAL_DOCS,
                             'esp32p4':ESP32P4_DOCS
                             }
 

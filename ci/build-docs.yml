@@ -70,7 +70,7 @@
 build_html_for_s_series:
   extends: .build_docs_template
   variables:
-    DEFAULT_TARGETS: "esp32,esp32s2,esp32s3"
+    DEFAULT_TARGETS: "esp32,esp32s2,esp32s3,esp32s31"
     BUILD_FORMAT: html
 
 build_html_for_c_series_gen1:
@@ -94,7 +94,7 @@ build_html_for_other_series:
 build_pdf_for_s_series:
   extends: .build_docs_template
   variables:
-    DEFAULT_TARGETS: "esp32,esp32s2,esp32s3"
+    DEFAULT_TARGETS: "esp32,esp32s2,esp32s3,esp32s31"
     BUILD_FORMAT: pdf
 
 build_pdf_for_c_series_gen1:

@@ -27,13 +27,13 @@
     :not esp32h2 and not esp32c2: - 音频设备
     - 通用低功耗 IoT 传感器集线器
     - 通用低功耗 IoT 数据记录器
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - 摄像头视频流传输
-    :esp32s3 or esp32s2 or esp32p4: - USB 设备
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - 语音识别
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - 图像识别
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - 摄像头视频流传输
+    :esp32s3 or esp32s2 or esp32p4 or esp32s31: - USB 设备
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - 语音识别
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - 图像识别
     :esp32: - SDIO Wi-Fi + 蓝牙网卡
-    :esp32s3 or esp32c5: - Wi-Fi + 蓝牙网卡
-    :esp32 or esp32s3 or esp32s2 or esp32p4: - 触摸和接近感应
+    :esp32s3 or esp32c5 or esp32s31: - Wi-Fi + 蓝牙网卡
+    :esp32 or esp32s3 or esp32s2 or esp32p4 or esp32s31: - 触摸和接近感应
 
 .. only:: not esp32c5 and not esp32p4
 

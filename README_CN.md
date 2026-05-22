@@ -11,6 +11,7 @@
 - [ESP32-C2 (ESP8684) 硬件设计指南](https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c2/index.html)
 - [ESP32-C5 硬件设计指南](https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c5/index.html)
 - [ESP32-P4 硬件设计指南](https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32p4/index.html)
+- [ESP32-S31 硬件设计指南](https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32s31/index.html)
 
 
 ## 功能特性

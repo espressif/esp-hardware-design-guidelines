@@ -9,11 +9,11 @@ Related Documentation and Resources
 
 For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.espressif.com/en/products/modules>`_ section on Espressif's official website.
 
-.. only:: not esp32p4
+.. only:: not esp32p4 and not esp32s31
 
     For module reference designs please refer to:
 
-.. only:: latex
+.. only:: latex and not esp32s31
 
     - `Download links <https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
 
@@ -80,7 +80,7 @@ For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.e
 
     The antenna design is for reference only. For actual projects, perform antenna simulations based on the PCB layout.
 
-.. only:: not esp32p4
+.. only:: not esp32p4 and not esp32s31
 
     .. note::
 
@@ -116,7 +116,7 @@ Other Related Documentation and Resources
 .. list::
 
     - `Chip Datasheet (PDF) <{IDF_TARGET_DATASHEET_EN_URL}>`__
-    - `Technical Reference Manual (PDF) <{IDF_TARGET_TRM_EN_URL}>`__
+    :not esp32s31: - `Technical Reference Manual (PDF) <{IDF_TARGET_TRM_EN_URL}>`__
     :esp32: - `Chip Errata <https://espressif.com/sites/default/files/documentation/eco_and_workarounds_for_bugs_in_esp32_en.pdf>`_
     :esp32s2: - `Chip Errata <https://www.espressif.com/sites/default/files/documentation/esp32-s2_errata_en.pdf>`_
     :esp32s3: - `Chip Errata <https://www.espressif.com/sites/default/files/documentation/esp32-s3_errata_en.pdf>`_
@@ -128,7 +128,7 @@ Other Related Documentation and Resources
     - `{IDF_TARGET_NAME} Chip Variants <https://espressif.com/en/products/socs?id={IDF_TARGET_NAME}>`__
     - `Espressif KiCad Library <https://github.com/espressif/kicad-libraries>`__
     - `ESP Product Selector <https://products.espressif.com/#/product-selector?names=>`__
-    - `Regulatory Certificates <https://www.espressif.com/en/certificates>`__
+    - `Regulatory Certificates <https://documentation.espressif.com/en/documentList?t=Certificate>`__
     - `User Forum (Hardware) <https://esp32.com/viewforum.php?f=12>`__
     - `Technical Support <https://www.espressif.com/en/contact-us/technical-inquiries>`__
     - `ESP-FAQ <https://docs.espressif.com/projects/esp-faq/en/latest/index.html>`__
