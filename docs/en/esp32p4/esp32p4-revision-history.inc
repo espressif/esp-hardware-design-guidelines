@@ -5,6 +5,12 @@
    * - Date
      - Version
      - Release Notes
+   * - 2026-06-11
+     - v1.7
+     - - :doc:`../schematic-checklist-esp32p4`
+           - Section :ref:`usb-phy-power-supply`: Fixed a typo related to the VDD_USBPHY circuit
+           - Section :ref:`esp32p4-touch-sensor`: Updated descriptions about the touch sensor
+           - Fixed inconsistencies between the English and Chinese versions
    * - 2026-04-15
      - v1.6
      - - :doc:`../schematic-checklist-esp32p4`

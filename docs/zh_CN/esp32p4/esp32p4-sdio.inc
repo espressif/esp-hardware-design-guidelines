@@ -31,7 +31,7 @@
 
 卡槽 2 (SDMMC_HOST_SLOT_1) 信号通过 GPIO 交换矩阵可配置使用任意 GPIO 管脚，这适用于非 UHS-I 用途。
 
-请在 SDIO GPIO 管脚处添加上拉电阻，建议每根线上预留一个串联的电阻，并在 SDIO CLK 线上预留对地的电容用于调节。
+请在 SDIO GPIO 管脚处添加上拉电阻，并在每根 SDIO 信号线上预留一个串联电阻。同时，在 SDIO CLK 线上预留对地电容，用于信号调节。
 
 考虑到 SDIO 3.0 协议中 SDIO GPIO 工作电压自动切换的要求，建议把 SDIO GPIO 的电源域 VDD_IO_5 和外部上拉电源连接至 VDDO_4。SD 卡供电电源请连接至系统 3.3 V 电源。
 

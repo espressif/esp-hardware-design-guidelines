@@ -7,7 +7,7 @@ Schematic Checklist
 Overview
 ---------
 
-The integrated circuitry of ESP32-P4 series chips requires only 40 electrical components (resistors, capacitors, and inductors) and a crystal, as well as an SPI flash and a direct current to direct current converter (DCDC). The high integration of ESP32-P4 allows for simple peripheral circuit design. This chapter details the schematic design of ESP32-P4.
+The integrated circuitry of ESP32-P4 series chips requires only 40 electrical components (resistors, capacitors, and inductors) and a crystal, as well as an SPI flash and a direct current to direct current converter (DCDC). This chapter details the schematic design of ESP32-P4.
 
 The following figures show the reference schematics of ESP32-P4, which can be used as the basis of your schematic design.
 
@@ -49,6 +49,7 @@ Any basic ESP32-P4 circuit design includes the following major building blocks:
     - `Flash and PSRAM`_
     - `Clock source`_
     - `UART`_
+    - `SPI`_
     - `Strapping pins`_
     - `GPIO`_
     - `ADC`_
@@ -68,7 +69,7 @@ Power Supply
 The general recommendations for power supply design are:
 
 - For a single power supply, a voltage of 3.3 V is recommended.
-- Without external peripherals, ESP32-P4 requires a minimum supply current of 380 mA. For the supply current when peripherals are connected, please refer to `HP/LP IO Power Supply`_, `MIPI PHY Power Supply`_ and `USB PHY Power Supply`_. Calculate the required supply current based on your application and choose an appropriate power supply chip.
+- The minimum operating supply current of ESP32-P4 is 380 mA (including flash and PSRAM). For the supply current when peripherals are connected, please refer to `HP/LP IO Power Supply`_, `MIPI PHY Power Supply`_ and `USB PHY Power Supply`_. Calculate the required supply current based on your application and choose an appropriate power supply chip.
 - It is suggested to add a 10 μF capacitor at each power entrance.
 - The power scheme is as shown in Figure :ref:`fig-chip-power-scheme`.
 
@@ -107,7 +108,7 @@ If the MIPI function is not required, VDD_MIPI_DPHY can be left floating.
 USB PHY Power Supply
 ^^^^^^^^^^^^^^^^^^^^
 
-The VDD_USBPHY of ESP32-P4 is the power supply pin for USB PHY. The operating voltage range is 2.97 V ~ 3.63 V. The maximum current consumption is 20 mA. It is recommended to place 10 nF + 0.1 μF + 1 μF capacitors near VDD_USBPHY in the circuit.
+The VDD_USBPHY of ESP32-P4 is the power supply pin for USB PHY. The operating voltage range is 2.97 V ~ 3.63 V. The maximum current consumption is 20 mA. It is recommended to place 10 nF + 0.1 μF + 4.7 μF capacitors near VDD_USBPHY in the circuit.
 
 If DP and DM are not required, the VDD_USBPHY power supply can be left floating.
 
@@ -249,7 +250,7 @@ The circuit for the crystal is shown in Figure :ref:`fig-external-crystal-schema
 .. figure:: ../_static/esp32p4/esp32p4-sche-external-crystal.png
    :name: fig-external-crystal-schematic
    :align: center
-   :width: 65%
+   :width: 80%
    :alt: ESP32-P4 Schematic for External Crystal
 
    ESP32-P4 Schematic for External Crystal
@@ -354,7 +355,7 @@ Signals applied to the strapping pins should have specific *setup time* and *hol
 .. attention::
 
     - It is recommended to reserve a pull-up resistor at the GPIO35.
-    - Do not add high-value capacitors at GPIO35, otherwise, the chip may not boot successfully.
+    - Do not add high-value capacitors at GPIO35, otherwise, the chip may enter Joint Download mode instead of SPI Boot mode.
 
 
 GPIO
@@ -394,12 +395,18 @@ USB
 
 .. include:: esp32p4/esp32p4-usb.inc
 
+.. _esp32p4-touch-sensor:
+
 Touch Sensor
 ----------------
 
-When using the touch function, it is recommended to populate a series resistor at {IDF_TARGET_NAME} side to reduce the coupling noise and interference on the line, and to strengthen the ESD protection. The recommended resistance is from 470 Ω to 2 kΩ, preferably 510 Ω. The specific value depends on the actual test results of the product.
+ESP32-P4 has 14 capacitive-sensing GPIOs, which detect variations induced by touching or approaching the GPIOs with a finger or other objects. The low-noise nature of the design and the high sensitivity of the circuit allow relatively small pads to be used. Arrays of pads can also be used, so that a larger area or more points can be detected.
 
-The ESP32-P4 touch sensor has a waterproof design to reduce the impact of small water droplets. The ESP32-P4 touch sensor includes a special PAD called the Shield Pad. You can choose any touch pin as the Shield Pad, which will be connected in parallel with the currently measured touch pin, effectively reducing the impact of water droplets.
+The touch sensing performance can be further enhanced by the waterproof design, detection of frequency hopping, and digital filtering feature.
+
+.. include:: esp32p4/esp32p4-table-touch-gpio.inc
+
+When using the touch function, it is recommended to populate a series resistor at {IDF_TARGET_NAME} side to reduce the coupling noise and interference on the line, and to strengthen the ESD protection. The recommended resistance is from 470 Ω to 2 kΩ, preferably 510 Ω. The specific value depends on the actual test results of the product.
 
 .. _schematic-checklist-ethernet-mac:
 

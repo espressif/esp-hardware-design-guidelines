@@ -1,6 +1,6 @@
 {IDF_TARGET_NAME} integrates a USB serial/JTAG controller that uses GPIO24 and GPIO25 as USB D- and USB D+ by default.
 
-{IDF_TARGET_NAME} also features an full-speed USB On-The-Go (OTG) peripheral with an integrated transceiver, compliant with USB 2.0 specifications. By default, the full-speed USB OTG uses GPIO26 and GPIO27 as USB D- and USB D+.
+{IDF_TARGET_NAME} also features a full-speed USB On-The-Go (OTG) peripheral with an integrated transceiver, compliant with USB 2.0 specifications. By default, the full-speed USB OTG uses GPIO26 and GPIO27 as USB D- and USB D+.
 
 When using the USB serial/JTAG controller and full-speed USB OTG, please note the following:
 
@@ -33,4 +33,4 @@ It is recommended to add a 22/33 Ω series resistor and optional ground capacit
 
 At the USB connector end, it is advisable to include ESD protection diodes. When using a high-speed USB OTG peripheral, the parasitic capacitance of the diode should not exceed 1 pF to avoid poor signal quality and unstable transmission.
 
-{IDF_TARGET_NAME} also supports downloading via USB. For details, please refer to :ref:`schematic-checklist-strapping-pins`.
+{IDF_TARGET_NAME} also supports downloading via USB. For details, please refer to :ref:`download-guidelines`.

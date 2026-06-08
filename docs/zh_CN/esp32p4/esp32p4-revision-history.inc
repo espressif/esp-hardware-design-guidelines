@@ -5,6 +5,12 @@
    * - 日期
      - 版本
      - 发布说明
+   * - 2026-06-11
+     - v1.7
+     - - :doc:`../schematic-checklist-esp32p4`
+           - 章节 :ref:`p4-analog-power-supply`：修正管脚 VDD_BAT 的一处笔误
+           - 章节 :ref:`esp32p4-touch-sensor`：更新触摸传感器描述
+           - 修正中英文文档内容差异
    * - 2026-04-15
      - v1.6
      - - :doc:`../schematic-checklist-esp32p4`

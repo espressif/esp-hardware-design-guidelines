@@ -31,9 +31,9 @@ Slot 1 (SDMMC_HOST_SLOT_0) signals are fixed to the GPIO pins listed in the tabl
 
 Slot 2 (SDMMC_HOST_SLOT_1) signals can be routed to any GPIO pins through the GPIO matrix, making this slot suitable for non–UHS-I applications.
 
-Additionally, it is recommended to add one series pull-up resistor for the each SDIO GPIO pin and populate a capacitor to ground on the SDIO CLK line.
+Please add a pull-up resistor to each SDIO GPIO pin and reserve a series resistor on each SDIO signal line. In addition, reserve a capacitor to ground on the SDIO CLK line for signal tuning.
 
-SDIO 3.0 protocol specifies that the voltage of SDIO GPIOs should switch automatically. Therefore, it is recommended to connect the SDIO GPIO power domain VDD_IO_5 and the external pull-up power supply to VDDO_4. Additionally, a 10 μF capacitor should be populated to VDD_IO_5. The SD card's power supply should be connected to the 3.3 V power supply of the system.
+SDIO 3.0 protocol specifies that the voltage of SDIO GPIOs should switch automatically. Therefore, it is recommended to connect the SDIO GPIO power domain VDD_IO_5 and the external pull-up power supply to VDDO_4. The SD card's power supply should be connected to the 3.3 V power supply of the system.
 
 .. figure:: ../_static/esp32p4/esp32p4-sd3-card-power-circuit.png
    :name: esp32p4-sd3-card-power-circuit

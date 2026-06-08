@@ -27,4 +27,4 @@ Refer to the table below for the GPIO configuration of the EMAC RMII interface.
 
 It is recommended to populate a series resistor on the RMII CLK line.
 
-Please note that the clock signal in the RMII interface is input-only. If you need a clock output  solution, please use the REF_50M_CLK_PAD signal (GPIO23/GPIO39).
+Please note that the clock signal in the RMII interface is input-only. If you need a clock output solution, please use the REF_50M_CLK_PAD signal (GPIO23/GPIO39).

@@ -26,7 +26,7 @@ The LDO outputs VDDO_PSRAM to power the in-package PSRAM. The typical output vol
 
 The LDO outputs VDDO_3/4 to power the peripherals. The maximum output current is 50 mA. The output voltage ranges from 0.5V to 2.7V/3.3V, which also requires software configuration. The default output is 0.
 
-For software configuration, please refer to `Low Dropout Linear Regulator (LDO) <https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32p4/api-reference/peripherals/ldo_regulator.html>`__.
+For software configuration, please refer to `Low Dropout Linear Regulator (LDO) <https://docs.espressif.com/projects/esp-idf/en/latest/esp32p4/api-reference/peripherals/ldo_regulator.html>`__.
 
 It is recommended to place a 1 μF capacitor near the VDDO_FLASH, VDDO_PSRAM, and VDDO_3/4 in the circuit.
 
@@ -35,7 +35,7 @@ The VDD_HP_0/1/2/3 is powered by an external DC-DC converter (DCDC), with the fo
 - The input of the external DCDC is the same as the VDD_DCDCC power supply.
 - EN_DCDC is the enable pin of the external DCDC. In download mode or when there is no firmware, the voltage on EN_DCDC is 0. After the firmware starts normally, EN_DCDC is controlled internally. In download mode, the EN_DCDC voltage remains at 0. In sleep mode, this pin can be used to disable the power supply to reduce power consumption.
 - FB_DCDC is the feedback pin of the external DCDC.
-- EN_DCDC and FB_DCDC pins are fully controlled by the internal circuitry of ESP32-P4 by default. Ensure that they are connected to the EN and FB pins of the external DCDC, respectively, and that the DCDC regulator is placed close to the ESP32-P4. When designing the layout for chip revisions v1.0 and v1.3 (**not recommended for new designs**), you must reserve pad locations for the feedback resistor and feedback capacitor (components not required), For chip revisions v3.0 and later versions, the feedback resistor and the feedback capacitor must be populated.
+- EN_DCDC and FB_DCDC pins are fully controlled by the internal circuitry of ESP32-P4 by default. Ensure that they are connected to the EN and FB pins of the external DCDC, respectively, and that the DCDC regulator is placed close to the ESP32-P4. When designing the layout for chip revisions v1.0 and v1.3 (**not recommended for new designs**), you must reserve pad locations for the feedback resistor and feedback capacitor (components not required). For chip revisions v3.0 and later versions, the feedback resistor and the feedback capacitor must be populated.
 
 Please use verified DCDC models: ETA3485, SY8088, RY3420, or TLV62569. The input/output specifications and inductor parameters should follow the respective datasheets. Below is the circuit design for TLV62569.
 

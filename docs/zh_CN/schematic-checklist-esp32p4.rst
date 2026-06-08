@@ -49,6 +49,7 @@ ESP32-P4 系列芯片的核心电路图的设计有以下重要组成部分：
     - `Flash 及 PSRAM`_
     - `时钟源`_
     - `UART`_
+    - `SPI`_
     - `Strapping 管脚`_
     - `GPIO`_
     - `ADC`_
@@ -129,21 +130,21 @@ Flash 和 PSRAM IO 电源
 
 ESP32-P4 的管脚 VDD_FLASHIO 为 FLASH IO 电源管脚，工作电压范围为 1.65 V ~ 3.6 V。该电源由内部电压稳压器输出 VDDO_FLASH 提供，建议在电路中靠近 VDD_FLASHIO 电源管脚处添加 0.1 μF + 1 μF。
 
-管脚 VDD_PSRAM_0 和 VDD_PSRAM_1 为 PSRAM IO 电源管脚，工作电压范围为 1.65 V ~ 1.95 V。该电源由内部电压稳压器输出 VDDO_PSRAM 提供，建议在电路中靠近 VDD_PSRAM_0 和VDD_PSRAM_1 电源管脚处添加 0.1 μF + 1 μF。
+管脚 VDD_PSRAM_0 和 VDD_PSRAM_1 为 PSRAM IO 电源管脚，工作电压范围为 1.65 V ~ 1.95 V。该电源由内部电压稳压器输出 VDDO_PSRAM 提供，建议在电路中靠近 VDD_PSRAM_0 和 VDD_PSRAM_1 电源管脚处添加 0.1 μF + 1 μF。
 
 .. _p4-analog-power-supply:
 
 模拟电源
 ^^^^^^^^^^^
 
-ESP32-P4 的管脚 VDD_ANA 为模拟电源管脚，工作电压范围为 3.0 V ~ 3.6 V。建议在电路中靠近 VDD_ANA 电源管脚处添加 0.1 μF。管脚 VDD_BAT 为模拟电源管脚，工作电压范围为 2.5 V ~ 3.6 V，建议在电路中靠近 VDD_ANA 电源管脚处添加 0.1 μF + 10 μF。
+ESP32-P4 的管脚 VDD_ANA 为模拟电源管脚，工作电压范围为 3.0 V ~ 3.6 V。建议在电路中靠近 VDD_ANA 电源管脚处添加 0.1 μF。管脚 VDD_BAT 为模拟电源管脚，工作电压范围为 2.5 V ~ 3.6 V，建议在电路中靠近 VDD_BAT 电源管脚处添加 0.1 μF + 10 μF。
 
 VDD_BAT 电源管脚不可悬空，可外接电池，请参考 `ESP32-P4 备用电池供电方案 <https://docs.espressif.com/projects/esp-iot-solution/zh_CN/latest/low_power_solution/esp32p4_vbat.html>`__。
 
 数字电源
 ^^^^^^^^^^^^^
 
-ESP32-P4 的管脚 VDD_HP_0、管脚 VDD_HP_1、管脚 VDD_HP_2 和管脚 VDD_HP_3 为数字电源管脚，工作电压范围为 0.99 V ~ 1.3 V。该电源由外部 DCDC 输出 ESP_VDD_HP 提供，建议在总电源处添加 10 uF，在各个电源管脚处添加 0.1 μF。
+ESP32-P4 的管脚 VDD_HP_0、管脚 VDD_HP_1、管脚 VDD_HP_2 和管脚 VDD_HP_3 为数字电源管脚，工作电压范围为 0.99 V ~ 1.3 V。该电源由外部 DCDC 输出 ESP_VDD_HP 提供，建议在总电源处添加 10 μF，在各个电源管脚处添加 0.1 μF。
 
 .. _internal-voltage-regulators:
 
@@ -319,7 +320,7 @@ GPIO34、GPIO35、GPIO36、GPIO37、GPIO38 为 strapping 管脚。
 
 所有的 strapping 管脚信息，可参考 `ESP32-P4 系列芯片技术规格书 <{IDF_TARGET_DATASHEET_CN_URL}>`__ > 章节 *启动配置项*。下面主要介绍和启动模式有关的 strapping 管脚信息。
 
-芯片复位释放后，GPIO35、 GPIO36、 GPIO37 和 GPIO38 共同决定启动模式，详见表 :ref:`tab-chip-boot-mode-control`。
+芯片复位释放后，GPIO35、GPIO36、GPIO37 和 GPIO38 共同决定启动模式，详见表 :ref:`tab-chip-boot-mode-control`。
 
 .. include:: esp32p4/esp32p4-chip-boot-mode-control.inc
 
@@ -394,12 +395,18 @@ USB
 
 .. include:: esp32p4/esp32p4-usb.inc
 
+.. _esp32p4-touch-sensor:
+
 触摸传感器
 -------------
 
-使用 TOUCH 功能时，建议靠近 {IDF_TARGET_NAME} 侧预留串联电阻，用于减小线上的耦合噪声和干扰，也可加强 ESD 保护。该阻值建议 470 Ω 到 2 kΩ，推荐 510 Ω。具体值还需根据产品实际测试效果而定。
+ESP32-P4 提供了多达 14 个电容式传感 GPIO，能够探测由手指或其他物品直接接触或接近而产生的电容差异。这种设计具有低噪声和高灵敏度的特点，可以用于支持使用相对较小的触摸板。设计中也可以使用触摸板阵列以探测更大区域或更多点。
 
-ESP32-P4 系列芯片的触摸传感器同时还支持防潮功能和遇水保护功能。防潮设计可缓和小水珠带来的影响，ESP32-P4 触摸传感器引入 Shield Pad 这一特殊 PAD。用户可以任选一个触摸管脚作为 Shield Pad，Shield Pad 会和当前正在测量的触摸管脚进行并联，有效缓和水滴带来的影响。
+ESP32-P4 系列芯片的触摸传感器同时还支持防水、跳频检测和数字滤波等功能来进一步提高传感器的性能。
+
+.. include:: esp32p4/esp32p4-table-touch-gpio.inc
+
+使用 TOUCH 功能时，建议靠近 {IDF_TARGET_NAME} 侧预留串联电阻，用于减小线上的耦合噪声和干扰，也可加强 ESD 保护。该阻值建议 470 Ω 到 2 kΩ，推荐 510 Ω。具体值还需根据产品实际测试效果而定。
 
 .. _schematic-checklist-ethernet-mac:
 
