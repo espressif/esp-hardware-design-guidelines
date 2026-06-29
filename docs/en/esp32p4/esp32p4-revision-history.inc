@@ -5,6 +5,11 @@
    * - Date
      - Version
      - Release Notes
+   * - 2026-07-06
+     - v1.8
+     - - :doc:`../schematic-checklist-esp32p4`
+           - Section :ref:`internal-voltage-regulators`: Added two verified DCDC models: BL8028 and LP3219
+           - Section :ref:`esp32p4-usb`: Standardized the peripheral name: USB 2.0 Full-Speed OTG and USB 2.0 High-Speed OTG
    * - 2026-06-11
      - v1.7
      - - :doc:`../schematic-checklist-esp32p4`

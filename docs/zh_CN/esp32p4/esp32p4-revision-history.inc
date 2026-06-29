@@ -5,6 +5,11 @@
    * - 日期
      - 版本
      - 发布说明
+   * - 2026-07-06
+     - v1.8
+     - - :doc:`../schematic-checklist-esp32p4`
+           - 章节 :ref:`internal-voltage-regulators`：新增两个经验证的 DCDC 型号：BL8028 和 LP3219
+           - 章节 :ref:`esp32p4-usb`：统一使用标准外设名称：USB 2.0 全速 OTG 和 USB 2.0 高速 OTG
    * - 2026-06-11
      - v1.7
      - - :doc:`../schematic-checklist-esp32p4`

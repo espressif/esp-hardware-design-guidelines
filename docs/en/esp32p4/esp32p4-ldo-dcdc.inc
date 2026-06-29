@@ -37,7 +37,7 @@ The VDD_HP_0/1/2/3 is powered by an external DC-DC converter (DCDC), with the fo
 - FB_DCDC is the feedback pin of the external DCDC.
 - EN_DCDC and FB_DCDC pins are fully controlled by the internal circuitry of ESP32-P4 by default. Ensure that they are connected to the EN and FB pins of the external DCDC, respectively, and that the DCDC regulator is placed close to the ESP32-P4. When designing the layout for chip revisions v1.0 and v1.3 (**not recommended for new designs**), you must reserve pad locations for the feedback resistor and feedback capacitor (components not required). For chip revisions v3.0 and later versions, the feedback resistor and the feedback capacitor must be populated.
 
-Please use verified DCDC models: ETA3485, SY8088, RY3420, or TLV62569. The input/output specifications and inductor parameters should follow the respective datasheets. Below is the circuit design for TLV62569.
+Please use verified DCDC models: ETA3485, SY8088, RY3420, BL8028, LP3219, or TLV62569. The input/output specifications and inductor parameters should follow the respective datasheets. Below is the circuit design for TLV62569.
 
 .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/esp32p4-TLV62569-rev3.0-and-later.png
   :align: center
