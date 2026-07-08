@@ -199,7 +199,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c2/index.html
       document_summary: The hardware design guidelines give advice on how to integrate ESP8684 in other products.
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_status: active
@@ -227,7 +227,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c2/index.html
       document_summary: 本文提供基于 ESP8684 的硬件设计的指导规范。
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public
@@ -309,7 +309,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c6/index.html
       document_summary: The hardware design guidelines give advice on how to integrate ESP32-C6 in other products.
-      notify_subscribers: true # or true
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_status: active
@@ -337,7 +337,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c6/index.html
       document_summary: 本文提供基于 ESP32-C6 的硬件设计的指导规范。
-      notify_subscribers: true # or true
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public
@@ -364,7 +364,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32h2/index.html
       document_summary: The hardware design guidelines give advice on how to integrate ESP32-H2 in other products.
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_status: active
@@ -392,7 +392,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32h2/index.html
       document_summary: 本文提供基于 ESP32-H2 的硬件设计的指导规范。
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public
@@ -419,7 +419,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c5/index.html
       document_summary: The hardware design guidelines give advice on how to integrate ESP32-C5 in other products.
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_status: active
@@ -447,7 +447,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c5/index.html
       document_summary: 本文提供基于 ESP32-C5 的硬件设计的指导规范。
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public
@@ -473,7 +473,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32p4/index.html
       document_summary: The hardware design guidelines give advice on how to integrate ESP32-P4 in other products.
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_status: active
@@ -500,7 +500,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32p4/index.html
       document_summary: 本文提供基于 ESP32-P4 的硬件设计的指导规范。
-      notify_subscribers: true # or false
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public
@@ -528,7 +528,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32c61/index.html
       document_summary: The hardware design guidelines give advice on how to integrate ESP32-C61 in other products.
-      notify_subscribers: true # or true
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_status: active
@@ -556,7 +556,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32c61/index.html
       document_summary: 本文提供基于 ESP32-C61 的硬件设计的指导规范。
-      notify_subscribers: true # or true
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public
@@ -583,7 +583,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s31/index.html
       document_summary: The hardware design guidelines give advice on how to integrate ESP32-S31 in other products.
-      notify_subscribers: true # or true
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_status: active
@@ -610,7 +610,7 @@ documents:
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32s31/index.html
       document_summary: 本文提供基于 ESP32-S31 的硬件设计的指导规范。
-      notify_subscribers: true # or true
+      notify_subscribers: false # or true
       visibility_on_website: show # or hide
       scheduled_release_date:
       document_classification: public

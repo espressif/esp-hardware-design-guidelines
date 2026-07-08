@@ -89,6 +89,8 @@ For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.e
             - .DSN files: OrCAD Capture V16.6
             - .pcb files: Pads Layout VX.2. If you cannot open the .pcb files, please try importing the .asc files into your software to view the PCB layout.
 
+        For the terms applicable to the use of these reference designs, please refer to :ref:`terms-of-use-for-reference-designs` in :doc:`disclaimer-and-copyright`.
+
 {IDF_TARGET_NAME} Development Boards
 --------------------------------------------
 
@@ -109,6 +111,8 @@ For a list of the latest designs of {IDF_TARGET_NAME} boards please check the `D
 
             - .DSN files: OrCAD Capture V16.6
             - .brd files: Allegro 16.6
+
+        For the terms applicable to the use of these reference designs, please refer to :ref:`terms-of-use-for-reference-designs` in :doc:`disclaimer-and-copyright`.
 
 Other Related Documentation and Resources
 ---------------------------------------------

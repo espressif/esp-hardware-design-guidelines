@@ -89,6 +89,8 @@
             - .DSN 文件：OrCAD Capture V16.6
             - .pcb 文件：Pads Layout VX.2。如果无法打开 .pcb 文件，请尝试用其他软件导入 .asc 文件查看 PCB 版图。
 
+        有关这些参考设计的使用条款，请参考 :doc:`disclaimer-and-copyright` 中的 :ref:`terms-of-use-for-reference-designs` 章节。
+
 {IDF_TARGET_NAME} 系列开发板
 --------------------------------
 
@@ -109,6 +111,8 @@
 
             - .DSN 文件：OrCAD Capture V16.6
             - .brd 文件：Allegro 16.6
+
+        有关这些参考设计的使用条款，请参考 :doc:`disclaimer-and-copyright` 中的 :ref:`terms-of-use-for-reference-designs` 章节。
 
 其他文档和资源
 -----------------
