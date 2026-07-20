@@ -5,6 +5,12 @@
    * - Date
      - Version
      - Release Notes
+   * - 2026-07-21
+     - v1.9
+     - - :doc:`../schematic-checklist-esp32p4`
+           - Section :ref:`chip-power-up-and-reset-timing`: Updated the recommended capacitor value for the CHIP_PU RC delay circuit from 0.1 μF to 1 μF
+       - :doc:`../pcb-layout-design-esp32p4`
+           - Section :ref:`power-general-guidelines`: Promoted to a top-level section
    * - 2026-07-06
      - v1.8
      - - :doc:`../schematic-checklist-esp32p4`
@@ -36,7 +42,7 @@
            - Section :ref:`esp32p4-usb`: Added instructions for adding a pull-down resistor on the DP pin (applicable to chip revisions v1.0 and v1.3)
            - Section :ref:`schematic-checklist-ethernet-mac`: Corrected EMAC signal RMII_RXDV to RMII_CRSDV
        - :doc:`../pcb-layout-design-esp32p4`
-           - Section :ref:`general-guidelines`: Added recommendation that power traces for pins VDD_BAT and VDD_ANA should be at least 10 mil
+           - Section :ref:`power-general-guidelines`: Added recommendation that power traces for pins VDD_BAT and VDD_ANA should be at least 10 mil
        - :doc:`related-documentation-and-resources`: Added Consolidated Pin Overview Excel
    * - 2025-11-28
      - v1.3
@@ -54,7 +60,7 @@
            - Section :ref:`internal-voltage-regulators`: Updated descriptions about FB_DCDC and EN_DCDC
            - Section :ref:`esp32p4-sdio`: Added a figure :ref:`esp32p4-sd3-card-power-circuit`
        - :doc:`../pcb-layout-design-esp32p4`
-           - Section :ref:`general-guidelines`: Deleted descriptions about the power traces of VDD_FLASHIO and updated descriptions about the placement of DCDC
+           - Section :ref:`power-general-guidelines`: Deleted descriptions about the power traces of VDD_FLASHIO and updated descriptions about the placement of DCDC
    * - 2025-04-23
      - v1.0
      - First release of {IDF_TARGET_NAME} Hardware Design Guidelines.

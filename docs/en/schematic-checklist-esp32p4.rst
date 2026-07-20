@@ -153,6 +153,8 @@ Internal Voltage Regulators and External DCDC
 
 .. include:: esp32p4/esp32p4-ldo-dcdc.inc
 
+.. _chip-power-up-and-reset-timing:
+
 Chip Power-up and Reset Timing
 ----------------------------------------
 
@@ -193,7 +195,7 @@ Table :ref:`tab-chip-timing` provides the specific timing requirements.
 .. attention::
 
     - CHIP_PU must not be left floating.
-    - To ensure the correct power-up and reset timing, it is advised to add an RC delay circuit at the CHIP_PU pin. The recommended setting for the RC delay circuit is usually R = 10 kΩ and C = 0.1 μF. However, specific parameters should be adjusted based on the characteristics of the actual power supply and the power-up and reset timing of the chip.
+    - To ensure the correct power-up and reset timing, it is advised to add an RC delay circuit at the CHIP_PU pin. The recommended setting for the RC delay circuit is usually R = 10 kΩ and C = 1 μF. However, specific parameters should be adjusted based on the characteristics of the actual power supply and the power-up and reset timing of the chip.
     - If the user application has one of the following scenarios:
 
         - Slow power rise or fall, such as during battery charging.

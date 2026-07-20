@@ -5,6 +5,12 @@
    * - 日期
      - 版本
      - 发布说明
+   * - 2026-07-21
+     - v1.9
+     - - :doc:`../schematic-checklist-esp32p4`
+           - 章节 :ref:`chip-power-up-and-reset-timing`：将 CHIP_PU RC 延迟电路的推荐电容值从 0.1 μF 更新为 1 μF
+       - :doc:`../pcb-layout-design-esp32p4`
+           - 章节 :ref:`power-general-guidelines`：提升为一级小节
    * - 2026-07-06
      - v1.8
      - - :doc:`../schematic-checklist-esp32p4`
@@ -36,7 +42,7 @@
            - 章节 :ref:`esp32p4-usb`：增加 DP 管脚处添加下拉电阻的说明（适用于芯片版本 v1.0 和 v1.3）
            - 章节 :ref:`schematic-checklist-ethernet-mac`：修正 EMAC 信号 RMII_RXDV 为 RMII_CRSDV
        - :doc:`../pcb-layout-design-esp32p4`
-           - 章节 :ref:`general-guidelines`：补充说明 VDD_BAT 和 VDD_ANA 管脚的电源走线建议至少 10 mil
+           - 章节 :ref:`power-general-guidelines`：补充说明 VDD_BAT 和 VDD_ANA 管脚的电源走线建议至少 10 mil
        - :doc:`related-documentation-and-resources`：增加管脚总览 Excel
    * - 2025-11-28
      - v1.3
@@ -54,7 +60,7 @@
            - 章节 :ref:`internal-voltage-regulators`：更新 FB_DCDC 和 EN_DCDC 相关的描述
            - 章节 :ref:`esp32p4-sdio`：新增图 :ref:`esp32p4-sd3-card-power-circuit`
        - :doc:`../pcb-layout-design-esp32p4`
-           - 章节 :ref:`general-guidelines`：删除 VDD_FLASHIO 电源走线相关的描述，更新 DCDC 放置相关的描述
+           - 章节 :ref:`power-general-guidelines`：删除 VDD_FLASHIO 电源走线相关的描述，更新 DCDC 放置相关的描述
    * - 2025-04-23
      - v1.0
      - 首次发布《{IDF_TARGET_NAME} 硬件设计指南》。

@@ -6,9 +6,6 @@ PCB Layout Design
 
 This chapter introduces the key points of how to design an ESP32-P4 PCB layout using an ESP32-P4 development board as an example.
 
-General Principles of PCB Layout for the Chip
----------------------------------------------
-
 Considering the communication quality of high-speed signal lines and potential interference with the RF module, please use at least a four-layer PCB design, as follows:
 
 - Layer 1 (TOP): Signal traces and components.
@@ -16,10 +13,10 @@ Considering the communication quality of high-speed signal lines and potential i
 - Layer 3 (POWER): Route power traces here. If possible, route high-speed signal traces here and ensure a complete reference plane.
 - Layer 4 (BOTTOM): Route some signal traces here.
 
-.. _general-guidelines:
+.. _power-general-guidelines:
 
-General Guidelines
-^^^^^^^^^^^^^^^^^^^^^^^
+Power Supply
+------------
 
 - Whenever possible, route the power traces on the inner layers (not the ground layer) and connect them to the chip pins through vias. Ensure the power traces are surrounded by ground copper.
 - The trace width for the 3.3 V main power supply should be at least 25 mil.
