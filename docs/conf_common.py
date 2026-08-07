@@ -42,7 +42,6 @@ html_context['github_user'] = 'espressif'
 html_context['github_repo'] = 'esp-hardware-design-guidelines'
 
 html_static_path = ['../_static']
-html_css_files = ['js/chatbot_widget.css']
 
 # Extra options required by sphinx_idf_theme
 project_slug = 'esp-hardware-design-guidelines'

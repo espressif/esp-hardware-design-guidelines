@@ -31,5 +31,3 @@ pdf_title = u'硬件设计指南'
 language = 'zh_CN'
 
 doc_id = {'esp32': '4090', 'esp32s2': '4421', 'esp32s3': '5420', 'esp32c2': '5725', 'esp32c3': '5085', 'esp32c6': '6513', 'esp32h2': '6717', 'esp32c5': '8821', 'esp32p4': '8879', 'esp32c61': '9577', 'esp32s31': '10843'}
-
-html_js_files = ['js/chatbot_widget_cn.js']
