@@ -83,7 +83,7 @@ The rest of this chapter details the specifics of circuit design for each of the
 Power Supply
 ----------------
 
-{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA", esp32s31="800 mA"}
+{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA", esp32s31="600 mA"}
 
 The general recommendations for power supply design are:
 

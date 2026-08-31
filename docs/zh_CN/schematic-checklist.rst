@@ -83,7 +83,7 @@
 电源
 --------
 
-{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA", esp32s31="800 mA"}
+{IDF_TARGET_OUTPUT_CUR:default="500 mA", esp32h2="350 mA", esp32c5="600 mA", esp32s31="600 mA"}
 
 电源电路设计的通用要点有：
 

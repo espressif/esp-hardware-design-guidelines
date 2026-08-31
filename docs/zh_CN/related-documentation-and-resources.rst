@@ -9,13 +9,13 @@
 
 请至乐鑫官网的 `模组页面 <https://www.espressif.com/zh-hans/products/modules>`_ 查看 {IDF_TARGET_NAME} 系列模组的最新详细信息。
 
-.. only:: not esp32p4 and not esp32s31
+.. only:: not esp32p4
 
     {IDF_TARGET_NAME} 系列模组的参考设计请参考：
 
-.. only:: latex and not esp32s31
+.. only:: latex and not esp32p4
 
-    - `下载链接 <https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
+    - `下载链接 <https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/{IDF_TARGET_PATH_NAME}/related-documentation-and-resources.html>`_
 
 .. only:: esp32
 
@@ -74,13 +74,19 @@
         - :download:`ESP32-C61-MINI-1-N4 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-mini-1-n4_v1.1_reference_design.zip>`
         - :download:`ESP32-C61-WROOM-1-N8R8 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-wroom-1-n8r8_v1.3_reference_design.zip>`
 
-.. only:: esp32c5 or esp32c61
+.. only:: esp32s31
+
+    .. only:: html
+
+        - :download:`ESP32-S31-WROOM-3-N8R16V 参考设计 <../_static/{IDF_TARGET_PATH_NAME}/esp32-s31-wroom-3-n8r16v_v1.2_reference_design.zip>`
+
+.. only:: esp32c5 or esp32c61 or esp32s31
 
     本参考设计仅针对特定 MPN。若使用其他 MPN，相关 BOM 和原理图可能存在差异，请查阅对应规格书和设计指南以获取正确设计信息。
 
     天线设计仅供参考，实际项目需基于 PCB 进行仿真设计。
 
-.. only:: not esp32p4 and not esp32s31
+.. only:: not esp32p4
 
     .. note::
 
@@ -104,6 +110,22 @@
 
         - :download:`ESP32-P4X-Function-EV-Board 参考设计 (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-Function-EV-Board-CN.zip>`
         - :download:`ESP32-P4X-EYE 参考设计 (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-EYE-CN.zip>`
+
+    .. note::
+
+        请使用以下工具打开开发板参考设计里的文件：
+
+            - .DSN 文件：OrCAD Capture V16.6
+            - .brd 文件：Allegro 16.6
+
+        有关这些参考设计的使用条款，请参考 :doc:`disclaimer-and-copyright` 中的 :ref:`terms-of-use-for-reference-designs` 章节。
+
+.. only:: esp32s31
+
+    {IDF_TARGET_NAME} 系列开发板的参考设计请参考：
+
+        - `ESP32-S31-Function-CoreBoard-1 参考设计 (ZIP) <https://documentation.espressif.com/ESP32-S31-Function-CoreBoard-1_Reference_Design_CN.zip>`__
+        - `ESP32-S31-Korvo-1 参考设计 (ZIP) <https://documentation.espressif.com/ESP32-S31-Korvo-1_Reference_Design_CN.zip>`__
 
     .. note::
 

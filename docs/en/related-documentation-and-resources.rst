@@ -9,13 +9,13 @@ Related Documentation and Resources
 
 For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.espressif.com/en/products/modules>`_ section on Espressif's official website.
 
-.. only:: not esp32p4 and not esp32s31
+.. only:: not esp32p4
 
     For module reference designs please refer to:
 
-.. only:: latex and not esp32s31
+.. only:: latex and not esp32p4
 
-    - `Download links <https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/{IDF_TARGET_PATH_NAME}/hardware-development.html>`_
+    - `Download links <https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/{IDF_TARGET_PATH_NAME}/related-documentation-and-resources.html>`_
 
 .. only:: esp32
 
@@ -74,13 +74,19 @@ For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.e
         - :download:`ESP32-C61-MINI-1-N4 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-mini-1-n4_v1.1_reference_design.zip>`
         - :download:`ESP32-C61-WROOM-1-N8R8 Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-c61-wroom-1-n8r8_v1.3_reference_design.zip>`
 
-.. only:: esp32c5 or esp32c61
+.. only:: esp32s31
+
+    .. only:: html
+
+        - :download:`ESP32-S31-WROOM-3-N8R16V Reference Design <../_static/{IDF_TARGET_PATH_NAME}/esp32-s31-wroom-3-n8r16v_v1.2_reference_design.zip>`
+
+.. only:: esp32c5 or esp32c61 or esp32s31
 
     The above reference design applies only to the specified MPN. If a different MPN is used, the corresponding BOM and schematic may vary. Please refer to the relevant datasheet and design guide to obtain the correct design information.
 
     The antenna design is for reference only. For actual projects, perform antenna simulations based on the PCB layout.
 
-.. only:: not esp32p4 and not esp32s31
+.. only:: not esp32p4
 
     .. note::
 
@@ -104,6 +110,22 @@ For a list of the latest designs of {IDF_TARGET_NAME} boards please check the `D
 
         - :download:`ESP32-P4X-Function-EV-Board Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-Function-EV-Board-EN.zip>`
         - :download:`ESP32-P4X-EYE Reference Design (ZIP) <../_static/{IDF_TARGET_PATH_NAME}/ESP32-P4X-EYE-EN.zip>`
+
+    .. note::
+
+        Use the following tools to open the files in development board reference designs:
+
+            - .DSN files: OrCAD Capture V16.6
+            - .brd files: Allegro 16.6
+
+        For the terms applicable to the use of these reference designs, please refer to :ref:`terms-of-use-for-reference-designs` in :doc:`disclaimer-and-copyright`.
+
+.. only:: esp32s31
+
+    For development board reference designs please refer to:
+
+        - `ESP32-S31-Function-CoreBoard-1 Reference Design (ZIP) <https://documentation.espressif.com/ESP32-S31-Function-CoreBoard-1_Reference_Design_EN.zip>`__
+        - `ESP32-S31-Korvo-1 Reference Design (ZIP) <https://documentation.espressif.com/ESP32-S31-Korvo-1_Reference_Design_EN.zip>`__
 
     .. note::
 
