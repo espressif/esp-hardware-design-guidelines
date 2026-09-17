@@ -2,12 +2,7 @@
 ===================
 :link_to_translation:`en:[English]`
 
-.. _hardware-development-modules:
-
-{IDF_TARGET_NAME} 系列模组
-------------------------------
-
-请至乐鑫官网的 `模组页面 <https://www.espressif.com/zh-hans/products/modules>`_ 查看 {IDF_TARGET_NAME} 系列模组的最新详细信息。
+.. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-modules.inc
 
 .. only:: not esp32p4
 
@@ -97,10 +92,7 @@
 
         有关这些参考设计的使用条款，请参考 :doc:`disclaimer-and-copyright` 中的 :ref:`terms-of-use-for-reference-designs` 章节。
 
-{IDF_TARGET_NAME} 系列开发板
---------------------------------
-
-请至乐鑫官网的 `开发板页面 <https://www.espressif.com/zh-hans/products/hardware/development-boards>`_ 查看 {IDF_TARGET_NAME} 系列开发板的最新详细信息。
+.. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-devkits.inc
 
 .. only:: esp32p4
 

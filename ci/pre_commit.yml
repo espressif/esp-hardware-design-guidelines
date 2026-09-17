@@ -2,6 +2,8 @@
   stage: check  # or "pre-check", depending on your pipeline structure
   image: python:3.8
   rules:
+    - if: '$RUN_PRODUCT_LIST_SYNC == "true"'
+      when: never
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"  # Run this job only for merge request pipelines.
   script:
     - pip install pre-commit

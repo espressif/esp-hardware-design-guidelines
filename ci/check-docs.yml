@@ -6,6 +6,8 @@ check_doc_links:
     DOCS_DIR: $CI_PROJECT_DIR/docs
   allow_failure: true
   rules:
+    - if: '$RUN_PRODUCT_LIST_SYNC == "true"'
+      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'  # Run for all changes to a merge request's source branch
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH       # Run for all changes to the default branch
   before_script:

@@ -145,3 +145,7 @@ _build/
 
 .vale/styles/Vocab/*
 !.vale/styles/Vocab/Espressif/
+
+# Product-list sync workspace
+.wiki-src/
+.git-askpass*

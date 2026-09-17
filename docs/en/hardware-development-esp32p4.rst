@@ -2,10 +2,7 @@ Hardware Development
 ==========================
 :link_to_translation:`zh_CN:[中文]`
 
-ESP32-P4 Development Boards
-------------------------------------
-
-For a list of the latest designs of {IDF_TARGET_NAME} boards please check the `Development Boards <https://www.espressif.com/en/products/hardware/development-boards>`_ section on Espressif's official website.
+.. include:: esp32p4/esp32p4-devkits.inc
 
 .. _download-guidelines:
 

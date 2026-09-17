@@ -2,10 +2,7 @@
 ==============
 :link_to_translation:`en:[English]`
 
-ESP32-P4 系列开发板
---------------------------------
-
-请至乐鑫官网的 `开发板页面 <https://www.espressif.com/zh-hans/products/hardware/development-boards>`_ 查看 {IDF_TARGET_NAME} 系列开发板的最新详细信息。
+.. include:: esp32p4/esp32p4-devkits.inc
 
 .. _download-guidelines:
 

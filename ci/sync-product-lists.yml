@@ -1,0 +1,59 @@
+# Sync module / development-board lists from doc-team-wiki into this repo.
+#
+# Triggered when:
+# - doc-team-wiki merges changes to product_catalog.yaml
+#   (downstream pipeline with RUN_PRODUCT_LIST_SYNC=true)
+# - an HDG schedule / web / API pipeline sets RUN_PRODUCT_LIST_SYNC=true
+#
+# If auto-sync-product-lists already has an open MR, the job only
+# refreshes the .inc files on that branch and does not open another MR.
+# - CI_PUSH_TOKEN: Project Access Token or PAT with api + write_repository.
+#   A pipeline trigger token cannot push or open an MR.
+# Optional (pipeline/trigger variables override these defaults in the script):
+# - DOC_TEAM_WIKI_PROJECT: GitLab path to the wiki (default espressif/doc-team-wiki)
+# - SYNC_TARGET_BRANCH: MR target (default master)
+# - BRANCH_NAME: bot branch that the sync MR is opened from
+# - WIKI_REF: wiki git ref to clone (default master)
+# - SYNC_MR_ASSIGNEE: GitLab username to assign the bot MR to
+
+sync_product_lists:
+  stage: check
+  image: python:3.11
+  tags: [host_test]
+  extends: .rules:product_list_sync
+  variables:
+    GIT_STRATEGY: clone
+    GIT_DEPTH: 0
+    GIT_TERMINAL_PROMPT: "0"
+    DOC_TEAM_WIKI_PROJECT: "espressif/doc-team-wiki"
+  before_script:
+    - pip install -r tools/requirements.txt
+    - git config user.name "GitLab CI Bot"
+    - git config user.email "gitlab-ci@espressif.com"
+  script:
+    - |
+      set -euo pipefail
+      export PUSH_TOKEN="${CI_PUSH_TOKEN:-${GITLAB_PUSH_TOKEN:-}}"
+      if [ -z "$PUSH_TOKEN" ]; then
+        echo "CI_PUSH_TOKEN is required to push the product-list branch and open an MR"
+        exit 1
+      fi
+      export BRANCH_NAME="${BRANCH_NAME:-auto-sync-product-lists}"
+      export SYNC_TARGET_BRANCH="${SYNC_TARGET_BRANCH:-master}"
+      export WIKI_REF="${WIKI_REF:-master}"
+      export DOC_TEAM_WIKI_PROJECT="${DOC_TEAM_WIKI_PROJECT:-espressif/doc-team-wiki}"
+      export WIKI_DIR="${CI_PROJECT_DIR}/.wiki-src"
+      git switch -C "$BRANCH_NAME"
+      python3 tools/fetch_wiki_yaml.py
+      python3 tools/generate_product_lists.py \
+        --catalog "$WIKI_DIR/docs/en/yaml_data/product_catalog.yaml" \
+        --documents "$WIKI_DIR/docs/en/yaml_data/document_owner.yaml" \
+        --docs-root docs \
+        --summary-output product_list_sync_output.txt
+      python3 tools/publish_product_list_branch.py
+      python3 tools/create_product_list_mr.py
+  artifacts:
+    when: always
+    paths:
+      - product_list_sync_output.txt
+    expire_in: 1 week

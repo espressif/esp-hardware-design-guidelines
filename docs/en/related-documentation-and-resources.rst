@@ -2,12 +2,7 @@ Related Documentation and Resources
 =======================================
 :link_to_translation:`zh_CN:[中文]`
 
-.. _hardware-development-modules:
-
-{IDF_TARGET_NAME} Modules
-------------------------------
-
-For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.espressif.com/en/products/modules>`_ section on Espressif's official website.
+.. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-modules.inc
 
 .. only:: not esp32p4
 
@@ -97,10 +92,7 @@ For a list of {IDF_TARGET_NAME} modules please check the `Modules <https://www.e
 
         For the terms applicable to the use of these reference designs, please refer to :ref:`terms-of-use-for-reference-designs` in :doc:`disclaimer-and-copyright`.
 
-{IDF_TARGET_NAME} Development Boards
---------------------------------------------
-
-For a list of the latest designs of {IDF_TARGET_NAME} boards please check the `Development Boards <https://www.espressif.com/en/products/hardware/development-boards>`_ section on Espressif's official website.
+.. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-devkits.inc
 
 .. only:: esp32p4
 

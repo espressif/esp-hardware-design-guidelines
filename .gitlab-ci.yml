@@ -22,3 +22,4 @@ include:
   - local: ci/deploy-docs.yml
   - local: ci/publish-docs-to-cdp.yml
   - local: ci/auto-translate.yml
+  - local: ci/sync-product-lists.yml

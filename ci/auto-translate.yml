@@ -4,6 +4,8 @@ check_line_num:
   tags:
     - build_docs
   rules:
+    - if: '$RUN_PRODUCT_LIST_SYNC == "true"'
+      when: never
     - if: '$BOT_LABEL_AUTO_TRANS || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*trans_updated(?:,[^,\n\r]+)*$/i'
     - if: '$CI_JOB_NAME =~ $BOT_DYNAMIC_TEST_JOBS && $BOT_DYNAMIC_TEST_JOBS'
   script:
@@ -21,6 +23,8 @@ translate_new:
   tags:
     - build_docs
   rules:
+    - if: '$RUN_PRODUCT_LIST_SYNC == "true"'
+      when: never
     - if: '$BOT_LABEL_AUTO_TRANS || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*trans_new(?:,[^,\n\r]+)*$/i'
     - if: '$CI_JOB_NAME =~ $BOT_DYNAMIC_TEST_JOBS && $BOT_DYNAMIC_TEST_JOBS'
   script:
@@ -39,6 +43,8 @@ translate_updated:
   tags:
     - build_docs
   rules:
+    - if: '$RUN_PRODUCT_LIST_SYNC == "true"'
+      when: never
     - if: '$BOT_LABEL_AUTO_TRANS || $CI_MERGE_REQUEST_LABELS =~ /^(?:[^,\n\r]+,)*trans_updated(?:,[^,\n\r]+)*$/i'
     - if: '$CI_JOB_NAME =~ $BOT_DYNAMIC_TEST_JOBS && $BOT_DYNAMIC_TEST_JOBS'
   needs:

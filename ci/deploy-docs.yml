@@ -55,8 +55,12 @@ post_links:
 deploy_docs_production:
   extends:
     - .deploy_docs_template
-  only:
-    - master
+  # `only: master` would still schedule this job on the wiki-triggered
+  # sync pipeline, which skips the build jobs it needs. Skip that case.
+  rules:
+    - if: '$RUN_PRODUCT_LIST_SYNC == "true"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
   variables:
     TYPE: "production"
     DOCS_BUILD_DIR: "${CI_PROJECT_DIR}/docs/_build/"
