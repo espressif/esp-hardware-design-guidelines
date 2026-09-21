@@ -369,9 +369,9 @@ UART 版图设计应遵循以下规范：
     :name: fig-module-clearance
     :align: center
     :width: 75%
-    :alt: {IDF_TARGET_NAME} 系列模组 (天线{IDF_TARGET_ANTENNA_POINT}在左侧) 天线区域净空示意图
+    :alt: {IDF_TARGET_NAME} 系列模组 (天线{IDF_TARGET_ANTENNA_POINT}在{IDF_TARGET_ANTENNA_POINT_POSITION}) 天线区域净空示意图
 
-    {IDF_TARGET_NAME} 系列模组 (天线{IDF_TARGET_ANTENNA_POINT}在左侧) 天线区域净空示意图
+    {IDF_TARGET_NAME} 系列模组 (天线{IDF_TARGET_ANTENNA_POINT}在{IDF_TARGET_ANTENNA_POINT_POSITION}) 天线区域净空示意图
 
 之后把底板放入整机，涉及整机设计时请注意考虑外壳对天线的影响，保证底板上的PCB天线在外壳中也有足够大的净空区域，该净空区域建议至少 15 mm（所有方向上都是）。
 

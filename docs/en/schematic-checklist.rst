@@ -681,15 +681,16 @@ UART
 
 .. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6 or esp32s31
 
-    {IDF_TARGET_UART_NUM:default="to be defined", esp32c5="3", esp32s3="3", esp32="3", esp32c61="3", esp32c6="3", esp32s31="4"}
-    {IDF_TARGET_UART_NAMES:default="to be defined", esp32c5="UART0, UART1, and LP UART", esp32s3="UART0, UART1, and UART2", esp32="UART0, UART1, and UART2", esp32c61="UART0, UART1, and UART2", esp32c6="UART0, UART1, and LP UART", esp32s31="UART0 ~ UART3"}
+    {IDF_TARGET_UART_NUM:default="to be defined", esp32c5="3", esp32s3="3", esp32="3", esp32c61="3", esp32c6="2", esp32s31="4"}
+
+    {IDF_TARGET_UART_NAMES:default="to be defined", esp32c5="UART0, UART1, and LP UART", esp32s3="UART0, UART1, and UART2", esp32="UART0, UART1, and UART2", esp32c61="UART0, UART1, and UART2", esp32c6="UART0 and UART1", esp32s31="UART0 ~ UART3"}
 
     {IDF_TARGET_U0TXD:default="to be defined", esp32s3="GPIO43", esp32c5="GPIO11", esp32="GPIO1", esp32c61="GPIO11", esp32c6="GPIO16", esp32s31="GPIO58"}
     {IDF_TARGET_U0RXD:default="to be defined", esp32s3="GPIO44", esp32c5="GPIO12", esp32="GPIO3", esp32c61="GPIO10", esp32c6="GPIO17", esp32s31="GPIO59"}
 
-    {IDF_TARGET_UART_SIGNAL:default=" UART signals", esp32c5="signals"}
+    {IDF_TARGET_UART_SIGNAL:default=" UART signals", esp32c5="signals", esp32c6="HP UART signals"}
 
-.. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6
+.. only:: esp32c5 or esp32s3 or esp32 or esp32c61
 
     {IDF_TARGET_NAME} includes {IDF_TARGET_UART_NUM} UART interfaces, {IDF_TARGET_UART_NAMES}. U0TXD and U0RXD are {IDF_TARGET_U0TXD} and {IDF_TARGET_U0RXD} by default. Other {IDF_TARGET_UART_SIGNAL} can be mapped to any available GPIOs by software configurations.
 
@@ -701,9 +702,17 @@ UART
 
     {IDF_TARGET_NAME} also has one LP UART, which can be configured to any LP GPIO pin.
 
+.. only:: esp32c6
+
+    {IDF_TARGET_NAME} includes {IDF_TARGET_UART_NUM} high-performance (HP) UART interfaces (i.e., {IDF_TARGET_UART_NAMES}) and 1 low-power (LP) UART interface.
+
+    U0TXD and U0RXD for HP UART0 interface are {IDF_TARGET_U0TXD} and {IDF_TARGET_U0RXD} by default. Other {IDF_TARGET_UART_SIGNAL} can be mapped to any available GPIOs via the GPIO matrix.
+
 .. only:: esp32c5 or esp32c6
 
-    LP UART pin configurations are shown in Table :ref:`tab-lp-uart-pin-config`.
+    LP UART uses fixed pins. Pin configurations are shown in Table :ref:`tab-lp-uart-pin-config`.
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-lp-uart-pin-config.inc
 
 Usually, UART0 is used as the serial port for download and log printing. For instructions on download over UART0, please refer to Section :ref:`download-guidelines`. It is recommended to connect a 499 Ω series resistor to the U0TXD line to suppress harmonics.
 
@@ -716,10 +725,6 @@ For application communication, use UART interfaces other than UART0 if possible.
 .. only:: esp32 or esp32c2 or esp32c3 or esp32c6 or esp32s2
 
     When using the AT firmware, please note that the UART GPIO is already configured (refer to `Hardware Connection <https://docs.espressif.com/projects/esp-at/en/latest/{IDF_TARGET_PATH_NAME}/Get_Started/Hardware_connection.html>`_). It is recommended to use the default configuration.
-
-.. only:: esp32c5 or esp32c6
-
-    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-lp-uart-pin-config.inc
 
 .. _schematic-checklist-spi:
 

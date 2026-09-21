@@ -368,9 +368,9 @@ If the antenna cannot extend beyond the board edge, the {IDF_TARGET_ANTENNA_POIN
     :name: fig-module-clearance
     :align: center
     :width: 75%
-    :alt: Keepout Zone for {IDF_TARGET_NAME} Module's Antenna (Antenna {IDF_TARGET_ANTENNA_POINT} on the Left)
+    :alt: Keepout Zone for {IDF_TARGET_NAME} Module's Antenna (Antenna {IDF_TARGET_ANTENNA_POINT} on the {IDF_TARGET_ANTENNA_POINT_POSITION})
 
-    Keepout Zone for {IDF_TARGET_NAME} Module's Antenna (Antenna {IDF_TARGET_ANTENNA_POINT} on the Left)
+    Keepout Zone for {IDF_TARGET_NAME} Module's Antenna (Antenna {IDF_TARGET_ANTENNA_POINT} on the {IDF_TARGET_ANTENNA_POINT_POSITION})
 
 After the base board is placed in the end product, please consider the impact of the housing on the antenna during end-product design. Ensure that the PCB antenna on the base board also has a sufficiently large clearance area inside the housing. A clearance of at least 15 mm is recommended in all directions.
 

@@ -683,15 +683,16 @@ UART
 
 .. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6 or esp32s31
 
-    {IDF_TARGET_UART_NUM:default="待定", esp32c5="3", esp32s3="3", esp32="3", esp32c61="3", esp32c6="3", esp32s31="4"}
-    {IDF_TARGET_UART_NAMES:default="待定", esp32c5="UART0、UART1 和 LP UART", esp32s3="UART0、UART1 和 UART2", esp32="UART0、UART1 和 UART2", esp32c61="UART0、UART1 和 UART2", esp32c6="UART0、UART1 和 LP UART", esp32s31="UART0 ~ UART3"}
+    {IDF_TARGET_UART_NUM:default="待定", esp32c5="3", esp32s3="3", esp32="3", esp32c61="3", esp32c6="2", esp32s31="4"}
+
+    {IDF_TARGET_UART_NAMES:default="待定", esp32c5="UART0、UART1 和 LP UART", esp32s3="UART0、UART1 和 UART2", esp32="UART0、UART1 和 UART2", esp32c61="UART0、UART1 和 UART2", esp32c6="UART0 和 UART1", esp32s31="UART0 ~ UART3"}
 
     {IDF_TARGET_U0TXD:default="待定", esp32s3="GPIO43", esp32c5="GPIO11", esp32="GPIO1", esp32c61="GPIO11", esp32c6="GPIO16", esp32s31="GPIO58"}
     {IDF_TARGET_U0RXD:default="待定", esp32s3="GPIO44", esp32c5="GPIO12", esp32="GPIO3", esp32c61="GPIO10", esp32c6="GPIO17", esp32s31="GPIO59"}
 
-    {IDF_TARGET_UART_SIGNAL:default=" UART 信号", esp32c5="信号"}
+    {IDF_TARGET_UART_SIGNAL:default=" UART 信号", esp32c5="信号", esp32c6="HP UART 信号"}
 
-.. only:: esp32c5 or esp32s3 or esp32 or esp32c61 or esp32c6
+.. only:: esp32c5 or esp32s3 or esp32 or esp32c61
 
     {IDF_TARGET_NAME} 有 {IDF_TARGET_UART_NUM} 个 UART 接口，即 {IDF_TARGET_UART_NAMES}。U0TXD 和 U0RXD 默认为 {IDF_TARGET_U0TXD} 和 {IDF_TARGET_U0RXD}，其他 {IDF_TARGET_UART_SIGNAL}可以通过软件配置到任意空闲的 GPIO 管脚上。
 
@@ -703,9 +704,17 @@ UART
 
     {IDF_TARGET_NAME} 还有 1 个 LP UART，可以配置到任意 LP GPIO 管脚上。
 
+.. only:: esp32c6
+
+    {IDF_TARGET_NAME} 有 {IDF_TARGET_UART_NUM} 个高性能（HP）UART 接口（即 {IDF_TARGET_UART_NAMES}）和 1 个低功耗（LP）UART 接口。
+
+    HP UART0 接口的 U0TXD 和 U0RXD 默认为 {IDF_TARGET_U0TXD} 和 {IDF_TARGET_U0RXD}。其他 {IDF_TARGET_UART_SIGNAL}可以通过GPIO 交换矩阵映射到任意空闲 GPIO 管脚上。
+
 .. only:: esp32c5 or esp32c6
 
     LP UART 管脚是固定的，详见表 :ref:`tab-lp-uart-pin-config`。
+
+    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-lp-uart-pin-config.inc
 
 UART0 通常作为下载和 log 打印的串口。关于如何使用 UART0 进行下载，请参考章节 :ref:`download-guidelines`。U0TXD 线上建议串联 499 Ω 电阻用于抑制谐波。
 
@@ -718,10 +727,6 @@ UART0 通常作为下载和 log 打印的串口。关于如何使用 UART0 进�
 .. only:: esp32 or esp32c2 or esp32c3 or esp32c6 or esp32s2
 
     请注意使用 AT 固件时，固件里配置了 UART 的 GPIO，可以参考 `硬件连接 <https://docs.espressif.com/projects/esp-at/zh_CN/latest/{IDF_TARGET_PATH_NAME}/Get_Started/Hardware_connection.html>`_，建议使用默认配置。
-
-.. only:: esp32c5 or esp32c6
-
-    .. include:: {IDF_TARGET_PATH_NAME}/{IDF_TARGET_PATH_NAME}-lp-uart-pin-config.inc
 
 .. _schematic-checklist-spi:
 
@@ -959,7 +964,7 @@ ADC
             {IDF_TARGET_NAME} 系列芯片 USB RC 电路图
 
     .. only:: not esp32s31
-    
+
         请注意 USB_D+ 管脚上电时会输出高低电平信号，其中高电平的状态比较强，需要较强的下拉才可以拉低。因此，如果需要一个稳定的初始状态，建议添加外部上拉来提供稳定的高电平初始值。
 
     .. only:: not esp32s2
