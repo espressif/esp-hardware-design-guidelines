@@ -10,8 +10,6 @@
 
 - `ESP32-MINI-1 <https://documentation.espressif.com/esp32-mini-1_datasheet_cn.pdf>`__
 - `ESP32-MINI-1U <https://documentation.espressif.com/esp32-mini-1_datasheet_cn.pdf>`__
-- `ESP32-PICO-MINI-02 <https://documentation.espressif.com/esp32-pico-mini-02_datasheet_cn.pdf>`__
-- `ESP32-PICO-MINI-02U <https://documentation.espressif.com/esp32-pico-mini-02_datasheet_cn.pdf>`__
 - `ESP32-PICO-V3-ZERO <https://documentation.espressif.com/esp32-pico-v3-zero_datasheet_cn.pdf>`__
 - `ESP32-WROOM-32E <https://documentation.espressif.com/esp32-wroom-32e_esp32-wroom-32ue_datasheet_cn.pdf>`__
 - `ESP32-WROOM-32UE <https://documentation.espressif.com/esp32-wroom-32e_esp32-wroom-32ue_datasheet_cn.pdf>`__

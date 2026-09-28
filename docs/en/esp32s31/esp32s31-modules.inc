@@ -8,7 +8,7 @@
 
 This section lists only sample and mass-production {IDF_TARGET_NAME} modules. For the complete list, see the `Modules <https://www.espressif.com/en/products/modules#{IDF_TARGET_NAME}>`__ page on the Espressif website.
 
-- ESP32-S31-WROOM-1
-- ESP32-S31-WROOM-1U (sample)
+- `ESP32-S31-WROOM-1 <https://documentation.espressif.com/esp32-s31-wroom-1_wroom-1u_datasheet_en.pdf>`__
+- `ESP32-S31-WROOM-1U (sample) <https://documentation.espressif.com/esp32-s31-wroom-1_wroom-1u_datasheet_en.pdf>`__
 - `ESP32-S31-WROOM-3 <https://documentation.espressif.com/esp32-s31-wroom-3_wroom-3u_datasheet_en.pdf>`__
 - `ESP32-S31-WROOM-3U (sample) <https://documentation.espressif.com/esp32-s31-wroom-3_wroom-3u_datasheet_en.pdf>`__
