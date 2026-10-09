@@ -5,6 +5,11 @@
    * - Date
      - Version
      - Release Notes
+   * - 2026-10-09
+     - v0.3
+     -  - :doc:`../schematic-checklist`
+            - Section :ref:`schematic-checklist-usb`: Corrected the USB D+ and USB D- assignment of pin 44 USB_DP and pin 45 USB_DM for the USB 2.0 High-Speed OTG interface
+            - Section :ref:`schematic-checklist-sdmmc`: Added the pull-up requirement on the CMD and DATA lines of SDMMC slot 0
    * - 2026-08-31
      - v0.2
      -  - :doc:`../schematic-checklist`

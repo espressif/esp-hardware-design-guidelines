@@ -941,7 +941,7 @@ ADC
 
     .. only:: esp32s31
 
-        {IDF_TARGET_NAME} 系列芯片带有一个集成了收发器的 USB 2.0 高速 OTG 外设，管脚 44 USB_DP 和管脚 45 USB_DM 分别作为 USB 2.0 高速 OTG 接口的 USB_D- 和 USB_D+ 的专用数字管脚，其余信号通过 GPIO 交换矩阵可配置使用任意 GPIO 管脚。
+        {IDF_TARGET_NAME} 系列芯片带有一个集成了收发器的 USB 2.0 高速 OTG 外设，管脚 44 USB_DP 和管脚 45 USB_DM 分别作为 USB 2.0 高速 OTG 接口的 USB_D+ 和 USB_D- 的专用数字管脚，其余信号通过 GPIO 交换矩阵可配置使用任意 GPIO 管脚。
 
         {IDF_TARGET_NAME} 系列芯片包含一个 USB 串口/JTAG 控制器，{IDF_TARGET_USB_GPIO} 分别作为 USB 串口/JTAG 控制器接口的 USB_D- 和 USB_D+ 的专用数字管脚。
 

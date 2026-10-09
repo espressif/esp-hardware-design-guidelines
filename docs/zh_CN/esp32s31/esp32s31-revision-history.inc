@@ -5,6 +5,11 @@
    * - 日期
      - 版本
      - 发布说明
+   * - 2026-10-09
+     - v0.3
+     -  - :doc:`../schematic-checklist`
+            - 章节 :ref:`schematic-checklist-usb`：修正 USB 2.0 高速 OTG 接口管脚 44 USB_DP 和管脚 45 USB_DM 的 USB D+ 与 USB D- 对应关系
+            - 章节 :ref:`schematic-checklist-sdmmc`：补充 SDMMC slot 0 的 CMD 和 DATA 线上拉要求
    * - 2026-08-31
      - v0.2
      -  - :doc:`../schematic-checklist`

@@ -935,7 +935,7 @@ Please add a 0.1 μF filter capacitor between ESP pins and ground when using the
 
     .. only:: esp32s31
 
-        {IDF_TARGET_NAME} has a USB 2.0 High-Speed OTG peripheral with integrated transceivers. Pin 44 USB_DP and pin 45 USB_DM serve as the dedicated digital pins for USB_D- and USB_D+ of the USB 2.0 High-Speed OTG interface respectively. Other signals can be routed to any GPIO via the GPIO Matrix.
+        {IDF_TARGET_NAME} has a USB 2.0 High-Speed OTG peripheral with integrated transceivers. Pin 44 USB_DP and pin 45 USB_DM serve as the dedicated digital pins for USB_D+ and USB_D- of the USB 2.0 High-Speed OTG interface respectively. Other signals can be routed to any GPIO via the GPIO Matrix.
 
         {IDF_TARGET_NAME} integrates a USB Serial/JTAG controller. {IDF_TARGET_USB_GPIO} serve as the dedicated digital pins for USB_D- and USB_D+ of the USB Serial/JTAG controller interface respectively.
 
