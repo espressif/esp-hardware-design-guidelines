@@ -31,6 +31,6 @@
       - GPIO39
       - GPIO40
 
-When using slot0, add pull-up resistors to the CMD and DATA lines. It is recommended to place a series resistor on each signal line and reserve a capacitor to ground on the CLK line for potential debugging and signal tuning. In addition, if 1-bit mode is used, the unused pins must not be repurposed for other functions.
+When using slot0, the GPIO power domain is internally powered, so external pull-up resistors are not required. It is recommended to place a series resistor on each signal line and reserve a capacitor to ground on the CLK line for potential debugging and signal tuning. In addition, if 1-bit mode is used, the unused pins must not be repurposed for other functions.
 
 When using slot1, please add pull-up resistors to the GPIO pins. It is also recommended to place a series resistor on each signal line and reserve a capacitor to ground on the CLK line for potential debugging and signal tuning.
