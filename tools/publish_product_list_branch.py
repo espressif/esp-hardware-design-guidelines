@@ -117,8 +117,8 @@ def main() -> int:
         "branch": branch_name,
         "commit_message": commit_message(),
         "actions": actions,
-        "author_name": "GitLab CI Bot",
-        "author_email": "gitlab-ci@espressif.com",
+        "author_name": "Doc-Product-Sync-BOT",
+        "author_email": "service_account_group_462_dee0516ba6d5d5e4d255891167075441@noreply.gitlab.espressif.cn",
     }
     if exists:
         print(f"Updating existing branch {branch_name}")

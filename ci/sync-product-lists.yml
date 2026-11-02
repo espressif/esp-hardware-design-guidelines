@@ -28,8 +28,8 @@ sync_product_lists:
     DOC_TEAM_WIKI_PROJECT: "espressif/doc-team-wiki"
   before_script:
     - pip install -r tools/requirements.txt
-    - git config user.name "GitLab CI Bot"
-    - git config user.email "gitlab-ci@espressif.com"
+    - git config user.name "Doc-Product-Sync-BOT"
+    - git config user.email "service_account_group_462_dee0516ba6d5d5e4d255891167075441@noreply.gitlab.espressif.cn"
   script:
     - |
       set -euo pipefail
