@@ -240,8 +240,8 @@ documents:
       translation_docid: 5085
       chip_series: ESP32-C3
       product_name:
-        - ESP32-C3 SoC Series
-        - ESP32-C3 Module Series
+        - ESP32-C3 SoC Series Group
+        - ESP32-C3 Module Series Group
       product_name_old_website:
         - ESP32-C3
       soc_series_base_filter: all
@@ -268,8 +268,8 @@ documents:
       translation_docid: 5084
       chip_series: ESP32-C3
       product_name:
-        - ESP32-C3 SoC Series
-        - ESP32-C3 Module Series
+        - ESP32-C3 SoC Series Group
+        - ESP32-C3 Module Series Group
       product_name_old_website:
         - ESP32-C3
       soc_series_base_filter: all
