@@ -571,6 +571,7 @@ documents:
       chip_series: ESP32-S31
       product_name:
         - ESP32-S31 SoC Series
+        - ESP32-S31 Module Series
       product_name_old_website:
         - ESP32-S31
       soc_series_base_filter: all
@@ -598,6 +599,7 @@ documents:
       chip_series: ESP32-S31
       product_name:
         - ESP32-S31 SoC Series
+        - ESP32-S31 Module Series
       product_name_old_website:
         - ESP32-S31
       soc_series_base_filter: all
