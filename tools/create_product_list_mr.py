@@ -2,9 +2,9 @@
 """Create the bot MR that syncs HDG product lists.
 
 If an MR from the bot branch is already open, do not create another. The
-sync job refreshes the .inc files on that branch instead. A closed MR is
-left closed: someone declined it, and its branch may no longer match the
-target.
+sync job refreshes the .inc files on that branch and updates that MR's
+labels to the chip series in the summary. A closed MR is left closed:
+someone declined it, and its branch may no longer match the target.
 """
 
 from __future__ import annotations
@@ -40,6 +40,41 @@ def load_summary() -> str:
     return text
 
 
+def series_from_summary(summary: str) -> list[str]:
+    """Chip series headings, used as the sync MR labels."""
+    series: list[str] = []
+    for line in summary.splitlines():
+        if not line.startswith("### "):
+            continue
+        name = line[4:].strip()
+        if name and name not in series:
+            series.append(name)
+    return series
+
+
+def mr_title() -> str:
+    configured = os.environ.get("SYNC_MR_TITLE", "").strip()
+    if configured:
+        return configured
+    date = datetime.now(timezone.utc).date()
+    return f"docs: Sync module and development board lists ({date})"
+
+
+def save_mr_labels(mr, summary: str) -> None:
+    """Set the open MR's labels to the chip series in this sync."""
+    series = series_from_summary(summary)
+    if not series:
+        return
+    previous_labels = list(getattr(mr, "labels", []) or [])
+    mr.labels = series
+    try:
+        mr.save()
+    except Exception as exc:
+        print(f"Could not save MR labels {series}: {exc}")
+        mr.labels = previous_labels
+        mr.save()
+
+
 def open_mrs(project, source: str, target: str):
     """List project-wide, then filter, so a slash in the branch name cannot
     drop the match.
@@ -65,12 +100,14 @@ def main() -> int:
     gl = gitlab.Gitlab(url=gitlab_url, private_token=token)
     project = gl.projects.get(project_id)
 
+    summary = load_summary()
     opened = open_mrs(project, branch_name, target_branch)
     if opened:
         mr = opened[0]
+        save_mr_labels(mr, summary)
         print(
             f"Open MR !{mr.iid} already exists ({mr.web_url}). "
-            "Not creating another; the branch refresh is enough."
+            "Not creating another; updated its labels from the sync summary."
         )
         return 0
 
@@ -80,12 +117,9 @@ def main() -> int:
         print(f"Branch {branch_name} does not exist; nothing to open an MR from.")
         return 0
 
-    summary = load_summary()
-    title = os.environ.get(
-        "SYNC_MR_TITLE",
-        f"docs: Sync module and development board lists ({datetime.now(timezone.utc).date()})",
-    )
+    title = mr_title()
     description = "## Product list updates\n\n" + summary + MR_FOOTER
+    series = series_from_summary(summary)
 
     assignee_id = None
     assignee_username = os.environ.get("SYNC_MR_ASSIGNEE", "").strip().lstrip("@")
@@ -107,19 +141,32 @@ def main() -> int:
         "description": description,
         "remove_source_branch": False,
     }
+    if series:
+        payload["labels"] = ",".join(series)
     if assignee_id:
         payload["assignee_id"] = assignee_id
     try:
         mr = project.mergerequests.create(payload)
     except GitlabCreateError as exc:
-        opened = open_mrs(project, branch_name, target_branch)
-        if opened:
-            print(
-                f"Create hit an existing open MR !{opened[0].iid}; "
-                "leaving it in place after the branch refresh."
-            )
-            return 0
-        raise SystemExit(f"Failed to create merge request: {exc}") from exc
+        if series and "label" in str(exc).lower():
+            print(f"Could not set MR labels {series}: {exc}")
+            payload.pop("labels", None)
+            try:
+                mr = project.mergerequests.create(payload)
+            except GitlabCreateError as retry_exc:
+                exc = retry_exc
+                mr = None
+        else:
+            mr = None
+        if mr is None:
+            opened = open_mrs(project, branch_name, target_branch)
+            if opened:
+                print(
+                    f"Create hit an existing open MR !{opened[0].iid}; "
+                    "leaving it in place after the branch refresh."
+                )
+                return 0
+            raise SystemExit(f"Failed to create merge request: {exc}") from exc
     print(f"Created merge request !{mr.iid}: {mr.web_url}")
     return 0
 
