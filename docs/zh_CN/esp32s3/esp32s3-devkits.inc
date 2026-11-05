@@ -9,7 +9,6 @@
 - `ESP-VoCat <https://documentation.espressif.com/esp-dev-kits/zh_CN/latest/esp32s3/esp-vocat/user_guide_v1.2.html>`__
 - `ESP32-S3-BOX-3 <https://documentation.espressif.com/esp-box/master/docs/getting_started_cn.md>`__
 - `ESP32-S3-DevKitC-1 <https://documentation.espressif.com/esp-dev-kits/zh_CN/latest/esp32s3/esp32-s3-devkitc-1/user_guide_v1.1.html>`__
-- `ESP32-S3-EYE <https://documentation.espressif.com/esp-who/master/docs/zh_CN/get-started/ESP32-S3-EYE_Getting_Started_Guide.md>`__
 - `ESP32-S3-Korvo-2 <https://docs.espressif.com/projects/esp-adf/zh_CN/latest/design-guide/dev-boards/user-guide-esp32-s3-korvo-2.html>`__
 - `ESP32-S3-LCD-EV-Board <https://documentation.espressif.com/esp-dev-kits/zh_CN/latest/esp32s3/esp32-s3-lcd-ev-board/user_guide.html>`__
 - `ESP32-S3-USB-OTG <https://documentation.espressif.com/esp-dev-kits/zh_CN/latest/esp32s3/esp32-s3-usb-otg/index.html>`__
