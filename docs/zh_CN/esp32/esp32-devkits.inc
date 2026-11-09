@@ -10,4 +10,3 @@
 - `ESP32-DevKitM-1 <https://documentation.espressif.com/esp-dev-kits/zh_CN/latest/esp32/esp32-devkitm-1/index.html>`__
 - `ESP32-Ethernet-Kit <https://documentation.espressif.com/esp-dev-kits/zh_CN/latest/esp32/esp32-ethernet-kit/user_guide.html>`__
 - `ESP32-LyraT-Mini <https://docs.espressif.com/projects/esp-adf/zh_CN/latest/get-started/get-started-esp32-lyrat-mini.html>`__
-- `ESP32-PICO-KIT-1 <https://documentation.espressif.com/esp-dev-kits/zh_CN/latest/esp32/esp32-pico-kit-1/index.html>`__
