@@ -35,20 +35,30 @@ The VDD_HP_0/1/2/3 is powered by an external DC-DC converter (DCDC), with the fo
 - The input of the external DCDC is the same as the VDD_DCDCC power supply.
 - EN_DCDC is the enable pin of the external DCDC. In download mode or when there is no firmware, the voltage on EN_DCDC is 0. After the firmware starts normally, EN_DCDC is controlled internally. In download mode, the EN_DCDC voltage remains at 0. In sleep mode, this pin can be used to disable the power supply to reduce power consumption.
 - FB_DCDC is the feedback pin of the external DCDC.
-- EN_DCDC and FB_DCDC pins are fully controlled by the internal circuitry of ESP32-P4 by default. Ensure that they are connected to the EN and FB pins of the external DCDC, respectively, and that the DCDC regulator is placed close to the ESP32-P4. When designing the layout for chip revisions v1.0 and v1.3 (**not recommended for new designs**), you must reserve pad locations for the feedback resistor and feedback capacitor (components not required). For chip revisions v3.0 and later versions, the feedback resistor and the feedback capacitor must be populated.
+- The EN_DCDC and FB_DCDC pins are fully controlled by the internal circuitry of ESP32-P4 by default. Connect them to the EN and FB pins of the external DCDC, respectively, and place the DCDC close to the ESP32-P4. For the two feedback resistors and one feedforward capacitor:
 
-Please use verified DCDC models: ETA3485, SY8088, RY3420, BL8028, LP3219, or TLV62569. The input/output specifications and inductor parameters should follow the respective datasheets. Below is the circuit design for TLV62569.
+  - Chip revisions v1.0 and v1.3 (**not recommended for new designs**): Reserve the pads so the circuit remains compatible with revisions v3.0 and later, but do not populate the components.
+  - Chip revisions v3.0 and later: The two 499 kΩ feedback resistors and one 22 pF feedforward capacitor must be populated.
+
+Please use a verified DCDC model: ETA3485, SY8088, RY3420, BL8028, LP3219, or TLV62569DBVR.
+
+.. attention::
+
+    - DCDC converters with output discharge are not supported. When EN_DCDC is low, the DCDC output must remain high-impedance and must not actively discharge the output. Otherwise, when the chip wakes from Deep-sleep, this discharge current pulls down the internal LDO output voltage and the chip cannot start up.
+    - Do not replace a verified model listed above with a derivative from the same series. Some derivatives include an output discharge function (Output Discharge or Active Discharge).
+
+Follow the datasheet of the selected device for the input, output, and inductor parameters. The figures below show the TLV62569DBVR circuit.
 
 .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/esp32p4-TLV62569-rev3.0-and-later.png
   :align: center
   :width: 150%
-  :alt: TLV62569 Schematic (Chip Revisions v3.0 and Later)
+  :alt: TLV62569DBVR Schematic (Chip Revisions v3.0 and Later)
 
-  TLV62569 Schematic (Chip Revisions v3.0 and Later)
+  TLV62569DBVR Schematic (Chip Revisions v3.0 and Later)
 
 .. figure:: ../_static/{IDF_TARGET_PATH_NAME}/esp32p4-TLV62569-rev1.0-and-v1.3.png
   :align: center
   :width: 150%
-  :alt: TLV62569 Schematic (Chip Revisions v1.0 and v1.3)
+  :alt: TLV62569DBVR Schematic (Chip Revisions v1.0 and v1.3)
 
-  TLV62569 Schematic (Chip Revisions v1.0 and v1.3)
+  TLV62569DBVR Schematic (Chip Revisions v1.0 and v1.3)
