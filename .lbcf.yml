@@ -468,7 +468,7 @@ documents:
       document_type_old_website: guide
       document_status: active
       version: v2.0 # or specific version number
-      revision_date: 2026-11-10
+      revision_date: 2026-11-12
       language: en # or cn
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32p4/index.html
@@ -495,7 +495,7 @@ documents:
       document_type_old_website: guide
       document_status: active
       version: v2.0 # or specific version number
-      revision_date: 2026-11-10 # or generate automatically?
+      revision_date: 2026-11-12 # or generate automatically?
       language: cn # or en
       document_storage: docs
       document_link: https://docs.espressif.com/projects/esp-hardware-design-guidelines/zh_CN/latest/esp32p4/index.html

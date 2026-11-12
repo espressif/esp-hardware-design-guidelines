@@ -35,12 +35,12 @@ The VDD_HP_0/1/2/3 is powered by an external DC-DC converter (DCDC), with the fo
 - The input of the external DCDC is the same as the VDD_DCDCC power supply.
 - EN_DCDC is the enable pin of the external DCDC. In download mode or when there is no firmware, the voltage on EN_DCDC is 0. After the firmware starts normally, EN_DCDC is controlled internally. In download mode, the EN_DCDC voltage remains at 0. In sleep mode, this pin can be used to disable the power supply to reduce power consumption.
 - FB_DCDC is the feedback pin of the external DCDC.
-- The EN_DCDC and FB_DCDC pins are fully controlled by the internal circuitry of ESP32-P4 by default. Connect them to the EN and FB pins of the external DCDC, respectively, and place the DCDC close to the ESP32-P4. For the two feedback resistors and one feedforward capacitor:
+- The EN_DCDC and FB_DCDC pins are fully controlled by the internal circuitry of ESP32-P4 by default. Be sure to connect them to the EN and FB pins of the external DCDC, respectively, and place the DCDC close to the ESP32-P4. For the two feedback resistors and one feedforward capacitor:
 
   - Chip revisions v1.0 and v1.3 (**not recommended for new designs**): Reserve the pads so the circuit remains compatible with revisions v3.0 and later, but do not populate the components.
   - Chip revisions v3.0 and later: The two 499 kΩ feedback resistors and one 22 pF feedforward capacitor must be populated.
 
-Please use a verified DCDC model: ETA3485, SY8088, RY3420, BL8028, LP3219, or TLV62569DBVR.
+You must use a verified DCDC model: ETA3485, SY8088, RY3420, BL8028, LP3219, or TLV62569DBVR.
 
 .. attention::
 

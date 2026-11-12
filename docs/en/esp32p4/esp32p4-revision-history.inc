@@ -5,7 +5,7 @@
    * - Date
      - Version
      - Release Notes
-   * - 2026-11-10
+   * - 2026-11-12
      - v2.0
      - - :doc:`../schematic-checklist-esp32p4`
            - Section :ref:`internal-voltage-regulators`: Updated the requirements for populating the feedback resistors and the feedforward capacitor for different chip revisions, and added a note that DCDC converters with output discharge are not supported and that verified models should not be replaced with derivatives from the same series
